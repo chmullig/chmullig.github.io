@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>chmullig.com &#187; chmullig</title>
+	<atom:link href="http://chmullig.com/author/chmullig/feed/" rel="self" type="application/rss+xml" />
+	<link>http://chmullig.com</link>
+	<description>Chris Mulligan&#039;s blog on life, computers, burritos, school</description>
+	<lastBuildDate>Tue, 21 Apr 2015 15:41:14 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=4.2.2</generator>
+	<item>
+		<title>Now on Kickstarter: The Emoji Translation Project</title>
+		<link>http://chmullig.com/2015/04/now-on-kickstarter-the-emoji-translation-project/</link>
+		<comments>http://chmullig.com/2015/04/now-on-kickstarter-the-emoji-translation-project/#comments</comments>
+		<pubDate>Tue, 21 Apr 2015 15:41:14 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[emoji]]></category>
+		<category><![CDATA[emoji translation project]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=551</guid>
+		<description><![CDATA[Fred and I are thrilled to announce that the Emoji Translation Project is up on Kickstarter. We want to build google translate for emoji, but to do that we need lots of translations. Help us fund the mechanical turkage to do that, and get a sweet phrasebook. https://www.kickstarter.com/projects/fred/the-emoji-translation-project]]></description>
+				<content:encoded><![CDATA[<p>Fred and I are thrilled to announce that the <a href="https://www.kickstarter.com/projects/fred/the-emoji-translation-project">Emoji Translation Project</a> is up on Kickstarter. We want to build google translate for emoji, but to do that we need lots of translations. Help us fund the mechanical turkage to do that, and get a sweet phrasebook.</p>
+<p><a href="https://www.kickstarter.com/projects/fred/the-emoji-translation-project">https://www.kickstarter.com/projects/fred/the-emoji-translation-project</a></p>
+<p><a href="http://chmullig.com/wp-content/uploads/2015/04/emoji-rectancular.gif"><img class="alignnone wp-image-554 size-medium" src="http://chmullig.com/wp-content/uploads/2015/04/emoji-rectancular-640x365.gif" alt="emoji-rectancular" width="640" height="365" /></a></p>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2015/04/now-on-kickstarter-the-emoji-translation-project/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>OSX NFS serving to Arch VirtualBox guest</title>
+		<link>http://chmullig.com/2015/02/osx-nfs-serving-to-arch-virtualbox-guest/</link>
+		<comments>http://chmullig.com/2015/02/osx-nfs-serving-to-arch-virtualbox-guest/#comments</comments>
+		<pubDate>Wed, 11 Feb 2015 16:38:19 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[Columbia]]></category>
+		<category><![CDATA[nfs]]></category>
+		<category><![CDATA[osx]]></category>
+		<category><![CDATA[virtualbox]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=548</guid>
+		<description><![CDATA[For Operating Systems we&#8217;re using Arch Linux in a VirtualBox guest. One of the issues is dealing with storing code, etc, in a robust way so that it&#8217;s easy to work with, and allows you to freely take and restore snapshots without losing work. I first tried using VirtualBox Shared Folders, but they were a real pain in the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>For <a href="www.cs.columbia.edu/~jae/4118/index.html">Operating Systems</a> we&#8217;re using <a href="https://www.archlinux.org/">Arch Linux</a> in a <a href="https://www.virtualbox.org/manual/UserManual.html">VirtualBox</a> guest. One of the issues is dealing with storing code, etc, in a robust way so that it&#8217;s easy to work with, and allows you to freely take and restore snapshots without losing work. I first tried using <a href="https://www.virtualbox.org/manual/ch04.html#sharedfolders">VirtualBox Shared Folders</a>, but they were a real pain in the ass, and apparently don&#8217;t work well with permissios and symlinks.</p>
+<p>Instead I setup NFS, hosting a directory on my OSX laptop and mounting it inside the virtual machine. I sent some instructions out to students based on my recollection of how to do it, but I haven&#8217;t directly tested them. Still, I figured they might be helpful if you came across this page by google searching for something!</p>
+<p>&nbsp;</p>
+<p class="p1"><span class="s1">I actually ended up using NFS to share files between my mac and virtual machine. I mount a folder in my home directory and put all my work in there, so if I need to restore a snapshot I never need to worry about losing my work. It took a little bit of work, but wasn&#8217;t too hard. I mostly sort of followed these directions: <a href="http://blog.hostilefork.com/sharing-nfs-into-virtualbox/"><span class="s2">http://blog.hostilefork.com/sharing-nfs-into-virtualbox/</span></a> along with <a href="https://wiki.archlinux.org/index.php/NFS"><span class="s2">https://wiki.archlinux.org/index.php/NFS</span></a>.</span></p>
+<h3 class="p1"><span class="s1">On OSX:</span></h3>
+<p class="p1"><span class="s1">1) edit /etc/exports to add a line like:</span></p>
+<pre class="p1"><span class="s1">/Users/clm2186/Documents/Columbia/Current/COMS4118/ -alldirs 127.0.0.1</span></pre>
+<p class="p1"><span class="s1">The above serves my OS directory and all subdirectories only to localhost. Be super careful about the 127.0.0.1, there are other options with using netmasks and stuff, but you can potentially expose your files to almost anyone if you&#8217;re not cautious.</span></p>
+<p class="p1"><span class="s1">2?) I think I had to edit</span></p>
+<pre class="p1"><span class="s1">/System/Library/LaunchDaemons/com.apple.nfsd.plist</span></pre>
+<p class="p1"><span class="s1"> to add a line at the end in ProgramArguments for -N. However now I can&#8217;t figure out why I did it, or if I really needed to.</span></p>
+<pre class="p1"><span class="s1">               &lt;string&gt;-N&lt;/string&gt;</span></pre>
+<p class="p1"><span class="s1">3) Start up nfsd: sudo nfsd enable</span></p>
+<p class="p1"><span class="s1">4) Look in Console.app for all the errors, try to fix them. sudo nfsd restart after tweaking /etc/exports.</span></p>
+<p class="p1"><span class="s1">5) You can try mounting the share by going into finder -&gt; Go -&gt; Connect to Server and using the url: </span></p>
+<p class="p3"><span class="s3"><a href="nfs://127.0.0.1/Users/clm2186/Documents/Columbia/Current/COMS4118/">nfs://127.0.0.1/Users/clm2186/Documents/Columbia/Current/COMS4118/</a></span></p>
+<p class="p1"><span class="s1">9) run id to get the uid (mine was 501) and gid (20)</span></p>
+<h3 class="p1"><span class="s1">Here&#8217;s my recollection of the VM side steps:</span></h3>
+<p class="p1"><span class="s1">10) Take a snapshot of your VM</span></p>
+<p class="p1"><span class="s1">11) Install NFS:</span></p>
+<pre class="p1"><span class="s1"> sudo pacman -S nfs-utils</span></pre>
+<p class="p1"><span class="s1">12) Create another admin user, or make sure you know the root password. I think sudo passwd should change it if you need to.</span></p>
+<p class="p1"><span class="s1">12) reboot VM</span></p>
+<p class="p1"><span class="s1">13) sign into root user (or another admin user that can sudo)</span></p>
+<p class="p1"><span class="s1">14) change the userid of your main user to match the OSX partition (Per the end of <a href="http://blog.hostilefork.com/sharing-nfs-into-virtualbox/"><span class="s2">http://blog.hostilefork.com/sharing-nfs-into-virtualbox/</span></a>)</span></p>
+<pre class="p1"><span class="s1"> usermod -u [ID] [username]. </span></pre>
+<p class="p1"><span class="s1">15) I also changed the groupid, but I doubt it matters much.</span></p>
+<p class="p1"><span class="s1">16) Sign into your user account</span></p>
+<p class="p1"><span class="s1">17) We need to make a directory for mounting the nfs share:</span></p>
+<pre class="p1"><span class="s1"> mkdir ~/osnfs </span></pre>
+<p class="p1"><span class="s1">18) edit /etc/hosts to add a DNS lookup for the host OSX side:</span></p>
+<pre class="p1"><span class="s1"> 10.0.2.2      osxhost</span></pre>
+<p class="p1"><span class="s1">18a) You can figure it out by looking up your gateway inside arch with `ip route show` and looking at the via line</span></p>
+<p class="p1"><span class="s1">18) Now edit /etc/fstab to add the mapping from nfs to ~/osnfs:</span></p>
+<pre class="p1"><span class="s1"> host:/Users/clm2186/Documents/Columbia/Current/COMS4118 /home/clm2186/osnfs nfs rsize=16384,wsize=16384,timeo=14,nolock,_netdev 0 0</span></pre>
+<p class="p1"><span class="s1"> #note, if you have a space in the NFS path use \040, which is the ASCII value of space in octal&#8230;</span></p>
+<p class="p1"><span class="s1">19) then finally you&#8217;re ready to mount it!!!</span></p>
+<pre class="p1"><span class="s1"> sudo mount ~/osnfs</span></pre>
+<p class="p1"><span class="s1">20) Once you get it working, probably take a snapshot. </span></p>
+<p class="p1"><span class="s1">The only known issue I have is that I seem to need to manually mount it with `sudo mount ~/osnfs` every time I reboot. </span></p>
+<p class="p1"><span class="s1">Ok, I just realized I said this wasn&#8217;t that bad, and it&#8217;s like 20 crazy steps. However, it really wasn&#8217;t too bad, and could be done in probably only 30 minutes if you do it cleanly.   It wasn&#8217;t nearly as bad as what doing this sort of thing can become: <a href="http://xkcd.com/349/"><span class="s2">http://xkcd.com/349/</span></a></span></p>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2015/02/osx-nfs-serving-to-arch-virtualbox-guest/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>The only mark of a good StackExchange question</title>
+		<link>http://chmullig.com/2013/05/the-only-mark-of-a-good-stackexchange-question/</link>
+		<comments>http://chmullig.com/2013/05/the-only-mark-of-a-good-stackexchange-question/#comments</comments>
+		<pubDate>Wed, 15 May 2013 15:02:30 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[Philosophising]]></category>
+		<category><![CDATA[rage]]></category>
+		<category><![CDATA[stackexchange]]></category>
+		<category><![CDATA[stackoverflow]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=523</guid>
+		<description><![CDATA[How do I know a StackExchange Q&#38;A is worth reading? It&#8217;s been closed. StackExchange, particularly the incredibly popular stack overflow, is an incredibly resource. However it&#8217;s rapidly being ruined by overly zealous moderators who believe themselves to be the arbiters of what goes where. Almost every good answer that I find on stackexchange (that&#8217;s not [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>How do I know a StackExchange Q&amp;A is worth reading? It&#8217;s been closed.</p>
+<p>StackExchange, particularly the incredibly popular stack overflow, is an incredibly resource. However it&#8217;s rapidly being ruined by overly zealous moderators who believe themselves to be the arbiters of what goes where. Almost every good answer that I find on stackexchange (that&#8217;s not a very small subset of issues with specific programming languages), is marked as closed. The entire StackExchange network is devolving into a ridiculous set of arbitrary restrictions no user can possibly understand. Programmers.SE was intended to be the more general extension of StackOverflow, but now it seems very narrowly defined and arbitrary, such that it has nothing to do with programmers and is, instead, about Computer Science algorithm design? Oh, but also some business development issues. But definitely NOT career issues. And, obviously, definitely not technology issues.</p>
+<p>It&#8217;s come to the point where I consider posting on a stackexchange site, but assume my question will be closed and simply decide not to ask it instead. How are these overly zealous, and generally rude and dismissive, moderators helping the world?</p>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2013/05/the-only-mark-of-a-good-stackexchange-question/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Intro Data Science/Kaggle update</title>
+		<link>http://chmullig.com/2012/12/intro-data-sciencekaggle-update/</link>
+		<comments>http://chmullig.com/2012/12/intro-data-sciencekaggle-update/#comments</comments>
+		<pubDate>Sun, 16 Dec 2012 14:02:26 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[School]]></category>
+		<category><![CDATA[Columbia]]></category>
+		<category><![CDATA[data]]></category>
+		<category><![CDATA[data science]]></category>
+		<category><![CDATA[kagg]]></category>
+		<category><![CDATA[kaggle]]></category>
+		<category><![CDATA[python]]></category>
+		<category><![CDATA[r]]></category>
+		<category><![CDATA[statistics]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=506</guid>
+		<description><![CDATA[The semester is over, so here&#8217;s a little update about the Intro to Data Science class (previous post). Kaggle Final Project The final project was a Kaggle competition to predict standardized test essay grades. Although I still had lots of ideas, when I wrapped up a week early I was in first on the public [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The semester is over, so here&#8217;s a little update about the Intro to Data Science class (<a title="Intro to Data Science – Kaggle Leaderboard" href="http://chmullig.com/2012/11/intro-to-data-science-kaggle-leaderboard/">previous post</a>).</p>
+<h3>Kaggle Final Project</h3>
+<p>The<a href="http://inclass.kaggle.com/c/columbia-university-introduction-to-data-science-fall-2012"> final project </a>was a Kaggle competition to predict standardized test essay grades. Although I still had lots of ideas, when I wrapped up a week early I was in first on the public leaderboard, and maintained that to the end. After it was over the private results gave first to Maura, who implemented some awesome ensembling. For commentary take a look at <a href="http://columbiadatascience.com/2012/12/11/kaggle-competition-final-results/">Rachel&#8217;s blog post</a>. There&#8217;s a bit of discussion in the forum, including my write up of <a href="https://github.com/chmullig/datascience-aes">my code</a>.</p>
+<h3>Visualization</h3>
+<p>During the competition I maintained a <a title="Image here, see previous post for info" href="http://chmullig.com/wp-content/uploads/2012/11/datascience_leaderboard.png">visualization</a> of the <a href="http://inclass.kaggle.com/c/columbia-university-introduction-to-data-science-fall-2012/leaderboard">leaderboard</a>, which shows everyone&#8217;s best scores at that moment. Will Cukierski at Kaggle appreciated it, and apparently the collective impetus of Rachel and I encouraged them to make a <a href="http://www.kaggle.com/c/leapfrogging-leaderboards">competition out of visualizing the leaderboard</a>! See <a href="http://columbiadatascience.com/2012/12/14/kaggle-visualization-competition-in-our-honor/">Rachel&#8217;s blog post</a> about it for some more info (and a nice write up about my mistakes).</p>
+<p>Now back to studying for finals&#8230;</p>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2012/12/intro-data-sciencekaggle-update/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Intro to Data Science &#8211; Kaggle Leaderboard</title>
+		<link>http://chmullig.com/2012/11/intro-to-data-science-kaggle-leaderboard/</link>
+		<comments>http://chmullig.com/2012/11/intro-to-data-science-kaggle-leaderboard/#comments</comments>
+		<pubDate>Thu, 08 Nov 2012 00:36:06 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[School]]></category>
+		<category><![CDATA[Columbia]]></category>
+		<category><![CDATA[data science]]></category>
+		<category><![CDATA[graphing]]></category>
+		<category><![CDATA[kaggle]]></category>
+		<category><![CDATA[r]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=494</guid>
+		<description><![CDATA[This semester I&#8217;m auditing Rachel Schutt&#8217;s Intro to Data Science class. I originally registered for it, but at the end of the add/drop period decided I wasn&#8217;t confident in my academic background, and wasn&#8217;t sure about the workload that would be required. In retrospect it was a mistake to drop it. However I have been [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>This semester I&#8217;m auditing Rachel Schutt&#8217;s <a href="http://columbiadatascience.com">Intro to Data Science class</a>. I originally registered for it, but at the end of the add/drop period decided I wasn&#8217;t confident in my academic background, and wasn&#8217;t sure about the workload that would be required. In retrospect it was a mistake to drop it. However I have been attending class as I can (about half the time).</p>
+<p>The final project, accounting for most of the grade, is a <a href="http://inclass.kaggle.com/c/columbia-university-introduction-to-data-science-fall-2012">Kaggle competition</a>. It&#8217;s based on an earlier competition, and the goal is to develop a model to grade standardized test essays (approximately middle school level). As an auditor Rachel asked me not to submit, but my cross-validation suggests my model (linear regressions with some neat NLP derived features) is still besting the public leaderboard (Quadratic Weighted Kappa Error Measure of .75), but who knows.</p>
+<p>I thought I could easily adjust my <a title="MITRE Challenge Graph" href="http://chmullig.com/2011/02/mitre-challenge-graph/">MITRE competition leaderboard graph</a> to Kaggle&#8217;s CSV, and it turned out to be pretty easy. The biggest issue ended up being that MITRE scored 0 to 100, and this scores 0 to 1. That had some unintended consequences. launchd + python + R should upload this every hour or so (when my laptop is running).</p>
+<p>I&#8217;m frankly surprised Kaggle hasn&#8217;t done something like this before. Maybe if I have a bored evening I&#8217;ll try to do it in <a href="http://d3js.org/">D3</a>, which should look much nicer.</p>
+<p><a href="http://chmullig.com/wp-content/uploads/2012/11/datascience_leaderboard.png"><img class="alignnone size-full wp-image-496" title="Data Science Inclass Kaggle Leaderboard" alt="" src="http://chmullig.com/wp-content/uploads/2012/11/datascience_leaderboard.png" width="100%" /></a></p>
+<p>&nbsp;</p>
+<p>Update, 12/16: I&#8217;ve <a title="Intro Data Science/Kaggle update" href="http://chmullig.com/2012/12/intro-data-sciencekaggle-update/">posted a followup</a> after the end of the semester.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2012/11/intro-to-data-science-kaggle-leaderboard/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>Births by Day of Year</title>
+		<link>http://chmullig.com/2012/06/births-by-day-of-year/</link>
+		<comments>http://chmullig.com/2012/06/births-by-day-of-year/#comments</comments>
+		<pubDate>Fri, 08 Jun 2012 01:06:22 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[School]]></category>
+		<category><![CDATA[birthday]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[r]]></category>
+		<category><![CDATA[statistics]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=450</guid>
+		<description><![CDATA[Andrew Gelman has posted twice about certains days being more or less common for births, and lamented the lack of a good, simple visualization showing all 366 days. Well, I heard his call! My goal was simply a line graph that showed Finding a decent public dataset proved surprisingly hard &#8211; very few people with [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Andrew Gelman has <a title="Extra babies on Valentine’s Day, fewer on Halloween?" href="http://andrewgelman.com/2012/02/more-babies-on-valentines-day-and-less-babies-on-halloween/">posted</a> <a title="Halloween/Valentine’s update " href="http://andrewgelman.com/2012/06/halloweenvalentines-update/">twice</a> about certains days being more or less common for births, and lamented the lack of a good, simple visualization showing all 366 days.</p>
+<p>Well, I heard his call! My goal was simply a line graph that showed</p>
+<p>Finding a decent public dataset proved surprisingly hard &#8211; very few people with large datasets seem willing to release full date of birth (at least for recent data). I considered voter files, but I think the data quality issues would be severe, and might present unknown bias. There&#8217;s some data from the CDC&#8217;s National Vital Statistics System, but it either only contains year and month, or isn&#8217;t available in an especially easy to use format. There&#8217;s some older data that seemed like the best bet, and which others have used before.</p>
+<p>A bit more searching revealed that Google&#8217;s <a href="https://developers.google.com/bigquery/">BigQuery</a> coincidentally loads the NVSS data as one of their <a href="https://developers.google.com/bigquery/docs/dataset-natality">sample datasets</a>. A quick query in their browser tool and export to <a title="birth data attached" href="http://chmullig.com/wp-content/uploads/2012/06/births.csv">CSV</a> and I had the data I wanted. NVSS/google seems to include only the day of the month for 1/1/1969 through 12/31/1988. More recent data just includes year and month.</p>
+
+<div class="wp_syntax"><table><tr><td class="code"><pre class="sql" style="font-family:monospace;"><span style="color: #993333; font-weight: bold;">SELECT</span> <span style="color: #993333; font-weight: bold;">MONTH</span><span style="color: #66cc66;">,</span> <span style="color: #993333; font-weight: bold;">DAY</span><span style="color: #66cc66;">,</span> <span style="color: #993333; font-weight: bold;">SUM</span><span style="color: #66cc66;">&#40;</span>record_weight<span style="color: #66cc66;">&#41;</span>
+<span style="color: #993333; font-weight: bold;">FROM</span> <span style="color: #66cc66;">&#91;</span>publicdata:samples<span style="color: #66cc66;">.</span>natality<span style="color: #66cc66;">&#93;</span>
+<span style="color: #993333; font-weight: bold;">WHERE</span> <span style="color: #993333; font-weight: bold;">DAY</span> <span style="color: #66cc66;">&gt;=</span> <span style="color: #cc66cc;">1</span> <span style="color: #993333; font-weight: bold;">AND</span> <span style="color: #993333; font-weight: bold;">DAY</span> <span style="color: #66cc66;">&lt;=</span> <span style="color: #cc66cc;">31</span>
+<span style="color: #993333; font-weight: bold;">GROUP</span> <span style="color: #993333; font-weight: bold;">BY</span> <span style="color: #993333; font-weight: bold;">MONTH</span><span style="color: #66cc66;">,</span> <span style="color: #993333; font-weight: bold;">DAY</span>
+<span style="color: #993333; font-weight: bold;">ORDER</span> <span style="color: #993333; font-weight: bold;">BY</span> <span style="color: #993333; font-weight: bold;">MONTH</span><span style="color: #66cc66;">,</span> <span style="color: #993333; font-weight: bold;">DAY</span></pre></td></tr></table></div>
+
+<p>Some basic manipulation (including multiplying 2/29 by 4 per Gelman&#8217;s suggestion) and a bit of time to remember all of R&#8217;s fancy graphing features yielded <a title="Sorry, it's .txt because WP didn't want me to upload a .R" href="http://chmullig.com/wp-content/uploads/2012/06/births-by-days.R.txt">this script</a> and this graph:</p>
+<p><i>See update at bottom!</i><br />
+<a href="http://chmullig.com/wp-content/uploads/2012/06/birthdays.png"><img class="alignnone  wp-image-456" title="Births by day" src="http://chmullig.com/wp-content/uploads/2012/06/birthdays.png" alt="" width="250px" /></a></p>
+<p>I&#8217;ve labeled outliers &gt; 2.3 standard deviations from the loess curve (which unfortunately I should really predict &#8220;wrapping&#8221; around New Years&#8230;), as well as Valentine&#8217;s and Halloween. You can see by far the largest peaks and valleys are July 4th, Christmas, and just before/after New Years while Valentine&#8217;s and Halloween barely register as blips.</p>
+<p>It&#8217;s possible there data collection issues causing some of this &#8211; perhaps births that occurred on July 4th were recorded over the following few days? The whole thing is surprisingly less uniform than I expected.</p>
+<h3>Simulating Birthday Problem</h3>
+<p>I also wanted to simulate the birthday problem using these real values, instead of the basic assumption of 1/365th per day. In particular I DON&#8217;T multiply Feb 29th by 4, so it accurately reflects the distribution in a random population. This is data for 1969 to 1988, but I haven&#8217;t investigated whether there&#8217;s a day of week skew by selecting this specific interval as opposed to others, this is just the maximal range.</p>
+<p>I did a <a href="http://chmullig.com/wp-content/uploads/2012/06/bday-problem.R.txt">basic simulation</a> of 30,000 trials for each group size from 0 to 75. It works out very close to the synthetic/theoretical, as you can see in this graph (red is theoretical, black is real data). Of note, the real data seems to average about 0.15% more likely than the synthetic for groups of size 10-30 (the actual slope).</p>
+<p><a href="http://chmullig.com/wp-content/uploads/2012/06/bday_problem.png"><img class="alignnone  wp-image-480" title="Birthday Problem - Real vs Synthetic" src="http://chmullig.com/wp-content/uploads/2012/06/bday_problem.png" alt="Birthday Problem - Real vs Synthetic" width="100%" /></a></p>
+<p>I&#8217;ve also uploaded a graph of the P(Match using Real) &#8211; P(Match using Synthetic).</p>
+<p><a href="http://chmullig.com/wp-content/uploads/2012/06/bday_difference.png"><img class="alignnone  wp-image-481" title="Birthday Problem - Real minus Synthetic" src="http://chmullig.com/wp-content/uploads/2012/06/bday_difference.png" alt="" width="100%" /></a></p>
+<p>If you&#8217;re curious about the <a href="http://chmullig.com/wp-content/uploads/2012/06/bday_problem.csv" title="CSV of simulations results">raw results</a>, here&#8217;s the most exciting part:</p>
+<table>
+<td style="text-align: right; padding-left: 1em;"><strong>n</strong></td>
+<td style="text-align: right; padding-left: 1em;"><strong>real</strong></td>
+<td style="text-align: right; padding-left: 1em;"><strong>synthetic</strong></td>
+<td style="text-align: right; padding-left: 1em;"><strong>diff</strong></td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 2em;">10</td>
+<td style="text-align: right; padding-left: 30px;">11.59%</td>
+<td style="text-align: right; padding-left: 30px;">11.41%</td>
+<td style="text-align: right; padding-left: 30px;">0.18%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">11</td>
+<td style="text-align: right; padding-left: 1em;">14.08%</td>
+<td style="text-align: right; padding-left: 1em;">14.10%</td>
+<td style="text-align: right; padding-left: 1em;">-0.02%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">12</td>
+<td style="text-align: right; padding-left: 1em;">16.84%</td>
+<td style="text-align: right; padding-left: 1em;">16.77%</td>
+<td style="text-align: right; padding-left: 1em;">0.08%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">13</td>
+<td style="text-align: right; padding-left: 1em;">19.77%</td>
+<td style="text-align: right; padding-left: 1em;">19.56%</td>
+<td style="text-align: right; padding-left: 1em;">0.21%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">14</td>
+<td style="text-align: right; padding-left: 1em;">22.01%</td>
+<td style="text-align: right; padding-left: 1em;">22.06%</td>
+<td style="text-align: right; padding-left: 1em;">-0.05%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">15</td>
+<td style="text-align: right; padding-left: 1em;">25.74%</td>
+<td style="text-align: right; padding-left: 1em;">25.17%</td>
+<td style="text-align: right; padding-left: 1em;">0.57%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">16</td>
+<td style="text-align: right; padding-left: 1em;">28.24%</td>
+<td style="text-align: right; padding-left: 1em;">27.99%</td>
+<td style="text-align: right; padding-left: 1em;">0.25%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">17</td>
+<td style="text-align: right; padding-left: 1em;">31.81%</td>
+<td style="text-align: right; padding-left: 1em;">31.71%</td>
+<td style="text-align: right; padding-left: 1em;">0.10%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">18</td>
+<td style="text-align: right; padding-left: 1em;">34.75%</td>
+<td style="text-align: right; padding-left: 1em;">33.76%</td>
+<td style="text-align: right; padding-left: 1em;">0.98%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">19</td>
+<td style="text-align: right; padding-left: 1em;">37.89%</td>
+<td style="text-align: right; padding-left: 1em;">37.90%</td>
+<td style="text-align: right; padding-left: 1em;">-0.01%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">20</td>
+<td style="text-align: right; padding-left: 1em;">40.82%</td>
+<td style="text-align: right; padding-left: 1em;">40.82%</td>
+<td style="text-align: right; padding-left: 1em;">0.00%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">21</td>
+<td style="text-align: right; padding-left: 1em;">44.48%</td>
+<td style="text-align: right; padding-left: 1em;">44.57%</td>
+<td style="text-align: right; padding-left: 1em;">-0.09%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">22</td>
+<td style="text-align: right; padding-left: 1em;">47.92%</td>
+<td style="text-align: right; padding-left: 1em;">47.45%</td>
+<td style="text-align: right; padding-left: 1em;">0.47%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">23</td>
+<td style="text-align: right; padding-left: 1em;">50.94%</td>
+<td style="text-align: right; padding-left: 1em;">50.80%</td>
+<td style="text-align: right; padding-left: 1em;">0.14%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">24</td>
+<td style="text-align: right; padding-left: 1em;">53.89%</td>
+<td style="text-align: right; padding-left: 1em;">53.79%</td>
+<td style="text-align: right; padding-left: 1em;">0.10%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">25</td>
+<td style="text-align: right; padding-left: 1em;">57.07%</td>
+<td style="text-align: right; padding-left: 1em;">56.76%</td>
+<td style="text-align: right; padding-left: 1em;">0.31%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">26</td>
+<td style="text-align: right; padding-left: 1em;">59.74%</td>
+<td style="text-align: right; padding-left: 1em;">59.75%</td>
+<td style="text-align: right; padding-left: 1em;">-0.01%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">27</td>
+<td style="text-align: right; padding-left: 1em;">62.61%</td>
+<td style="text-align: right; padding-left: 1em;">63.00%</td>
+<td style="text-align: right; padding-left: 1em;">-0.40%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">28</td>
+<td style="text-align: right; padding-left: 1em;">65.88%</td>
+<td style="text-align: right; padding-left: 1em;">65.26%</td>
+<td style="text-align: right; padding-left: 1em;">0.63%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">29</td>
+<td style="text-align: right; padding-left: 1em;">68.18%</td>
+<td style="text-align: right; padding-left: 1em;">67.85%</td>
+<td style="text-align: right; padding-left: 1em;">0.32%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">30</td>
+<td style="text-align: right; padding-left: 1em;">70.32%</td>
+<td style="text-align: right; padding-left: 1em;">70.49%</td>
+<td style="text-align: right; padding-left: 1em;">-0.18%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">31</td>
+<td style="text-align: right; padding-left: 1em;">73.00%</td>
+<td style="text-align: right; padding-left: 1em;">72.73%</td>
+<td style="text-align: right; padding-left: 1em;">0.27%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">32</td>
+<td style="text-align: right; padding-left: 1em;">75.37%</td>
+<td style="text-align: right; padding-left: 1em;">75.65%</td>
+<td style="text-align: right; padding-left: 1em;">-0.28%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">33</td>
+<td style="text-align: right; padding-left: 1em;">77.59%</td>
+<td style="text-align: right; padding-left: 1em;">77.63%</td>
+<td style="text-align: right; padding-left: 1em;">-0.04%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">34</td>
+<td style="text-align: right; padding-left: 1em;">79.67%</td>
+<td style="text-align: right; padding-left: 1em;">78.86%</td>
+<td style="text-align: right; padding-left: 1em;">0.81%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">35</td>
+<td style="text-align: right; padding-left: 1em;">81.44%</td>
+<td style="text-align: right; padding-left: 1em;">81.24%</td>
+<td style="text-align: right; padding-left: 1em;">0.19%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">36</td>
+<td style="text-align: right; padding-left: 1em;">83.53%</td>
+<td style="text-align: right; padding-left: 1em;">82.79%</td>
+<td style="text-align: right; padding-left: 1em;">0.74%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">37</td>
+<td style="text-align: right; padding-left: 1em;">84.92%</td>
+<td style="text-align: right; padding-left: 1em;">84.52%</td>
+<td style="text-align: right; padding-left: 1em;">0.41%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">38</td>
+<td style="text-align: right; padding-left: 1em;">86.67%</td>
+<td style="text-align: right; padding-left: 1em;">86.62%</td>
+<td style="text-align: right; padding-left: 1em;">0.05%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">39</td>
+<td style="text-align: right; padding-left: 1em;">87.70%</td>
+<td style="text-align: right; padding-left: 1em;">88.09%</td>
+<td style="text-align: right; padding-left: 1em;">-0.39%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">40</td>
+<td style="text-align: right; padding-left: 1em;">89.07%</td>
+<td style="text-align: right; padding-left: 1em;">88.88%</td>
+<td style="text-align: right; padding-left: 1em;">0.19%</td>
+</tr>
+<tr>
+<td style="text-align: right;">41</td>
+<td style="text-align: right;">90.16%</td>
+<td style="text-align: right;">90.48%</td>
+<td style="text-align: right; padding-left: 30px;">-0.32%</td>
+</tr>
+</tbody>
+</table>
+<h3>Update</h3>
+<p>Gelman <a href="http://andrewgelman.com/2012/06/simple-graph-win-the-example-of-birthday-frequencies/" title="Simple graph WIN: the example of birthday frequencies<br />
+">commented</a> on the graph and had some constructive feedback. I made a few cosmetic changes in response: rescaled so it&#8217;s relative to the mean, removing the trend line, and switching it to 14 months (tacking December onto the beginning, and January onto the end). Updated graph:<br />
+<a href="http://chmullig.com/wp-content/uploads/2012/06/birthdays_revised.png"><img class="alignnone  wp-image-456" title="Births by day" src="http://chmullig.com/wp-content/uploads/2012/06/birthdays_revised.png" alt="" width="100%" /></a></p>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2012/06/births-by-day-of-year/feed/</wfw:commentRss>
+		<slash:comments>17</slash:comments>
+		</item>
+		<item>
+		<title>No, Mister Bond, I expect you to dye!</title>
+		<link>http://chmullig.com/2012/04/no-mister-bond-i-expect-you-to-dye/</link>
+		<comments>http://chmullig.com/2012/04/no-mister-bond-i-expect-you-to-dye/#comments</comments>
+		<pubDate>Sun, 08 Apr 2012 23:00:57 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[personal]]></category>
+		<category><![CDATA[Daniel Cregg]]></category>
+		<category><![CDATA[Easter]]></category>
+		<category><![CDATA[James Bond]]></category>
+		<category><![CDATA[tuxedo]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=431</guid>
+		<description><![CDATA[In celebration of Easter we dyed some eggs today. Since everything looks better in a tuxedo, why not eggs too? If you&#8217;re not sure why Bond must dye, this may help.]]></description>
+				<content:encoded><![CDATA[<p>In celebration of Easter we dyed some eggs today. Since everything looks better in a tuxedo, why not eggs too?</p>
+<div id="attachment_436" style="width: 490px" class="wp-caption alignnone"><a href="http://chmullig.com/wp-content/uploads/2012/03/IMG_0931.jpg"><img class="size-medium wp-image-436" title="Bond 1" src="http://chmullig.com/wp-content/uploads/2012/03/IMG_0931-480x640.jpg" alt="Begin dropping Mr Bond" width="360" /></a><p class="wp-caption-text">&quot;I suggest you choose your next witticism wisely, it may be your last.&quot;</p></div>
+<div id="attachment_439" style="width: 490px" class="wp-caption alignnone"><a href="http://chmullig.com/wp-content/uploads/2012/04/IMG_0935.jpg"><img class="size-medium wp-image-439" title="Do you expect me to talk?" src="http://chmullig.com/wp-content/uploads/2012/04/IMG_0935-480x640.jpg" alt="&quot;Do you expect me to talk?&quot;" width="360" /></a><p class="wp-caption-text">&quot;Do you expect me to talk?&quot;</p></div>
+<div id="attachment_440" style="width: 490px" class="wp-caption alignnone"><a href="http://chmullig.com/wp-content/uploads/2012/04/IMG_0955.jpg"><img class="size-medium wp-image-440" title="No Mr Bond I expect you to dye!" src="http://chmullig.com/wp-content/uploads/2012/04/IMG_0955-480x640.jpg" alt="&quot;No Mr Bond I expect you to dye!&quot;" width="360" /></a><p class="wp-caption-text">&quot;No, Mister Bond, I expect you to dye!&quot;</p></div>
+<div id="attachment_441" style="width: 490px" class="wp-caption alignnone"><a href="http://chmullig.com/wp-content/uploads/2012/04/IMG_0959.jpg"><img class="size-medium wp-image-441" title="Gurgl" src="http://chmullig.com/wp-content/uploads/2012/04/IMG_0959-480x640.jpg" alt="Gurggl" width="360" /></a><p class="wp-caption-text">Gurggl! Gurggl mrrphghl!</p></div>
+<div id="attachment_442" style="width: 490px" class="wp-caption alignnone"><a href="http://chmullig.com/wp-content/uploads/2012/04/IMG_0948.jpg"><img class="size-medium wp-image-442" title="You only live twice" src="http://chmullig.com/wp-content/uploads/2012/04/IMG_0948-480x640.jpg" alt="" width="360" /></a><p class="wp-caption-text">You only live twice</p></div>
+<p>If you&#8217;re not sure why Bond must dye, <a href="http://www.youtube.com/watch?v=U1TmeBd9338&#038;feature=youtube_gdata_player">this may help</a>.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2012/04/no-mister-bond-i-expect-you-to-dye/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Apple Dividend</title>
+		<link>http://chmullig.com/2012/03/apple-dividend/</link>
+		<comments>http://chmullig.com/2012/03/apple-dividend/#comments</comments>
+		<pubDate>Sun, 25 Mar 2012 16:27:35 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[apple]]></category>
+		<category><![CDATA[humor]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=432</guid>
+		<description><![CDATA[Dear. I am T Cook,Director of the Apple inc, california. A man by the name of Steven Jobs amassed a deposit of Ninety seven billion six Hundred million United State Dollar $97,600,000,00 and he died leaving behind no next of kin, am ready to share 60/40 with you if you choose to stand as my [&#8230;]]]></description>
+				<content:encoded><![CDATA[<pre>Dear.
+I am T Cook,Director of the Apple inc, california. A man by the name of
+Steven Jobs amassed a deposit of Ninety seven billion six Hundred million
+United State Dollar $97,600,000,00 and he died leaving behind no next of
+kin, am ready to share 60/40 with you if you choose to stand as my deceased
+client next of kin.if you are interested please notify to send to me this
+information via this mail tcook@hotmail.com
+
+1. YOUR NAME:
+2. YOUR RESIDENT ADDRESS:
+3. YOUR OCCUPATION:
+4. YOUR PHONE NUMBER:
+5. DATE OF BIRTH:
+6. COUNTRY OF RESIDENT:
+
+Mind you your names and address will be used by my Attorney to prepare the
+needed documents that will back you up as the beneficiary of my deceased
+client funds.I wait to hear from you anyway,I have
+spoken my honest mind to you this day.
+
+Best Regards,
+Mr.Tim Cook</pre>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2012/03/apple-dividend/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>This is Your Brain on Facebook</title>
+		<link>http://chmullig.com/2012/01/this-is-your-brain-on-facebook/</link>
+		<comments>http://chmullig.com/2012/01/this-is-your-brain-on-facebook/#comments</comments>
+		<pubDate>Wed, 18 Jan 2012 22:22:22 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[Philosophising]]></category>
+		<category><![CDATA[School]]></category>
+		<category><![CDATA[cognition]]></category>
+		<category><![CDATA[Columbia]]></category>
+		<category><![CDATA[facebook]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=429</guid>
+		<description><![CDATA[I wrote this as an Op-Ed for the last progression of University Writing. Posted here to share. A recent study found that 87% of US undergraduates are on Facebook for an average of 93 minutes daily. At 11 hours a week that’s nearly as long as many of us spend in class. If 12 hours [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><em>I wrote this as an Op-Ed for the last progression of University Writing. Posted here to share.</em></p>
+<p>A recent study found that 87% of US undergraduates are on Facebook for an average of 93 minutes daily. At 11 hours a week that’s nearly as long as many of us spend in class. If 12 hours of classroom time is supposed to not just teach us facts but also train us to become more complex thinkers why do we pretend that 11 hours of Facebook won’t have an affect, too? Facebook asks us to constantly sift through posts, skim, evaluate, and make microscopic comments. By using Facebook we are training our minds to condense all issues into easily “like”-able one-liners, rather than complex essays.</p>
+<p>During finals last month many of us turned to Facebook to relieve stress. Many students, including myself, found that Facebook became not a limited relief valve but a means of procrastination. By the night before an exam we thought our only recourse was to block Facebook. Then, finally, our true academic selves would shine in blissful focus and productivity.</p>
+<p>If only it was that easy. The distraction and inability to focus that led us to block Facebook wasn’t because we were using Facebook that night. It was the result of our brain adapting to excel at the Facebook friendly tasks we demanded of it, at the expense of less frequent tasks, such as deep reading. After so many hours on Facebook over so many months the Facebook way of shallow thinking was dominant. The focused contemplative mindset became a difficult to achieve anomaly. The night before a paper was due was simply too late to change anything. Even though we were offline we carried Facebook’s in our cognition.</p>
+<p>Any new intellectual technology, including Facebook, encourages certain ways of thinking and discourages others. The invention of writing allowed humanity to easily store and retrieve information, a laborious process in oral cultures, and in turn led to an explosion of knowledge. However Socrates, in Plato’s <em>Phaedrus</em>, warns of the cognitive downside to writing by retelling the legend of king Thalmus, who, upon receiving the gift of writing from the god Theuth immediately questions the tradeoff it requires. Readers, Socrates says, will “be thought very knowledgeable when they are for the most part quite ignorant” because there was no oral instruction, and therefore, in his opinion, no deep learning. Writing fundamentally changed how we think. Today Facebook is changing it again. It encourages us to think in terms of connections, which may be advantageous in an increasingly interdisciplinary world, but it discourages deep reading, analysis, and debate. We must acknowledge these changes, and then adapt to them.</p>
+<p>Facebook has many advantages, such as staying in touch with friends &amp; family. However research, and common sense, suggest that large amounts of unfocused Facebook browsing damages our ability to concentrate, to understand complex ideas, and to develop our own ideas. Must we choose to either concede our thought patterns to Mark Zuckerberg, or abandon Facebook entirely? Neither is a great choice.</p>
+<p>Instead of simply embracing or abandoning Facebook take the opportunity presented by the new semester to assess your use over the long run. What benefits does it provide you? How can you maximize those benefits, while reducing the costs? By becoming a conscientious user today, by finals at the end of the semester your brain will be better trained to focus and think richer thoughts.</p>
+<p>Being deliberate about Facebook isn’t easy, but hopefully a few of these techniques, which helped me, will help you. Schedule a concentrated block of Facebook time rather than browsing whenever the urge strikes; this shifts Facebook into a hobby rather than a shameful timewasting habit. When you’re off Facebook, be off Facebook; avoid the siren call of a quick status post, “Studying sooooo hard at Butler!” Adjust your Facebook settings to reduce notification emails; it’s much harder to resist temptation when it thrusts itself into your inbox. Don’t use Facebook as a study break; it forces you into the skim-evaluate-quip mindset rather than read-analyze-write. Plus, just like potato chips, it’s awfully hard to limit it to “just 2 minutes.” Experiment with different ways to control your use, and see what works for you.</p>
+<p>Facebook will one day be passé, but whatever replaces it will affect our cognition, just like speech, writing, email, and Facebook itself already have. By first understanding the medium, and then deliberately engaging with it, we can attempt to capture the benefits and avoid the harmful effects.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2012/01/this-is-your-brain-on-facebook/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Apparently Siri knows Eliza</title>
+		<link>http://chmullig.com/2011/10/apparently-siri-knows-eliza/</link>
+		<comments>http://chmullig.com/2011/10/apparently-siri-knows-eliza/#comments</comments>
+		<pubDate>Sat, 15 Oct 2011 22:49:23 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Uncategorized]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=419</guid>
+		<description><![CDATA[Apparently Siri is good friends with Eliza. Er, except Eliza is retired these days&#8230; Well, I&#8217;m glad she has a friend at least. &#160;]]></description>
+				<content:encoded><![CDATA[<p>Apparently Siri is good friends with <a href="http://en.wikipedia.org/wiki/ELIZA">Eliza</a>. Er, except Eliza is retired these days&#8230; Well, I&#8217;m glad she has a friend at least.</p>
+<p>&nbsp;</p>
+
+<a href='http://chmullig.com/2011/10/apparently-siri-knows-eliza/img_0068/'><img width="100" height="150" src="http://chmullig.com/wp-content/uploads/2011/10/IMG_0068-100x150.png" class="attachment-thumbnail" alt="IMG_0068" /></a>
+<a href='http://chmullig.com/2011/10/apparently-siri-knows-eliza/img_0069/'><img width="100" height="150" src="http://chmullig.com/wp-content/uploads/2011/10/IMG_0069-100x150.png" class="attachment-thumbnail" alt="IMG_0069" /></a>
+<a href='http://chmullig.com/2011/10/apparently-siri-knows-eliza/img_0070/'><img width="100" height="150" src="http://chmullig.com/wp-content/uploads/2011/10/IMG_0070-100x150.png" class="attachment-thumbnail" alt="IMG_0070" /></a>
+<a href='http://chmullig.com/2011/10/apparently-siri-knows-eliza/img_0071/'><img width="100" height="150" src="http://chmullig.com/wp-content/uploads/2011/10/IMG_0071-100x150.png" class="attachment-thumbnail" alt="IMG_0071" /></a>
+
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2011/10/apparently-siri-knows-eliza/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>
+
+<!-- Dynamic page generated in 0.281 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2015-06-13 00:20:21 -->

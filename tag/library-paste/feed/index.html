@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>chmullig.com &#187; library paste</title>
+	<atom:link href="http://chmullig.com/tag/library-paste/feed/" rel="self" type="application/rss+xml" />
+	<link>http://chmullig.com</link>
+	<description>Chris Mulligan&#039;s blog on life, computers, burritos, school</description>
+	<lastBuildDate>Tue, 21 Apr 2015 15:41:14 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=4.2.2</generator>
+	<item>
+		<title>Library Paste</title>
+		<link>http://chmullig.com/2010/05/library-paste/</link>
+		<comments>http://chmullig.com/2010/05/library-paste/#comments</comments>
+		<pubDate>Mon, 03 May 2010 21:37:17 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[library paste]]></category>
+		<category><![CDATA[paste]]></category>
+		<category><![CDATA[pmxbot]]></category>
+		<category><![CDATA[python]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=103</guid>
+		<description><![CDATA[The ever impressive Jamie wrote a nice little paste bin at work a while back. It was dead simple to use, relatively private (in that it used UUIDs and didn&#8217;t have an index), and hooked into pmxbot. Unfortunately like most of the code written internally it used a proprietary web framework that&#8217;s not open source. [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The ever impressive <a title="Jamie Turner aka jamwt" href="http://jamwt.com">Jamie</a> wrote a nice little paste bin at work a while back. It was dead simple to use, relatively private (in that it used <a title="Universally Unique IDs - really long random letters and numbers" href="http://en.wikipedia.org/wiki/Universally_Unique_Identifier">UUIDs</a> and didn&#8217;t have an index), and hooked into <a href="http://bitbucket.org/yougov/pmxbot">pmxbot</a>. Unfortunately like most of the code written internally it used a proprietary web framework that&#8217;s not open source. It&#8217;s like <a title="CherryPy" href="http://cherrypy.org">cherrypy</a> &amp; <a title="Cheetah Templates" href="http://www.cheetahtemplate.org/">cheetah</a>, but different.</p>
+<p>I decided to modify jamwt&#8217;s pastebin to make it open sourceable. It&#8217;s now up on BitBucket as <strong><a title="Library Paste" href="http://bitbucket.org/chmullig/librarypaste">Library Paste</a>.</strong> It uses cherrypy with <a href="http://routes.groovie.org/">Routes</a> (<em>NB: Must use routes &lt;1.12 due to </em><a title="Cherrypy ticket #1010: Routes Dispatcher doesn't work with Routes 1.12.1" href="http://www.cherrypy.org/ticket/1010">#1010</a>), <a href="http://www.makotemplates.org/">mako</a> for templating, <a href="http://code.google.com/p/simplejson/">simplejson</a> plus flat files for a database, and <a href="http://pygments.org/">pygments</a> for syntax highlighting. One of the great features is that it also allows one click sharing of files, particularly images. How handy is that?</p>
+<p>For code &#8211; you specify a Pygments lexer to use and it will highlight it with that when displayed. You can leave it unhighlighted, and always get the plain text original.</p>
+<p>For files &#8211; it will take anything. It will read the mime type when you upload it, and set it on output. It will tell your browser to display it inline, but it will also set the filename correctly so if you save it you&#8217;ll get whatever it was uploaded with, rather than the ugly uuid with no file extension.</p>
+<p>There are a few minor improvements from the in house original. First, the upload file is on the same page rather than separated from uploading code. Second, it handles file names with spaces better. Third, there is no third.</p>
+<p>I&#8217;d really like to get configuration/deployment setup. What&#8217;s considered a good, flexible way to to make it easy for folks to deploy an app like this? Use cherrypy config files, build a little bin script and optionally let folks run it behind wsgi if they want to nginx/apache it?</p>
+<p>I&#8217;d also like to try with putting it up on <a href="http://code.google.com/appengine/">Google App Engine</a>. Looks like you have to jump through a few hoops to adjust code to use it, and I&#8217;d have to adapt the flat file system to use their DB.</p>
+<p>One nifty &#8220;hidden&#8221; feature it has is that you can ask it for the last UUID posting for a given user, if they filled in the nickname. You simple visit http://host/last/user and get back a plain text response with the UUID. pmxbot can use this to provide a link to someone&#8217;s most recent paste. Here&#8217;s the generic pmxbot function we used.</p>
+
+<div class="wp_syntax"><table><tr><td class="code"><pre class="python" style="font-family:monospace;"><span style="color: #66cc66;">@</span>command<span style="color: black;">&#40;</span><span style="color: #483d8b;">&quot;paste&quot;</span><span style="color: #66cc66;">,</span> aliases<span style="color: #66cc66;">=</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span><span style="color: #66cc66;">,</span> doc<span style="color: #66cc66;">=</span><span style="color: #483d8b;">&quot;Drop a link to your latest paste on paste&quot;</span><span style="color: black;">&#41;</span>
+<span style="color: #ff7700;font-weight:bold;">def</span> paste<span style="color: black;">&#40;</span>client<span style="color: #66cc66;">,</span> event<span style="color: #66cc66;">,</span> channel<span style="color: #66cc66;">,</span> nick<span style="color: #66cc66;">,</span> rest<span style="color: black;">&#41;</span>:
+    post_id <span style="color: #66cc66;">=</span> <span style="color: #dc143c;">urllib</span>.<span style="color: black;">urlopen</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">&quot;http://paste./last/%s&quot;</span> % nick<span style="color: black;">&#41;</span>.<span style="color: black;">read</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span>
+    <span style="color: #ff7700;font-weight:bold;">if</span> post_id:
+        <span style="color: #ff7700;font-weight:bold;">return</span> <span style="color: #483d8b;">'http://paste/%s'</span> % post_id
+    <span style="color: #ff7700;font-weight:bold;">else</span>:
+        <span style="color: #ff7700;font-weight:bold;">return</span> <span style="color: #483d8b;">&quot;hmm.. I didn't find a recent paste of yours, %s. Try http://paste to add one.&quot;</span> % nick</pre></td></tr></table></div>
+
+
+<a href='http://chmullig.com/2010/05/library-paste/librarypaste_input/'><img width="150" height="150" src="http://chmullig.com/wp-content/uploads/2010/05/librarypaste_input-150x150.png" class="attachment-thumbnail" alt="The input/home screen for adding a new paste. Earlier users note - file input on the same page." /></a>
+<a href='http://chmullig.com/2010/05/library-paste/librarypaste_code/'><img width="150" height="150" src="http://chmullig.com/wp-content/uploads/2010/05/librarypaste_code-150x150.png" class="attachment-thumbnail" alt="Showing some syntax highlighted code (indeed, Library Paste itself. The pastebin equivalent of boostrapping?)" /></a>
+<a href='http://chmullig.com/2010/05/library-paste/librarypaste_img/'><img width="150" height="150" src="http://chmullig.com/wp-content/uploads/2010/05/librarypaste_img-150x150.png" class="attachment-thumbnail" alt="An image being served up by library paste. It automatically sets the mime type and filename based on what was uploaded." /></a>
+
+<h3>Update:</h3>
+<p>I&#8217;ve since made a google app engine compatible version. It&#8217;s publicly hosted and you&#8217;re welcome to use it. <a href="http://librarypastebin.appspot.com">http://librarypastebin.appspot.com</a> and at <a href="http://libpa.st"><strong>http://libpa.st</strong></a>. Yes, I bought a stupid short URL for it!</p>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2010/05/library-paste/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>
+
+<!-- Dynamic page generated in 0.233 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2015-06-13 00:23:04 -->

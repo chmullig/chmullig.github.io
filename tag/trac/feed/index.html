@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>chmullig.com &#187; trac</title>
+	<atom:link href="http://chmullig.com/tag/trac/feed/" rel="self" type="application/rss+xml" />
+	<link>http://chmullig.com</link>
+	<description>Chris Mulligan&#039;s blog on life, computers, burritos, school</description>
+	<lastBuildDate>Tue, 21 Apr 2015 15:41:14 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=4.2.2</generator>
+	<item>
+		<title>Bulk changing tickets in Trac</title>
+		<link>http://chmullig.com/2010/01/bulk-changing-tickets-in-trac/</link>
+		<comments>http://chmullig.com/2010/01/bulk-changing-tickets-in-trac/#comments</comments>
+		<pubDate>Tue, 19 Jan 2010 22:10:50 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[python]]></category>
+		<category><![CDATA[trac]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=57</guid>
+		<description><![CDATA[At work we use the Trac wiki/ticket/software dev management system. I have ended up as its primary maintainer here. We&#8217;ve had a few developers leave, and Trac had lots of tickets orphaned with the ex-employees as owner or polluting the CC list. I whipped together a python script using the XML-RPC plugin from trac-hacks. It [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>At work we use the <a href="http://trac.edgewall.org/">Trac</a> wiki/ticket/software dev management system. I have ended up as its primary maintainer here. We&#8217;ve had a few <a href="http://jamwt.com">developers</a> leave, and Trac had lots of tickets orphaned with the ex-employees as owner or polluting the CC list. I whipped together a python script using the XML-RPC plugin from trac-hacks. It leaves a nice comment (polluting the timeline some) but doesn&#8217;t send out emails by default.</p>
+
+<div class="wp_syntax"><table><tr><td class="code"><pre class="python" style="font-family:monospace;"><span style="color: #ff7700;font-weight:bold;">import</span> <span style="color: #dc143c;">xmlrpclib</span><span style="color: #66cc66;">,</span> <span style="color: #dc143c;">re</span>
+&nbsp;
+<span style="color: #808080; font-style: italic;">#connect</span>
+t <span style="color: #66cc66;">=</span> <span style="color: #dc143c;">xmlrpclib</span>.<span style="color: black;">ServerProxy</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">'https://user:password@tracserver.example/xmlrpc'</span><span style="color: black;">&#41;</span>
+&nbsp;
+<span style="color: #808080; font-style: italic;">#regular expression for the CC field. </span>
+byere <span style="color: #66cc66;">=</span> <span style="color: #dc143c;">re</span>.<span style="color: #008000;">compile</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">'(?:jamie|dave|brad)(?:@DOMAIN1<span style="color: #000099; font-weight: bold;">\.</span>LOCAL|@DOMAIN1<span style="color: #000099; font-weight: bold;">\.</span>COM)?,? ?'</span><span style="color: #66cc66;">,</span> <span style="color: #dc143c;">re</span>.<span style="color: black;">IGNORECASE</span><span style="color: black;">&#41;</span>
+&nbsp;
+<span style="color: #808080; font-style: italic;">#This first loop sets the owner to blank, the status to 'new', and cleans the CC list for any open tickets assigned to Jamie or Dave. Doing the CC fix here makes the timeline a little cleaner.</span>
+<span style="color: #ff7700;font-weight:bold;">for</span> ticketid <span style="color: #ff7700;font-weight:bold;">in</span> t.<span style="color: black;">ticket</span>.<span style="color: black;">query</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">'owner=jamie@DOMAIN1.LOCAL&amp;owner=dave@DOMAIN1.LOCAL&amp;status=new&amp;status=accepted&amp;status=assigned&amp;testing&amp;status=planning'</span><span style="color: black;">&#41;</span>:
+    ticket <span style="color: #66cc66;">=</span> t.<span style="color: black;">ticket</span>.<span style="color: black;">get</span><span style="color: black;">&#40;</span>ticketid<span style="color: black;">&#41;</span>
+    cclist <span style="color: #66cc66;">=</span> ticket<span style="color: black;">&#91;</span><span style="color: #ff4500;">3</span><span style="color: black;">&#93;</span><span style="color: black;">&#91;</span><span style="color: #483d8b;">'cc'</span><span style="color: black;">&#93;</span>
+    newcclist <span style="color: #66cc66;">=</span> byere.<span style="color: black;">sub</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">''</span><span style="color: #66cc66;">,</span> cclist<span style="color: black;">&#41;</span>
+    t.<span style="color: black;">ticket</span>.<span style="color: black;">update</span><span style="color: black;">&#40;</span>ticketid<span style="color: #66cc66;">,</span> <span style="color: #483d8b;">''</span><span style="color: #66cc66;">,</span> <span style="color: black;">&#123;</span><span style="color: #483d8b;">'owner'</span> : <span style="color: #483d8b;">''</span><span style="color: #66cc66;">,</span> <span style="color: #483d8b;">'status'</span> : <span style="color: #483d8b;">'new'</span><span style="color: #66cc66;">,</span> <span style="color: #483d8b;">'cc'</span> : newcclist<span style="color: black;">&#125;</span><span style="color: black;">&#41;</span>
+&nbsp;
+<span style="color: #808080; font-style: italic;">#This loop is just for those tickets where they appear on the CC list.</span>
+<span style="color: #ff7700;font-weight:bold;">for</span> ticketid <span style="color: #ff7700;font-weight:bold;">in</span> t.<span style="color: black;">ticket</span>.<span style="color: black;">query</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">'cc~=jamie&amp;cc~=dave&amp;cc~=brad&amp;status!=closed'</span><span style="color: black;">&#41;</span>:
+    ticket <span style="color: #66cc66;">=</span> t.<span style="color: black;">ticket</span>.<span style="color: black;">get</span><span style="color: black;">&#40;</span>ticketid<span style="color: black;">&#41;</span>
+    cclist <span style="color: #66cc66;">=</span> ticket<span style="color: black;">&#91;</span><span style="color: #ff4500;">3</span><span style="color: black;">&#93;</span><span style="color: black;">&#91;</span><span style="color: #483d8b;">'cc'</span><span style="color: black;">&#93;</span>
+    newcclist <span style="color: #66cc66;">=</span> byere.<span style="color: black;">sub</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">''</span><span style="color: #66cc66;">,</span> cclist<span style="color: black;">&#41;</span>
+    t.<span style="color: black;">ticket</span>.<span style="color: black;">update</span><span style="color: black;">&#40;</span>ticketid<span style="color: #66cc66;">,</span> <span style="color: #483d8b;">''</span><span style="color: #66cc66;">,</span> <span style="color: black;">&#123;</span><span style="color: #483d8b;">'cc'</span> : newcclist<span style="color: black;">&#125;</span><span style="color: black;">&#41;</span></pre></td></tr></table></div>
+
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2010/01/bulk-changing-tickets-in-trac/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>
+
+<!-- Dynamic page generated in 0.232 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2015-06-13 00:23:13 -->

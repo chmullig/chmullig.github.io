@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>chmullig.com &#187; fuzzy</title>
+	<atom:link href="http://chmullig.com/tag/fuzzy/feed/" rel="self" type="application/rss+xml" />
+	<link>http://chmullig.com</link>
+	<description>Chris Mulligan&#039;s blog on life, computers, burritos, school</description>
+	<lastBuildDate>Tue, 21 Apr 2015 15:41:14 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=4.2.2</generator>
+	<item>
+		<title>PyPy testing</title>
+		<link>http://chmullig.com/2011/03/pypy-testing/</link>
+		<comments>http://chmullig.com/2011/03/pypy-testing/#comments</comments>
+		<pubDate>Wed, 23 Mar 2011 03:41:40 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[cython]]></category>
+		<category><![CDATA[double metaphone]]></category>
+		<category><![CDATA[fuzzy]]></category>
+		<category><![CDATA[pypy]]></category>
+		<category><![CDATA[python]]></category>
+		<category><![CDATA[string]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=299</guid>
+		<description><![CDATA[After reading Bob Ippolito&#8217;s excellent Playing with PyPy I was inspired to try PyPy out myself. I heard a ton of buzz coming out of PyCon that PyPy is wicked fast and wicked awesome. I wanted to take a look, and Bob&#8217;s instructions were a perfectly made intro. A lot of the work I do is [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>After reading Bob Ippolito&#8217;s excellent <a href="http://bob.pythonmac.org/archives/2011/03/17/playing-with-pypy/">Playing with PyPy</a> I was inspired to try PyPy out myself. I heard a ton of buzz coming out of PyCon that PyPy is wicked fast and wicked awesome. I wanted to take a look, and Bob&#8217;s instructions were a perfectly made intro.</p>
+<p>A lot of the work I do is with strings (as you can see in my picloud testing from last year). I built a little test of PyPy vs Python2.6 vs Python 2.6 + Pyrex + C-Extension to see how things were going. After following the instructions I have PyPy 1.4.1, and OSX 10.6.6&#8217;s built in Python 2.6. My test case is pretty simple &#8211; compute the DoubleMetaphone representations of 94,293 names from the Census. First gather the data:</p>
+<pre>curl -O http://www.census.gov/genealogy/names/dist.all.last;
+curl -O http://www.census.gov/genealogy/names/dist.female.first;
+curl -O http://www.census.gov/genealogy/names/dist.male.first;</pre>
+<p>So, now we setup our test code. All it does is loop through those 3 files we just downloaded of names, grabs the name from each line, computes  the double metaphone values, and appends them to to a list.</p>
+<p>I&#8217;m using two implementations of the <a href="http://en.wikipedia.org/wiki/Metaphone#Double_Metaphone">DoubleMetaphone</a> algorithm. First is <a href="https://bitbucket.org/yougov/fuzzy">Fuzzy</a>, a library <a href="http://jamwt.com">Jamie</a> developed at Polimetrix that uses Pyrex to wrap the <a href="http://www.cpan.org/modules/by-authors/id/MAURICE/Text-DoubleMetaphone-0.07.readme">C implementation by Maurice Aubrey</a>. The other version is <a href="http://www.atomodo.com/code/double-metaphone/metaphone.py/view">Andrew Collin&#8217;s pure python one</a>. For simplicity we&#8217;re going to call that atomodo.py after his domain.</p>
+<pre>
+pip install Fuzzy
+curl http://www.atomodo.com/code/double-metaphone/metaphone.py/at_download/file &gt; atomodo.py</pre>
+<p>My test.py:</p>
+
+<div class="wp_syntax"><table><tr><td class="code"><pre class="python" style="font-family:monospace;"><span style="color: #ff7700;font-weight:bold;">import</span> <span style="color: #dc143c;">sys</span>
+&nbsp;
+<span style="color: #ff7700;font-weight:bold;">if</span> <span style="color: #dc143c;">sys</span>.<span style="color: black;">argv</span><span style="color: black;">&#91;</span><span style="color: #ff4500;">1</span><span style="color: black;">&#93;</span> <span style="color: #66cc66;">==</span> <span style="color: #483d8b;">'atomodo'</span>:
+	<span style="color: #ff7700;font-weight:bold;">import</span> atomodo
+	dmeta <span style="color: #66cc66;">=</span> atomodo.<span style="color: black;">dm</span>
+<span style="color: #ff7700;font-weight:bold;">elif</span> <span style="color: #dc143c;">sys</span>.<span style="color: black;">argv</span><span style="color: black;">&#91;</span><span style="color: #ff4500;">1</span><span style="color: black;">&#93;</span> <span style="color: #66cc66;">==</span> <span style="color: #483d8b;">'fuzzy'</span>:
+	<span style="color: #ff7700;font-weight:bold;">import</span> fuzzy
+	dmeta <span style="color: #66cc66;">=</span> fuzzy.<span style="color: black;">DMetaphone</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span>
+&nbsp;
+files <span style="color: #66cc66;">=</span> <span style="color: black;">&#91;</span><span style="color: #483d8b;">'dist.all.last'</span><span style="color: #66cc66;">,</span> <span style="color: #483d8b;">'dist.male.first'</span><span style="color: #66cc66;">,</span> <span style="color: #483d8b;">'dist.female.first'</span><span style="color: black;">&#93;</span>
+output <span style="color: #66cc66;">=</span> <span style="color: black;">&#91;</span><span style="color: black;">&#93;</span>
+<span style="color: #ff7700;font-weight:bold;">for</span> <span style="color: #008000;">file</span> <span style="color: #ff7700;font-weight:bold;">in</span> files:
+	fh <span style="color: #66cc66;">=</span> <span style="color: #008000;">open</span><span style="color: black;">&#40;</span><span style="color: #008000;">file</span><span style="color: black;">&#41;</span>
+	<span style="color: #ff7700;font-weight:bold;">for</span> row <span style="color: #ff7700;font-weight:bold;">in</span> fh:
+		name <span style="color: #66cc66;">=</span> row<span style="color: black;">&#91;</span>:<span style="color: #ff4500;">15</span><span style="color: black;">&#93;</span>.<span style="color: black;">strip</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span>
+		x <span style="color: #66cc66;">=</span> dmeta<span style="color: black;">&#40;</span>name<span style="color: black;">&#41;</span>
+		output.<span style="color: black;">append</span><span style="color: black;">&#40;</span>x<span style="color: black;">&#41;</span></pre></td></tr></table></div>
+
+<p><span style="font-family: Consolas, Monaco, 'Courier New', Courier, monospace; font-size: 12px; line-height: 18px; white-space: pre;">(pypy-1.4.1-osx64)kotai:perftesting chmullig$ time pypy test.py atomodo</span></p>
+<pre>real	0m3.098s
+user	0m3.034s
+sys	0m0.055s
+(pypy-1.4.1-osx64)kotai:perftesting chmullig$ time python2.6 test.py atomodo # CPython
+
+real	0m2.425s
+user	0m2.390s
+sys	0m0.032s
+(pypy-1.4.1-osx64)kotai:perftesting chmullig$ time python2.6 test.py fuzzy
+
+real	0m0.390s
+user	0m0.357s
+sys	0m0.032s</pre>
+<p>The results pretty well speak for themselves. C + Cython destroys the other two. Plain jane CPython is slightly faster than PyPy. <em>Aside, but I ran all this with PYPY_GC_NURSERY=716K to help PyPy out. On my system that seemed like a sane default after running his script. I ran it with no PYPY_GC_NURSERY and the results were a bit slower across the board. In this case pypy was 3.180s without a GC_NURSERY value.</em></p>
+<p><em> </em><img src="http://chart.apis.google.com/chart?chxl=0:|PyPy|CPython|C+%2B+Cython&amp;chxp=0,0.5,1.5,2.5&amp;chxr=0,0,3|1,0,3.5&amp;chxt=x,y&amp;chbh=a,5,10&amp;chs=400x250&amp;cht=bvg&amp;chco=FF9900&amp;chds=0,3.5&amp;chd=t:3.034,2.425,0.39&amp;chtt=Total+User+Seconds+(smaller+is+better)" alt="Total User Seconds (smaller is better)" width="400" height="250" /></p>
+<p>&nbsp;</p>
+<hr />
+<p>I decided to play around a little further at this point, to see if PyPy&#8217;s JIT would do better with more iterations. I tried two variations with different results for PyPy. In <a href="http://a.libpa.st/vSYEP">Variation A</a> I loop the entire thing 10 times, inserting the loop above output = [], so the list is reset each time. In other words this is a loose loop, it opens the files 10 times, etc. The results are pretty interesting!</p>
+<pre>(pypy-1.4.1-osx64)kotai:perftesting chmullig$ time pypy test.py atomodo
+
+real	0m19.907s
+user	0m19.734s
+sys	0m0.145s
+(pypy-1.4.1-osx64)kotai:perftesting chmullig$ time python2.6 test.py atomodo
+
+real	0m24.615s
+user	0m24.450s
+sys	0m0.160s
+(pypy-1.4.1-osx64)kotai:perftesting chmullig$ time python2.6 test.py fuzzy
+
+real	0m3.753s
+user	0m3.608s
+sys	0m0.143s</pre>
+<p><img src="http://chart.apis.google.com/chart?chxl=0:|PyPy|CPython|C+%2B+Cython&amp;chxp=0,0.5,1.5,2.5&amp;chxr=0,0,3|1,0,35&amp;chxt=x,y&amp;chbh=a,5,10&amp;chs=400x250&amp;cht=bvg&amp;chco=3366CC&amp;chds=0,35&amp;chd=t:19.734,24.450,3.753&amp;chtt=Total+User+Seconds+(smaller+is+better)+Variation+A" alt="Total User Seconds (smaller is better) Variation A" width="400" height="250" /></p>
+<p><a href="http://a.libpa.st/awYKK">Variation B</a> repeats just the double metaphone calculation 10 times, by wrapping <span style="font-family: fixed-width;">x = dmeta(name)</span>. This does less work overall, because it doesn&#8217;t reopen the files, doesn&#8217;t have to iterate over them or substring + strip. PyPy does even better, comparatively.</p>
+<pre>(pypy-1.4.1-osx64)kotai:perftesting chmullig$ time pypy test.py atomodo
+
+real	0m16.610s
+user	0m16.511s
+sys	0m0.083s
+(pypy-1.4.1-osx64)kotai:perftesting chmullig$ time python2.6 test.py atomodo
+
+real	0m23.929s
+user	0m23.855s
+sys	0m0.067s
+(pypy-1.4.1-osx64)kotai:perftesting chmullig$ time python2.6 test.py fuzzy
+
+real	0m2.526s
+user	0m2.484s
+sys	0m0.041s</pre>
+<p><img src="http://chart.apis.google.com/chart?chxl=0:|PyPy|CPython|C+%2B+Cython&amp;chxp=0,0.5,1.5,2.5&amp;chxr=0,0,3|1,0,35&amp;chxt=x,y&amp;chbh=a,5,10&amp;chs=400x250&amp;cht=bvg&amp;chco=AA0033&amp;chds=0,35&amp;chd=t:16.511,23.855,2.383&amp;chtt=Total+User+Seconds+(smaller+is+better)+Variation+B" alt="Total User Seconds (smaller is better)+Variation+B" width="400" height="250" /></p>
+<hr />
+<p>So where does that leave us? Well if things scale perfectly the original times * 10 should be about the same as Variation A, and Variation B should be a tiny bit smaller (because it&#8217;s doing less work). However reality is always more confusing than we&#8217;d hope.</p>
+<p><img src="http://chart.apis.google.com/chart?chxl=0:|PyPy|CPython|C+%2B+Cython&amp;chxp=0,0.5,1.5,2.5&amp;chxr=0,0,3|1,0,35&amp;chxt=x,y&amp;chbh=a,5,10&amp;chs=520x270&amp;cht=bvg&amp;chco=FF9900,3366CC,AA0033&amp;chds=0,35,0,35,0,35&amp;chd=t:30.34,24.25,3.9|19.734,24.45,3.753|16.511,23.855,2.383&amp;chdl=Original+*+10|Variation+A|Variation+B&amp;chdlp=b&amp;chtt=Comparison%3A+User+Seconds+(smaller+is+better)" alt="Comparison: User Seconds (smaller is better)" width="520" height="270" /></p>
+<p>CPython running atomodo is quite consistent. The CPython+fuzzy is pretty darn fast and consistent too, seemingly getting more of an advantage from B than CPython+Atomodo. PyPy is crazy though. I would expect A and B to be faster than the original because JIT can work its magic more. However I was surprised by how much, and further surprised by how much B was faster than A. I guess the cache is very short lived or something?</p>
+<p>Admittedly this test is flawed in 200 different ways. However it&#8217;s interesting to see where PyPy might be faster (very, very, very repetitive code; one pass calls dmeta(name) 94,293 times). I also know I&#8217;ll keep looking for C extensions.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2011/03/pypy-testing/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+	</channel>
+</rss>
+
+<!-- Dynamic page generated in 0.247 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2015-06-13 00:23:24 -->

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>chmullig.com &#187; sysadmin</title>
+	<atom:link href="http://chmullig.com/tag/sysadmin/feed/" rel="self" type="application/rss+xml" />
+	<link>http://chmullig.com</link>
+	<description>Chris Mulligan&#039;s blog on life, computers, burritos, school</description>
+	<lastBuildDate>Tue, 21 Apr 2015 15:41:14 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=4.2.2</generator>
+	<item>
+		<title>Easy backup cleanups</title>
+		<link>http://chmullig.com/2009/12/easy-backup-cleanups/</link>
+		<comments>http://chmullig.com/2009/12/easy-backup-cleanups/#comments</comments>
+		<pubDate>Fri, 04 Dec 2009 19:58:39 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[python]]></category>
+		<category><![CDATA[sysadmin]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=43</guid>
+		<description><![CDATA[I often create little cron jobs that create backups of various things on linux systems. Typically there&#8217;s a baks dir that has a tarball for each day with some clever name like &#8216;bak-2009-12-04.tar.gz&#8217;. This works well, but it can be a little difficult to clean the directory up without moving to a much more complicated [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I often create little cron jobs that create backups of various things on linux systems. Typically there&#8217;s a baks dir that has a tarball for each day with some clever name like &#8216;bak-2009-12-04.tar.gz&#8217;. This works well, but it can be a little difficult to clean the directory up without moving to a much more complicated system. I wrote a little python script to help me sort out the ones I wanted to save and the ones I wanted to trash. It took me a while to find it, so I&#8217;m posting here for posterity.</p>
+<p>The basic idea is it loops through all the files in the current directory and moves ones older than a certain date  that don&#8217;t meet certain criteria to a trash folder. I have it configured to save every day for the last month, every week for the last 6 months, and the beginning of every month forever. You can then delete the trash manually, but it makes the script fairly non-destructive.</p>
+
+<div class="wp_syntax"><table><tr><td class="code"><pre class="python" style="font-family:monospace;"><span style="color: #808080; font-style: italic;">#!/usr/bin/env python</span>
+<span style="color: #ff7700;font-weight:bold;">import</span> <span style="color: #dc143c;">os</span><span style="color: #66cc66;">,</span> <span style="color: #dc143c;">time</span>
+&nbsp;
+<span style="color: #ff7700;font-weight:bold;">def</span> categorize<span style="color: black;">&#40;</span>zeta<span style="color: black;">&#41;</span>:
+	<span style="color: #ff7700;font-weight:bold;">for</span> <span style="color: #008000;">file</span><span style="color: #66cc66;">,</span> date <span style="color: #ff7700;font-weight:bold;">in</span> zeta:	
+		<span style="color: #ff7700;font-weight:bold;">if</span> date.<span style="color: black;">tm_mday</span> <span style="color: #66cc66;">==</span> <span style="color: #ff4500;">1</span>: <span style="color: #808080; font-style: italic;">#save the first bak for each month, no matter what</span>
+			tosave.<span style="color: black;">append</span><span style="color: black;">&#40;</span><span style="color: #008000;">file</span><span style="color: black;">&#41;</span>
+		<span style="color: #ff7700;font-weight:bold;">elif</span> <span style="color: #dc143c;">time</span>.<span style="color: black;">localtime</span><span style="color: black;">&#40;</span><span style="color: #dc143c;">time</span>.<span style="color: #dc143c;">time</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span> - <span style="color: #ff4500;">15778463</span><span style="color: black;">&#41;</span> <span style="color: #66cc66;">&gt;</span> date: <span style="color: #808080; font-style: italic;">#if the file is over 6 months old delete it</span>
+			tomove.<span style="color: black;">append</span><span style="color: black;">&#40;</span><span style="color: #008000;">file</span><span style="color: black;">&#41;</span>
+		<span style="color: #ff7700;font-weight:bold;">elif</span> <span style="color: #dc143c;">time</span>.<span style="color: black;">localtime</span><span style="color: black;">&#40;</span><span style="color: #dc143c;">time</span>.<span style="color: #dc143c;">time</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span> - <span style="color: #ff4500;">15778463</span><span style="color: black;">&#41;</span> <span style="color: #66cc66;">&lt;</span> date <span style="color: #ff7700;font-weight:bold;">and</span> date.<span style="color: black;">tm_wday</span> <span style="color: #66cc66;">==</span> <span style="color: #ff4500;">0</span>: <span style="color: #808080; font-style: italic;">#if the file is less than 6 months old and made on a sunday than delete it </span>
+			tosave.<span style="color: black;">append</span><span style="color: black;">&#40;</span><span style="color: #008000;">file</span><span style="color: black;">&#41;</span>
+		<span style="color: #ff7700;font-weight:bold;">elif</span> <span style="color: #dc143c;">time</span>.<span style="color: black;">localtime</span><span style="color: black;">&#40;</span><span style="color: #dc143c;">time</span>.<span style="color: #dc143c;">time</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span> - <span style="color: #ff4500;">2592000</span><span style="color: black;">&#41;</span> <span style="color: #66cc66;">&lt;</span> date: <span style="color: #808080; font-style: italic;">#if the file is less than a month old, save it</span>
+			tosave.<span style="color: black;">append</span><span style="color: black;">&#40;</span><span style="color: #008000;">file</span><span style="color: black;">&#41;</span>
+		<span style="color: #ff7700;font-weight:bold;">else</span>:
+			tomove.<span style="color: black;">append</span><span style="color: black;">&#40;</span><span style="color: #008000;">file</span><span style="color: black;">&#41;</span>
+&nbsp;
+<span style="color: #ff7700;font-weight:bold;">def</span> makeEasier<span style="color: black;">&#40;</span>files<span style="color: black;">&#41;</span>:
+	zeta <span style="color: #66cc66;">=</span> <span style="color: black;">&#91;</span><span style="color: black;">&#93;</span>
+	<span style="color: #ff7700;font-weight:bold;">for</span> <span style="color: #008000;">file</span> <span style="color: #ff7700;font-weight:bold;">in</span> files:
+		<span style="color: #ff7700;font-weight:bold;">if</span> <span style="color: #483d8b;">&quot;tar&quot;</span> <span style="color: #ff7700;font-weight:bold;">in</span> <span style="color: #008000;">file</span>:
+			<span style="color: #ff7700;font-weight:bold;">if</span> <span style="color: #008000;">file</span>.<span style="color: black;">startswith</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">&quot;trac&quot;</span><span style="color: black;">&#41;</span>:
+				date <span style="color: #66cc66;">=</span> <span style="color: #008000;">file</span><span style="color: black;">&#91;</span><span style="color: #ff4500;">5</span>:<span style="color: #ff4500;">13</span><span style="color: black;">&#93;</span>
+			<span style="color: #ff7700;font-weight:bold;">elif</span> <span style="color: #008000;">file</span>.<span style="color: black;">startswith</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">&quot;svn&quot;</span><span style="color: black;">&#41;</span>:
+				date <span style="color: #66cc66;">=</span> <span style="color: #008000;">file</span><span style="color: black;">&#91;</span><span style="color: #ff4500;">4</span>:<span style="color: #ff4500;">12</span><span style="color: black;">&#93;</span>
+			<span style="color: #ff7700;font-weight:bold;">else</span>:
+				<span style="color: #ff7700;font-weight:bold;">continue</span>		
+			date <span style="color: #66cc66;">=</span> <span style="color: #dc143c;">time</span>.<span style="color: black;">strptime</span><span style="color: black;">&#40;</span>date<span style="color: #66cc66;">,</span> <span style="color: #483d8b;">&quot;%Y%m%d&quot;</span><span style="color: black;">&#41;</span>
+			zeta.<span style="color: black;">append</span><span style="color: black;">&#40;</span><span style="color: black;">&#91;</span><span style="color: #008000;">file</span><span style="color: #66cc66;">,</span>date<span style="color: black;">&#93;</span><span style="color: black;">&#41;</span>
+	<span style="color: #ff7700;font-weight:bold;">return</span> zeta
+&nbsp;
+<span style="color: #ff7700;font-weight:bold;">def</span> moveEm<span style="color: black;">&#40;</span><span style="color: black;">&#41;</span>:
+	<span style="color: #ff7700;font-weight:bold;">for</span> <span style="color: #008000;">file</span> <span style="color: #ff7700;font-weight:bold;">in</span> tomove:
+		<span style="color: #ff7700;font-weight:bold;">if</span> <span style="color: #008000;">file</span> <span style="color: #ff7700;font-weight:bold;">not</span> <span style="color: #ff7700;font-weight:bold;">in</span> tosave:
+			<span style="color: #ff7700;font-weight:bold;">try</span>:
+				<span style="color: #dc143c;">os</span>.<span style="color: black;">rename</span><span style="color: black;">&#40;</span>path+<span style="color: #483d8b;">'/'</span>+<span style="color: #008000;">file</span><span style="color: #66cc66;">,</span>path+<span style="color: #483d8b;">&quot;/trash/&quot;</span>+<span style="color: #008000;">file</span><span style="color: black;">&#41;</span>
+			<span style="color: #ff7700;font-weight:bold;">except</span> <span style="color: #008000;">Exception</span><span style="color: #66cc66;">,</span> detail:
+				<span style="color: #ff7700;font-weight:bold;">print</span> <span style="color: #483d8b;">&quot;Error with&quot;</span><span style="color: #66cc66;">,</span> <span style="color: #008000;">file</span><span style="color: #66cc66;">,</span> <span style="color: #483d8b;">&quot;:&quot;</span><span style="color: #66cc66;">,</span> detail
+			<span style="color: #ff7700;font-weight:bold;">else</span>:
+				<span style="color: #ff7700;font-weight:bold;">print</span> <span style="color: #483d8b;">&quot;Moved&quot;</span><span style="color: #66cc66;">,</span> <span style="color: #008000;">file</span><span style="color: #66cc66;">,</span> <span style="color: #483d8b;">&quot;to trash&quot;</span>
+&nbsp;
+<span style="color: #ff7700;font-weight:bold;">if</span> __name__ <span style="color: #66cc66;">==</span> <span style="color: #483d8b;">&quot;__main__&quot;</span>:
+	path <span style="color: #66cc66;">=</span> <span style="color: #dc143c;">os</span>.<span style="color: black;">getcwd</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span>
+	tomove <span style="color: #66cc66;">=</span> <span style="color: black;">&#91;</span><span style="color: black;">&#93;</span>
+	tosave <span style="color: #66cc66;">=</span> <span style="color: black;">&#91;</span><span style="color: black;">&#93;</span>
+&nbsp;
+	files <span style="color: #66cc66;">=</span> <span style="color: #dc143c;">os</span>.<span style="color: black;">listdir</span><span style="color: black;">&#40;</span>path<span style="color: black;">&#41;</span>
+	zeta <span style="color: #66cc66;">=</span> makeEasier<span style="color: black;">&#40;</span>files<span style="color: black;">&#41;</span>
+	categorize<span style="color: black;">&#40;</span>zeta<span style="color: black;">&#41;</span>
+	moveEm<span style="color: black;">&#40;</span><span style="color: black;">&#41;</span></pre></td></tr></table></div>
+
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2009/12/easy-backup-cleanups/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>
+
+<!-- Dynamic page generated in 0.230 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2015-06-13 00:23:12 -->

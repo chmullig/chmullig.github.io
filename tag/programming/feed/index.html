@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>chmullig.com &#187; programming</title>
+	<atom:link href="http://chmullig.com/tag/programming/feed/" rel="self" type="application/rss+xml" />
+	<link>http://chmullig.com</link>
+	<description>Chris Mulligan&#039;s blog on life, computers, burritos, school</description>
+	<lastBuildDate>Tue, 21 Apr 2015 15:41:14 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=4.2.2</generator>
+	<item>
+		<title>Births by Day of Year</title>
+		<link>http://chmullig.com/2012/06/births-by-day-of-year/</link>
+		<comments>http://chmullig.com/2012/06/births-by-day-of-year/#comments</comments>
+		<pubDate>Fri, 08 Jun 2012 01:06:22 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[School]]></category>
+		<category><![CDATA[birthday]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[r]]></category>
+		<category><![CDATA[statistics]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=450</guid>
+		<description><![CDATA[Andrew Gelman has posted twice about certains days being more or less common for births, and lamented the lack of a good, simple visualization showing all 366 days. Well, I heard his call! My goal was simply a line graph that showed Finding a decent public dataset proved surprisingly hard &#8211; very few people with [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Andrew Gelman has <a title="Extra babies on Valentine’s Day, fewer on Halloween?" href="http://andrewgelman.com/2012/02/more-babies-on-valentines-day-and-less-babies-on-halloween/">posted</a> <a title="Halloween/Valentine’s update " href="http://andrewgelman.com/2012/06/halloweenvalentines-update/">twice</a> about certains days being more or less common for births, and lamented the lack of a good, simple visualization showing all 366 days.</p>
+<p>Well, I heard his call! My goal was simply a line graph that showed</p>
+<p>Finding a decent public dataset proved surprisingly hard &#8211; very few people with large datasets seem willing to release full date of birth (at least for recent data). I considered voter files, but I think the data quality issues would be severe, and might present unknown bias. There&#8217;s some data from the CDC&#8217;s National Vital Statistics System, but it either only contains year and month, or isn&#8217;t available in an especially easy to use format. There&#8217;s some older data that seemed like the best bet, and which others have used before.</p>
+<p>A bit more searching revealed that Google&#8217;s <a href="https://developers.google.com/bigquery/">BigQuery</a> coincidentally loads the NVSS data as one of their <a href="https://developers.google.com/bigquery/docs/dataset-natality">sample datasets</a>. A quick query in their browser tool and export to <a title="birth data attached" href="http://chmullig.com/wp-content/uploads/2012/06/births.csv">CSV</a> and I had the data I wanted. NVSS/google seems to include only the day of the month for 1/1/1969 through 12/31/1988. More recent data just includes year and month.</p>
+
+<div class="wp_syntax"><table><tr><td class="code"><pre class="sql" style="font-family:monospace;"><span style="color: #993333; font-weight: bold;">SELECT</span> <span style="color: #993333; font-weight: bold;">MONTH</span><span style="color: #66cc66;">,</span> <span style="color: #993333; font-weight: bold;">DAY</span><span style="color: #66cc66;">,</span> <span style="color: #993333; font-weight: bold;">SUM</span><span style="color: #66cc66;">&#40;</span>record_weight<span style="color: #66cc66;">&#41;</span>
+<span style="color: #993333; font-weight: bold;">FROM</span> <span style="color: #66cc66;">&#91;</span>publicdata:samples<span style="color: #66cc66;">.</span>natality<span style="color: #66cc66;">&#93;</span>
+<span style="color: #993333; font-weight: bold;">WHERE</span> <span style="color: #993333; font-weight: bold;">DAY</span> <span style="color: #66cc66;">&gt;=</span> <span style="color: #cc66cc;">1</span> <span style="color: #993333; font-weight: bold;">AND</span> <span style="color: #993333; font-weight: bold;">DAY</span> <span style="color: #66cc66;">&lt;=</span> <span style="color: #cc66cc;">31</span>
+<span style="color: #993333; font-weight: bold;">GROUP</span> <span style="color: #993333; font-weight: bold;">BY</span> <span style="color: #993333; font-weight: bold;">MONTH</span><span style="color: #66cc66;">,</span> <span style="color: #993333; font-weight: bold;">DAY</span>
+<span style="color: #993333; font-weight: bold;">ORDER</span> <span style="color: #993333; font-weight: bold;">BY</span> <span style="color: #993333; font-weight: bold;">MONTH</span><span style="color: #66cc66;">,</span> <span style="color: #993333; font-weight: bold;">DAY</span></pre></td></tr></table></div>
+
+<p>Some basic manipulation (including multiplying 2/29 by 4 per Gelman&#8217;s suggestion) and a bit of time to remember all of R&#8217;s fancy graphing features yielded <a title="Sorry, it's .txt because WP didn't want me to upload a .R" href="http://chmullig.com/wp-content/uploads/2012/06/births-by-days.R.txt">this script</a> and this graph:</p>
+<p><i>See update at bottom!</i><br />
+<a href="http://chmullig.com/wp-content/uploads/2012/06/birthdays.png"><img class="alignnone  wp-image-456" title="Births by day" src="http://chmullig.com/wp-content/uploads/2012/06/birthdays.png" alt="" width="250px" /></a></p>
+<p>I&#8217;ve labeled outliers &gt; 2.3 standard deviations from the loess curve (which unfortunately I should really predict &#8220;wrapping&#8221; around New Years&#8230;), as well as Valentine&#8217;s and Halloween. You can see by far the largest peaks and valleys are July 4th, Christmas, and just before/after New Years while Valentine&#8217;s and Halloween barely register as blips.</p>
+<p>It&#8217;s possible there data collection issues causing some of this &#8211; perhaps births that occurred on July 4th were recorded over the following few days? The whole thing is surprisingly less uniform than I expected.</p>
+<h3>Simulating Birthday Problem</h3>
+<p>I also wanted to simulate the birthday problem using these real values, instead of the basic assumption of 1/365th per day. In particular I DON&#8217;T multiply Feb 29th by 4, so it accurately reflects the distribution in a random population. This is data for 1969 to 1988, but I haven&#8217;t investigated whether there&#8217;s a day of week skew by selecting this specific interval as opposed to others, this is just the maximal range.</p>
+<p>I did a <a href="http://chmullig.com/wp-content/uploads/2012/06/bday-problem.R.txt">basic simulation</a> of 30,000 trials for each group size from 0 to 75. It works out very close to the synthetic/theoretical, as you can see in this graph (red is theoretical, black is real data). Of note, the real data seems to average about 0.15% more likely than the synthetic for groups of size 10-30 (the actual slope).</p>
+<p><a href="http://chmullig.com/wp-content/uploads/2012/06/bday_problem.png"><img class="alignnone  wp-image-480" title="Birthday Problem - Real vs Synthetic" src="http://chmullig.com/wp-content/uploads/2012/06/bday_problem.png" alt="Birthday Problem - Real vs Synthetic" width="100%" /></a></p>
+<p>I&#8217;ve also uploaded a graph of the P(Match using Real) &#8211; P(Match using Synthetic).</p>
+<p><a href="http://chmullig.com/wp-content/uploads/2012/06/bday_difference.png"><img class="alignnone  wp-image-481" title="Birthday Problem - Real minus Synthetic" src="http://chmullig.com/wp-content/uploads/2012/06/bday_difference.png" alt="" width="100%" /></a></p>
+<p>If you&#8217;re curious about the <a href="http://chmullig.com/wp-content/uploads/2012/06/bday_problem.csv" title="CSV of simulations results">raw results</a>, here&#8217;s the most exciting part:</p>
+<table>
+<td style="text-align: right; padding-left: 1em;"><strong>n</strong></td>
+<td style="text-align: right; padding-left: 1em;"><strong>real</strong></td>
+<td style="text-align: right; padding-left: 1em;"><strong>synthetic</strong></td>
+<td style="text-align: right; padding-left: 1em;"><strong>diff</strong></td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 2em;">10</td>
+<td style="text-align: right; padding-left: 30px;">11.59%</td>
+<td style="text-align: right; padding-left: 30px;">11.41%</td>
+<td style="text-align: right; padding-left: 30px;">0.18%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">11</td>
+<td style="text-align: right; padding-left: 1em;">14.08%</td>
+<td style="text-align: right; padding-left: 1em;">14.10%</td>
+<td style="text-align: right; padding-left: 1em;">-0.02%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">12</td>
+<td style="text-align: right; padding-left: 1em;">16.84%</td>
+<td style="text-align: right; padding-left: 1em;">16.77%</td>
+<td style="text-align: right; padding-left: 1em;">0.08%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">13</td>
+<td style="text-align: right; padding-left: 1em;">19.77%</td>
+<td style="text-align: right; padding-left: 1em;">19.56%</td>
+<td style="text-align: right; padding-left: 1em;">0.21%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">14</td>
+<td style="text-align: right; padding-left: 1em;">22.01%</td>
+<td style="text-align: right; padding-left: 1em;">22.06%</td>
+<td style="text-align: right; padding-left: 1em;">-0.05%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">15</td>
+<td style="text-align: right; padding-left: 1em;">25.74%</td>
+<td style="text-align: right; padding-left: 1em;">25.17%</td>
+<td style="text-align: right; padding-left: 1em;">0.57%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">16</td>
+<td style="text-align: right; padding-left: 1em;">28.24%</td>
+<td style="text-align: right; padding-left: 1em;">27.99%</td>
+<td style="text-align: right; padding-left: 1em;">0.25%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">17</td>
+<td style="text-align: right; padding-left: 1em;">31.81%</td>
+<td style="text-align: right; padding-left: 1em;">31.71%</td>
+<td style="text-align: right; padding-left: 1em;">0.10%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">18</td>
+<td style="text-align: right; padding-left: 1em;">34.75%</td>
+<td style="text-align: right; padding-left: 1em;">33.76%</td>
+<td style="text-align: right; padding-left: 1em;">0.98%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">19</td>
+<td style="text-align: right; padding-left: 1em;">37.89%</td>
+<td style="text-align: right; padding-left: 1em;">37.90%</td>
+<td style="text-align: right; padding-left: 1em;">-0.01%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">20</td>
+<td style="text-align: right; padding-left: 1em;">40.82%</td>
+<td style="text-align: right; padding-left: 1em;">40.82%</td>
+<td style="text-align: right; padding-left: 1em;">0.00%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">21</td>
+<td style="text-align: right; padding-left: 1em;">44.48%</td>
+<td style="text-align: right; padding-left: 1em;">44.57%</td>
+<td style="text-align: right; padding-left: 1em;">-0.09%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">22</td>
+<td style="text-align: right; padding-left: 1em;">47.92%</td>
+<td style="text-align: right; padding-left: 1em;">47.45%</td>
+<td style="text-align: right; padding-left: 1em;">0.47%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">23</td>
+<td style="text-align: right; padding-left: 1em;">50.94%</td>
+<td style="text-align: right; padding-left: 1em;">50.80%</td>
+<td style="text-align: right; padding-left: 1em;">0.14%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">24</td>
+<td style="text-align: right; padding-left: 1em;">53.89%</td>
+<td style="text-align: right; padding-left: 1em;">53.79%</td>
+<td style="text-align: right; padding-left: 1em;">0.10%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">25</td>
+<td style="text-align: right; padding-left: 1em;">57.07%</td>
+<td style="text-align: right; padding-left: 1em;">56.76%</td>
+<td style="text-align: right; padding-left: 1em;">0.31%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">26</td>
+<td style="text-align: right; padding-left: 1em;">59.74%</td>
+<td style="text-align: right; padding-left: 1em;">59.75%</td>
+<td style="text-align: right; padding-left: 1em;">-0.01%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">27</td>
+<td style="text-align: right; padding-left: 1em;">62.61%</td>
+<td style="text-align: right; padding-left: 1em;">63.00%</td>
+<td style="text-align: right; padding-left: 1em;">-0.40%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">28</td>
+<td style="text-align: right; padding-left: 1em;">65.88%</td>
+<td style="text-align: right; padding-left: 1em;">65.26%</td>
+<td style="text-align: right; padding-left: 1em;">0.63%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">29</td>
+<td style="text-align: right; padding-left: 1em;">68.18%</td>
+<td style="text-align: right; padding-left: 1em;">67.85%</td>
+<td style="text-align: right; padding-left: 1em;">0.32%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">30</td>
+<td style="text-align: right; padding-left: 1em;">70.32%</td>
+<td style="text-align: right; padding-left: 1em;">70.49%</td>
+<td style="text-align: right; padding-left: 1em;">-0.18%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">31</td>
+<td style="text-align: right; padding-left: 1em;">73.00%</td>
+<td style="text-align: right; padding-left: 1em;">72.73%</td>
+<td style="text-align: right; padding-left: 1em;">0.27%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">32</td>
+<td style="text-align: right; padding-left: 1em;">75.37%</td>
+<td style="text-align: right; padding-left: 1em;">75.65%</td>
+<td style="text-align: right; padding-left: 1em;">-0.28%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">33</td>
+<td style="text-align: right; padding-left: 1em;">77.59%</td>
+<td style="text-align: right; padding-left: 1em;">77.63%</td>
+<td style="text-align: right; padding-left: 1em;">-0.04%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">34</td>
+<td style="text-align: right; padding-left: 1em;">79.67%</td>
+<td style="text-align: right; padding-left: 1em;">78.86%</td>
+<td style="text-align: right; padding-left: 1em;">0.81%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">35</td>
+<td style="text-align: right; padding-left: 1em;">81.44%</td>
+<td style="text-align: right; padding-left: 1em;">81.24%</td>
+<td style="text-align: right; padding-left: 1em;">0.19%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">36</td>
+<td style="text-align: right; padding-left: 1em;">83.53%</td>
+<td style="text-align: right; padding-left: 1em;">82.79%</td>
+<td style="text-align: right; padding-left: 1em;">0.74%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">37</td>
+<td style="text-align: right; padding-left: 1em;">84.92%</td>
+<td style="text-align: right; padding-left: 1em;">84.52%</td>
+<td style="text-align: right; padding-left: 1em;">0.41%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">38</td>
+<td style="text-align: right; padding-left: 1em;">86.67%</td>
+<td style="text-align: right; padding-left: 1em;">86.62%</td>
+<td style="text-align: right; padding-left: 1em;">0.05%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">39</td>
+<td style="text-align: right; padding-left: 1em;">87.70%</td>
+<td style="text-align: right; padding-left: 1em;">88.09%</td>
+<td style="text-align: right; padding-left: 1em;">-0.39%</td>
+</tr>
+<tr>
+<td style="text-align: right; padding-left: 1em;">40</td>
+<td style="text-align: right; padding-left: 1em;">89.07%</td>
+<td style="text-align: right; padding-left: 1em;">88.88%</td>
+<td style="text-align: right; padding-left: 1em;">0.19%</td>
+</tr>
+<tr>
+<td style="text-align: right;">41</td>
+<td style="text-align: right;">90.16%</td>
+<td style="text-align: right;">90.48%</td>
+<td style="text-align: right; padding-left: 30px;">-0.32%</td>
+</tr>
+</tbody>
+</table>
+<h3>Update</h3>
+<p>Gelman <a href="http://andrewgelman.com/2012/06/simple-graph-win-the-example-of-birthday-frequencies/" title="Simple graph WIN: the example of birthday frequencies<br />
+">commented</a> on the graph and had some constructive feedback. I made a few cosmetic changes in response: rescaled so it&#8217;s relative to the mean, removing the trend line, and switching it to 14 months (tacking December onto the beginning, and January onto the end). Updated graph:<br />
+<a href="http://chmullig.com/wp-content/uploads/2012/06/birthdays_revised.png"><img class="alignnone  wp-image-456" title="Births by day" src="http://chmullig.com/wp-content/uploads/2012/06/birthdays_revised.png" alt="" width="100%" /></a></p>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2012/06/births-by-day-of-year/feed/</wfw:commentRss>
+		<slash:comments>17</slash:comments>
+		</item>
+		<item>
+		<title>Sort with sleep</title>
+		<link>http://chmullig.com/2011/06/sort-with-sleep/</link>
+		<comments>http://chmullig.com/2011/06/sort-with-sleep/#comments</comments>
+		<pubDate>Fri, 17 Jun 2011 02:24:43 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[sleep]]></category>
+		<category><![CDATA[sort]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=366</guid>
+		<description><![CDATA[Inspired by an Ars thread that was inspired by a 4chan thread found on reddit, it&#8217;s an interesting sort idea for integers. Basically, sort a list of integers by spawning a new thread or process for each element then sleep for the value of that element then print out that element. Here&#8217;s the original bash [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Inspired by an <a href="http://arstechnica.com/civis/viewtopic.php?f=20&amp;t=1147843">Ars thread</a> that was inspired by a <a href="http://dis.4chan.org/read/prog/1295544154">4chan thread</a> found on reddit, it&#8217;s an interesting sort idea for integers.</p>
+<p>Basically, sort a list of integers by spawning a new thread or process for each element then sleep for the value of that element then print out that element. Here&#8217;s the original bash example, but I&#8217;d love to see other crazy languages.</p>
+<pre>#!/bin/bash
+function f() {
+    sleep "$1"
+    echo "$1"
+}
+while [ -n "$1" ]
+do
+    f "$1" &amp;
+    shift
+done
+wait</pre>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2011/06/sort-with-sleep/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Starcraft II: Lost Viking &#8220;macro&#8221; for mac</title>
+		<link>http://chmullig.com/2011/06/starcraft-ii-lost-viking-macro-for-mac/</link>
+		<comments>http://chmullig.com/2011/06/starcraft-ii-lost-viking-macro-for-mac/#comments</comments>
+		<pubDate>Thu, 02 Jun 2011 20:35:40 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Gaming]]></category>
+		<category><![CDATA[gaming]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[starcraft 2]]></category>
+		<category><![CDATA[starcraft II]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=354</guid>
+		<description><![CDATA[So Stracraft II is a fantastic game, and includes achievements. I&#8217;ve turned into a bit of a SC2 achievement whore (Currently: 3350). I long ago completed every achievement in the single player campaign except 4: The Lost Viking. It&#8217;s a stupid arcade game within the game! It doesn&#8217;t matter at all! Yet I was tantalizingly close to [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>So Stracraft II is a fantastic game, and includes achievements. I&#8217;ve turned into a bit of a SC2 achievement whore (Currently: <a title="My battle.net profile" href="us.battle.net/sc2/en/profile/463552/1/chmullig/achievements/">3350</a>). I long ago completed every achievement in the single player campaign except 4: <a href="http://wiki.teamliquid.net/starcraft2/Lost_Viking">The Lost Viking</a>. It&#8217;s a stupid arcade game within the game! It doesn&#8217;t matter at all! Yet I was tantalizingly close to 100%, so finally I decided to tackle it.</p>
+<p>First, you can read all sorts of strategies. Basically they come down to this: immediately get 2 side missiles, then get 2 drones. Whenever you loose a drone, replace it first chance you get. Then everything else should be bombs. (Any drop goes through a sequence, so wait until it&#8217;s the one you want). Use bombs liberally to prevent death and loss of drones. They make you invincible for a few seconds, in addition to clearly crap away. You&#8217;ll have basically all the bombs you need. Press space as fast as you can to shoot faster.</p>
+<p>So it&#8217;s mostly a question of staying alive, and keeping your drones alive. Except for the bosses/mini bosses there&#8217;s not a ton of strategy. After a few attempts yesterday I beat it once, then hit 245k points, then 279k points (getting Silver). That only left gold (500k points), and I didn&#8217;t have the energy. However I knew there was a macro on the Windows side to hit space for you. In that case all you&#8217;d have to do is navigate around, which isn&#8217;t too hard. A few attempts to track one down on the Mac failed. Mac OS X is nice, but it definitely lacks some of the rom emulation tools so popular on Windows. I wanted an OS X program to simply pres the space bar over and over and over again forever, quickly, while not interfering with the rest of the system. It was useless if I couldn&#8217;t </p>
+<p>However I figured there must be a better option, perhaps Objective-C? My Obj-C is super rusty, but I stumbled across a StackOverflow hint suggesting how easy it would be to do in plain C. Here&#8217;s the C program I wrote that uses CG Quartz Events to simulate pressing the space bar every .05 seconds (In retrospect that&#8217;s probably way faster than it needs, could probably easily be .1 seconds).</p>
+
+<div class="wp_syntax"><table><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #339933;">#include &lt;stdio.h&gt;</span>
+<span style="color: #339933;">#include &lt;ApplicationServices/ApplicationServices.h&gt;</span>
+<span style="color: #339933;">#include &lt;unistd.h&gt;</span>
+&nbsp;
+<span style="color: #993333;">int</span> main <span style="color: #009900;">&#40;</span><span style="color: #993333;">int</span> argc<span style="color: #339933;">,</span> <span style="color: #993333;">const</span> <span style="color: #993333;">char</span> <span style="color: #339933;">*</span> argv<span style="color: #009900;">&#91;</span><span style="color: #009900;">&#93;</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+    CGEventRef spaceDown <span style="color: #339933;">=</span> CGEventCreateKeyboardEvent <span style="color: #009900;">&#40;</span>NULL<span style="color: #339933;">,</span> <span style="color: #009900;">&#40;</span>CGKeyCode<span style="color: #009900;">&#41;</span><span style="color: #0000dd;">49</span><span style="color: #339933;">,</span> <span style="color: #000000; font-weight: bold;">true</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    CGEventRef spaceUp <span style="color: #339933;">=</span> CGEventCreateKeyboardEvent <span style="color: #009900;">&#40;</span>NULL<span style="color: #339933;">,</span> <span style="color: #009900;">&#40;</span>CGKeyCode<span style="color: #009900;">&#41;</span><span style="color: #0000dd;">49</span><span style="color: #339933;">,</span> <span style="color: #000000; font-weight: bold;">false</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #993333;">int</span> sleepTime <span style="color: #339933;">=</span> <span style="color: #0000dd;">50000</span><span style="color: #339933;">;</span>
+    <span style="color: #000066;">printf</span><span style="color: #009900;">&#40;</span><span style="color: #ff0000;">&quot;Pressing space every %d microseconds<span style="color: #000099; font-weight: bold;">\n</span>&quot;</span><span style="color: #339933;">,</span> sleepTime<span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    sleep<span style="color: #009900;">&#40;</span><span style="color: #0000dd;">2</span><span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+&nbsp;
+    <span style="color: #b1b100;">while</span> <span style="color: #009900;">&#40;</span><span style="color: #0000dd;">1</span><span style="color: #009900;">&#41;</span> <span style="color: #009900;">&#123;</span>
+        CGEventPost<span style="color: #009900;">&#40;</span>kCGHIDEventTap<span style="color: #339933;">,</span> spaceDown<span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+        CGEventPost<span style="color: #009900;">&#40;</span>kCGHIDEventTap<span style="color: #339933;">,</span> spaceUp<span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+        usleep<span style="color: #009900;">&#40;</span>sleepTime<span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #009900;">&#125;</span>
+&nbsp;
+    CFRelease<span style="color: #009900;">&#40;</span>spaceDown<span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    CFRelease<span style="color: #009900;">&#40;</span>spaceUp<span style="color: #009900;">&#41;</span><span style="color: #339933;">;</span>
+    <span style="color: #b1b100;">return</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">&#125;</span></pre></td></tr></table></div>
+
+<p>It can be copied to a file like &#8220;cstroker.c&#8221; and compiled with this gcc command (you may need to install Xcode if you don&#8217;t already have it) from Terminal.app: </p>
+<pre>gcc -o cstroker cstroker.c -O -Wall -framework ApplicationServices</pre>
+<p>You then execute it by simply calling ./cstroker</p>
+<p>Update: Because some folks asked I&#8217;ve <a href="http://chmullig.com/wp-content/uploads/2011/06/cstroker">uploaded the binary</a>. Might work for you, in which case you can skip the gcc compilation. </p>
+<div id="attachment_361" style="width: 310px" class="wp-caption alignnone"><a href="http://chmullig.com/wp-content/uploads/2011/06/Lost-Viking-Gold.png"><img src="http://chmullig.com/wp-content/uploads/2011/06/Lost-Viking-Gold-300x179.png" alt="" title="Lost Viking Gold" width="300" height="179" class="size-medium wp-image-361" /></a><p class="wp-caption-text">Finally nailed Lost Viking Gold!</p></div>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2011/06/starcraft-ii-lost-viking-macro-for-mac/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>MITRE Name Matching Challenge</title>
+		<link>http://chmullig.com/2011/02/mitre-name-matching-challenge/</link>
+		<comments>http://chmullig.com/2011/02/mitre-name-matching-challenge/#comments</comments>
+		<pubDate>Thu, 17 Feb 2011 19:57:18 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[python]]></category>
+		<category><![CDATA[work]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=270</guid>
+		<description><![CDATA[My illustrious former colleague Ryan is now over at MITRE doing operations research and who knows what. He pointed me toward the MITRE Challenge. The MITRE Challenge™ is an ongoing, open competition to encourage innovation in technologies of interest to the federal government. The current competition involves multicultural person name matching, a technology whose uses [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>My illustrious former colleague Ryan is now over at MITRE doing operations research and who knows what. He pointed me toward the <a href="mitrechallenge.mitre.org/NameMatching">MITRE Challenge</a>.</p>
+<blockquote><p>The MITRE Challenge™ is an ongoing, open competition to encourage innovation in technologies of interest to the federal government. The current competition involves multicultural person name matching, a technology whose uses include vetting persons against a watchlist (for screening, credentialing, and other purposes) and merging or deduplication of records in databases. Person name matching can also be used to improve document searches, social network analysis, and other tasks in which the same person might be referred to by multiple versions or spellings of a name.</p></blockquote>
+<p>Basically they give you a small list of target names, and a ginormous list of candidate names, and for each target name you return up to 500 possible matches from the candidate name list. Currently the matching software we built at Polimetrix back in 2005-2007 is doing pretty well. It was designed for full voter records, but I broke out the name component by itself. The result is pretty awesome. Currently we&#8217;re ranked #1 at 72.038. Below us are a few teams, including Intaka at 68.801 and Beethoven at 58.501.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2011/02/mitre-name-matching-challenge/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Stackoverflow overflow</title>
+		<link>http://chmullig.com/2011/02/stackoverflow-overflow/</link>
+		<comments>http://chmullig.com/2011/02/stackoverflow-overflow/#comments</comments>
+		<pubDate>Thu, 10 Feb 2011 01:36:11 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[stackoverflow]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=268</guid>
+		<description><![CDATA[Recently I&#8217;ve gotten a bit obsessed with stackoverflow.com. It&#8217;s a programming Q&#38;A site. You can ask questions, you can answer and comment on them. However they have a sick twist &#8211; people vote on everything. They vote on your questions, answers, comments. You earn reputation points when your content is voted up, and you lose [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Recently <a title="chmullig on stackoverflow" href="http://stackoverflow.com/users/349931/chmullig">I&#8217;ve</a> gotten a bit obsessed with <a href="http://stackoverflow.com/">stackoverflow.com</a>. It&#8217;s a programming Q&amp;A site. You can ask questions, you can answer and comment on them. However they have a sick twist &#8211; people vote on everything. They vote on your questions, answers, comments. You earn reputation points when your content is voted up, and you lose points when it&#8217;s voted down. You also earn badges, like gaming achievements.</p>
+<p>They&#8217;ve recently started a whole bunch of related sites under the <a href="http://stackexchange.com/">stackexchange</a> brand. Same model and software, but with different subjects. So far there are already <a href="http://stackexchange.com/sites">more than I care to count</a> with only very spurious differentiation, but a few highlights include <a href="http://gaming.stackexchange.com">gaming</a>, <a href="http://cooking.stackexchange.com">cooking</a>, <a href="http://english.stackexchange.com">english</a>, <a href="http://programmers.stackexchange.com">programming</a> (as a profession), <a title="Super User" href="http://superuser.com/">power users</a>, <a title="Server Fault" href="http://serverfault.com/">sysadmin</a>, <a href="http://linux.stackexchange.com">linux</a>, <a title="Ask Ubuntu" href="http://askubuntu.com">ubuntu</a>, and a lot more.</p>
+<p>Here&#8217;s my badge of honor. Right now I have 674 rep and 10 badges on Stackoverflow, and 261/4 on gaming (plus ~100 on a bunch of the other sites, just for signing up). That&#8217;s my profile image, which should update automatically!<br />
+<a href="http://stackoverflow.com/users/349931/chmullig"><br />
+<img title="Stack Overflow profile for chmullig at Stack Overflow, Q&amp;A for professional and enthusiast programmers" src="http://stackoverflow.com/users/flair/349931.png" alt="Stack Overflow profile for chmullig at Stack Overflow, Q&amp;A for professional and enthusiast programmers" width="208" height="58" /><br />
+</a></p>
+<p>It&#8217;s amazing how satisfying and competitive the Q&amp;A system ends up. I find myself less and less interested in any other medium for asking or answering questions like the kind on Stackoverflow. It&#8217;s slow and there&#8217;s no rep, what&#8217;s the point?</p>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2011/02/stackoverflow-overflow/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>Programming Challenges</title>
+		<link>http://chmullig.com/2010/11/programming-challenges/</link>
+		<comments>http://chmullig.com/2010/11/programming-challenges/#comments</comments>
+		<pubDate>Thu, 11 Nov 2010 19:07:52 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[challenge]]></category>
+		<category><![CDATA[programming]]></category>
+		<category><![CDATA[python]]></category>
+		<category><![CDATA[r]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=254</guid>
+		<description><![CDATA[I&#8217;m a fan of puzzles, programming and learning, so I&#8217;ve always enjoyed The Python Challenges. Recently my coworkers Delia, Chris and I came up with the idea of doing some of those within the company to help ourselves and our coworkers become more familiar with Python and R (and to a lesser extent SQL and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>I&#8217;m a fan of puzzles, programming and learning, so I&#8217;ve always enjoyed <a href="http://www.pythonchallenge.com/">The Python Challenges</a>. Recently my coworkers Delia, Chris and I came up with the idea of doing some of those within the company to help ourselves and our coworkers become more familiar with Python and R (and to a lesser extent SQL and other languages).</p>
+<p>The end result is the <a href="http://ygchallenge.wordpress.com/">YG Challenge</a>, where we&#8217;ll be posting a few problems a week in at least R &amp; Python, then solving them. Week 1 is up, and we have some great ideas for the future. Intended for our coworkers, it&#8217;s public because why not! Feel free to take a stab at solving them, especially if you haven&#8217;t used either of those languages before.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2010/11/programming-challenges/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>
+
+<!-- Dynamic page generated in 0.262 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2015-06-13 00:21:36 -->

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>chmullig.com &#187; virtualbox</title>
+	<atom:link href="http://chmullig.com/tag/virtualbox/feed/" rel="self" type="application/rss+xml" />
+	<link>http://chmullig.com</link>
+	<description>Chris Mulligan&#039;s blog on life, computers, burritos, school</description>
+	<lastBuildDate>Tue, 21 Apr 2015 15:41:14 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=4.2.2</generator>
+	<item>
+		<title>OSX NFS serving to Arch VirtualBox guest</title>
+		<link>http://chmullig.com/2015/02/osx-nfs-serving-to-arch-virtualbox-guest/</link>
+		<comments>http://chmullig.com/2015/02/osx-nfs-serving-to-arch-virtualbox-guest/#comments</comments>
+		<pubDate>Wed, 11 Feb 2015 16:38:19 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[Columbia]]></category>
+		<category><![CDATA[nfs]]></category>
+		<category><![CDATA[osx]]></category>
+		<category><![CDATA[virtualbox]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=548</guid>
+		<description><![CDATA[For Operating Systems we&#8217;re using Arch Linux in a VirtualBox guest. One of the issues is dealing with storing code, etc, in a robust way so that it&#8217;s easy to work with, and allows you to freely take and restore snapshots without losing work. I first tried using VirtualBox Shared Folders, but they were a real pain in the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>For <a href="www.cs.columbia.edu/~jae/4118/index.html">Operating Systems</a> we&#8217;re using <a href="https://www.archlinux.org/">Arch Linux</a> in a <a href="https://www.virtualbox.org/manual/UserManual.html">VirtualBox</a> guest. One of the issues is dealing with storing code, etc, in a robust way so that it&#8217;s easy to work with, and allows you to freely take and restore snapshots without losing work. I first tried using <a href="https://www.virtualbox.org/manual/ch04.html#sharedfolders">VirtualBox Shared Folders</a>, but they were a real pain in the ass, and apparently don&#8217;t work well with permissios and symlinks.</p>
+<p>Instead I setup NFS, hosting a directory on my OSX laptop and mounting it inside the virtual machine. I sent some instructions out to students based on my recollection of how to do it, but I haven&#8217;t directly tested them. Still, I figured they might be helpful if you came across this page by google searching for something!</p>
+<p>&nbsp;</p>
+<p class="p1"><span class="s1">I actually ended up using NFS to share files between my mac and virtual machine. I mount a folder in my home directory and put all my work in there, so if I need to restore a snapshot I never need to worry about losing my work. It took a little bit of work, but wasn&#8217;t too hard. I mostly sort of followed these directions: <a href="http://blog.hostilefork.com/sharing-nfs-into-virtualbox/"><span class="s2">http://blog.hostilefork.com/sharing-nfs-into-virtualbox/</span></a> along with <a href="https://wiki.archlinux.org/index.php/NFS"><span class="s2">https://wiki.archlinux.org/index.php/NFS</span></a>.</span></p>
+<h3 class="p1"><span class="s1">On OSX:</span></h3>
+<p class="p1"><span class="s1">1) edit /etc/exports to add a line like:</span></p>
+<pre class="p1"><span class="s1">/Users/clm2186/Documents/Columbia/Current/COMS4118/ -alldirs 127.0.0.1</span></pre>
+<p class="p1"><span class="s1">The above serves my OS directory and all subdirectories only to localhost. Be super careful about the 127.0.0.1, there are other options with using netmasks and stuff, but you can potentially expose your files to almost anyone if you&#8217;re not cautious.</span></p>
+<p class="p1"><span class="s1">2?) I think I had to edit</span></p>
+<pre class="p1"><span class="s1">/System/Library/LaunchDaemons/com.apple.nfsd.plist</span></pre>
+<p class="p1"><span class="s1"> to add a line at the end in ProgramArguments for -N. However now I can&#8217;t figure out why I did it, or if I really needed to.</span></p>
+<pre class="p1"><span class="s1">               &lt;string&gt;-N&lt;/string&gt;</span></pre>
+<p class="p1"><span class="s1">3) Start up nfsd: sudo nfsd enable</span></p>
+<p class="p1"><span class="s1">4) Look in Console.app for all the errors, try to fix them. sudo nfsd restart after tweaking /etc/exports.</span></p>
+<p class="p1"><span class="s1">5) You can try mounting the share by going into finder -&gt; Go -&gt; Connect to Server and using the url: </span></p>
+<p class="p3"><span class="s3"><a href="nfs://127.0.0.1/Users/clm2186/Documents/Columbia/Current/COMS4118/">nfs://127.0.0.1/Users/clm2186/Documents/Columbia/Current/COMS4118/</a></span></p>
+<p class="p1"><span class="s1">9) run id to get the uid (mine was 501) and gid (20)</span></p>
+<h3 class="p1"><span class="s1">Here&#8217;s my recollection of the VM side steps:</span></h3>
+<p class="p1"><span class="s1">10) Take a snapshot of your VM</span></p>
+<p class="p1"><span class="s1">11) Install NFS:</span></p>
+<pre class="p1"><span class="s1"> sudo pacman -S nfs-utils</span></pre>
+<p class="p1"><span class="s1">12) Create another admin user, or make sure you know the root password. I think sudo passwd should change it if you need to.</span></p>
+<p class="p1"><span class="s1">12) reboot VM</span></p>
+<p class="p1"><span class="s1">13) sign into root user (or another admin user that can sudo)</span></p>
+<p class="p1"><span class="s1">14) change the userid of your main user to match the OSX partition (Per the end of <a href="http://blog.hostilefork.com/sharing-nfs-into-virtualbox/"><span class="s2">http://blog.hostilefork.com/sharing-nfs-into-virtualbox/</span></a>)</span></p>
+<pre class="p1"><span class="s1"> usermod -u [ID] [username]. </span></pre>
+<p class="p1"><span class="s1">15) I also changed the groupid, but I doubt it matters much.</span></p>
+<p class="p1"><span class="s1">16) Sign into your user account</span></p>
+<p class="p1"><span class="s1">17) We need to make a directory for mounting the nfs share:</span></p>
+<pre class="p1"><span class="s1"> mkdir ~/osnfs </span></pre>
+<p class="p1"><span class="s1">18) edit /etc/hosts to add a DNS lookup for the host OSX side:</span></p>
+<pre class="p1"><span class="s1"> 10.0.2.2      osxhost</span></pre>
+<p class="p1"><span class="s1">18a) You can figure it out by looking up your gateway inside arch with `ip route show` and looking at the via line</span></p>
+<p class="p1"><span class="s1">18) Now edit /etc/fstab to add the mapping from nfs to ~/osnfs:</span></p>
+<pre class="p1"><span class="s1"> host:/Users/clm2186/Documents/Columbia/Current/COMS4118 /home/clm2186/osnfs nfs rsize=16384,wsize=16384,timeo=14,nolock,_netdev 0 0</span></pre>
+<p class="p1"><span class="s1"> #note, if you have a space in the NFS path use \040, which is the ASCII value of space in octal&#8230;</span></p>
+<p class="p1"><span class="s1">19) then finally you&#8217;re ready to mount it!!!</span></p>
+<pre class="p1"><span class="s1"> sudo mount ~/osnfs</span></pre>
+<p class="p1"><span class="s1">20) Once you get it working, probably take a snapshot. </span></p>
+<p class="p1"><span class="s1">The only known issue I have is that I seem to need to manually mount it with `sudo mount ~/osnfs` every time I reboot. </span></p>
+<p class="p1"><span class="s1">Ok, I just realized I said this wasn&#8217;t that bad, and it&#8217;s like 20 crazy steps. However, it really wasn&#8217;t too bad, and could be done in probably only 30 minutes if you do it cleanly.   It wasn&#8217;t nearly as bad as what doing this sort of thing can become: <a href="http://xkcd.com/349/"><span class="s2">http://xkcd.com/349/</span></a></span></p>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2015/02/osx-nfs-serving-to-arch-virtualbox-guest/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+	</channel>
+</rss>
+
+<!-- Dynamic page generated in 0.229 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2015-06-13 00:20:49 -->

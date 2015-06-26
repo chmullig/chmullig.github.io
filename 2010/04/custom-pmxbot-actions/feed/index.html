@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	
+	>
+<channel>
+	<title>Comments on: Custom pmxbot actions</title>
+	<atom:link href="http://chmullig.com/2010/04/custom-pmxbot-actions/feed/" rel="self" type="application/rss+xml" />
+	<link>http://chmullig.com/2010/04/custom-pmxbot-actions/</link>
+	<description>Chris Mulligan&#039;s blog on life, computers, burritos, school</description>
+	<lastBuildDate>Tue, 16 Sep 2014 01:11:48 +0000</lastBuildDate>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=4.2.2</generator>
+	<item>
+		<title>By: chmullig</title>
+		<link>http://chmullig.com/2010/04/custom-pmxbot-actions/comment-page-1/#comment-520</link>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+		<pubDate>Thu, 08 Apr 2010 16:01:30 +0000</pubDate>
+		<guid isPermaLink="false">http://chmullig.com/?p=96#comment-520</guid>
+		<description><![CDATA[Brian suggested I add the 5/3 thing from Monty Python. I find it a bit obnoxious, but different strokes.
+
+&lt;pre lang=&quot;python&quot;&gt;
+@contains(&quot;5&quot;)
+def threesir(client, event, channel, nick, rest):
+        if re.search(r&quot; 5 &quot;, rest) and channel == config.inane_channel:
+                if random.random() &lt; .5:
+                        return &#039;Three, sir!&#039;
+&lt;/pre&gt;]]></description>
+		<content:encoded><![CDATA[<p>Brian suggested I add the 5/3 thing from Monty Python. I find it a bit obnoxious, but different strokes.</p>
+
+<div class="wp_syntax"><table><tr><td class="code"><pre class="python" style="font-family:monospace;"><span style="color: #66cc66;">@</span>contains<span style="color: black;">&#40;</span><span style="color: #483d8b;">&quot;5&quot;</span><span style="color: black;">&#41;</span>
+<span style="color: #ff7700;font-weight:bold;">def</span> threesir<span style="color: black;">&#40;</span>client<span style="color: #66cc66;">,</span> event<span style="color: #66cc66;">,</span> channel<span style="color: #66cc66;">,</span> nick<span style="color: #66cc66;">,</span> rest<span style="color: black;">&#41;</span>:
+        <span style="color: #ff7700;font-weight:bold;">if</span> <span style="color: #dc143c;">re</span>.<span style="color: black;">search</span><span style="color: black;">&#40;</span>r<span style="color: #483d8b;">&quot; 5 &quot;</span><span style="color: #66cc66;">,</span> rest<span style="color: black;">&#41;</span> <span style="color: #ff7700;font-weight:bold;">and</span> channel <span style="color: #66cc66;">==</span> config.<span style="color: black;">inane_channel</span>:
+                <span style="color: #ff7700;font-weight:bold;">if</span> <span style="color: #dc143c;">random</span>.<span style="color: #dc143c;">random</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span> <span style="color: #66cc66;">&lt;</span> <span style="color: #ff4500;">.5</span>:
+                        <span style="color: #ff7700;font-weight:bold;">return</span> <span style="color: #483d8b;">'Three, sir!'</span></pre></td></tr></table></div>
+
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: Chris Perry</title>
+		<link>http://chmullig.com/2010/04/custom-pmxbot-actions/comment-page-1/#comment-511</link>
+		<dc:creator><![CDATA[Chris Perry]]></dc:creator>
+		<pubDate>Thu, 08 Apr 2010 09:26:01 +0000</pubDate>
+		<guid isPermaLink="false">http://chmullig.com/?p=96#comment-511</guid>
+		<description><![CDATA[pmxbot is my homeboy.  I&#039;ll take personal responsibility for any crap in the bot.  In the internal version, I personally wrote one function that uses a series of if comparisons over 100 lines that could have been accomplished with a single dictionary.  Luckily, jamwt cleansed my terrible code in the open source copy, and the world can be freed of my bad code (I think we&#039;ll all agree that I shouldn&#039;t be coding).
+
+three of my favorite features (that aren&#039;t listed above) are !def, !ac, and !t, which look up the wikipedia definition of a word/topic, give a list of definitions for an acronym, and paste the current stock price for a given symbol.  not like you can&#039;t do that yourself, but it saves you effort.
+
+also, please don&#039;t underestimate the brilliance of having a simpsons quote generator in your irc room.]]></description>
+		<content:encoded><![CDATA[<p>pmxbot is my homeboy.  I&#8217;ll take personal responsibility for any crap in the bot.  In the internal version, I personally wrote one function that uses a series of if comparisons over 100 lines that could have been accomplished with a single dictionary.  Luckily, jamwt cleansed my terrible code in the open source copy, and the world can be freed of my bad code (I think we&#8217;ll all agree that I shouldn&#8217;t be coding).</p>
+<p>three of my favorite features (that aren&#8217;t listed above) are !def, !ac, and !t, which look up the wikipedia definition of a word/topic, give a list of definitions for an acronym, and paste the current stock price for a given symbol.  not like you can&#8217;t do that yourself, but it saves you effort.</p>
+<p>also, please don&#8217;t underestimate the brilliance of having a simpsons quote generator in your irc room.</p>
+]]></content:encoded>
+	</item>
+	<item>
+		<title>By: The "Real" Dave Shoemaker</title>
+		<link>http://chmullig.com/2010/04/custom-pmxbot-actions/comment-page-1/#comment-508</link>
+		<dc:creator><![CDATA[The "Real" Dave Shoemaker]]></dc:creator>
+		<pubDate>Wed, 07 Apr 2010 22:17:53 +0000</pubDate>
+		<guid isPermaLink="false">http://chmullig.com/?p=96#comment-508</guid>
+		<description><![CDATA[Feature bloat is a colossal understatement.  This bot is 90% crap.]]></description>
+		<content:encoded><![CDATA[<p>Feature bloat is a colossal understatement.  This bot is 90% crap.</p>
+]]></content:encoded>
+	</item>
+</channel>
+</rss>
+
+<!-- Dynamic page generated in 0.218 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2015-06-13 00:23:45 -->

@@ -1,0 +1,685 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xmlns:fb="http://ogp.me/ns/fb#" xmlns:addthis="http://www.addthis.com/help/api-spec" >
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>chmullig.com  &raquo; PiCloud introduction</title>
+
+<link rel="stylesheet" href="../../../../wp-content/themes/clean-home/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../../../../wp-content/themes/clean-home/style.css" type="text/css" media="screen" />
+<!--[if IE]><link rel="stylesheet" href="http://chmullig.com/wp-content/themes/clean-home/ie.css" type="text/css" media="screen" /><![endif]-->
+<link rel="alternate" type="application/rss+xml" title="chmullig.com RSS Feed" href="../../../../feed/index.html" />
+<link rel="pingback" href="http://chmullig.com/xmlrpc.php" />
+
+<link rel="alternate" type="application/rss+xml" title="chmullig.com &raquo; PiCloud introduction Comments Feed" href="../../../../2010/03/picloud-introduction/feed/index.html" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/chmullig.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.2"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g;c.supports={simple:d("simple"),flag:d("flag")},c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.simple&&c.supports.flag||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='jetpack-subscriptions-css'  href='../../../../wp-content/plugins/jetpack/modules/subscriptions/subscriptions.css?ver=4.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='output-css'  href='../../../../wp-content/plugins/addthis/css/output.css?ver=4.2.2' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-syntax-css-css'  href='../../../../wp-content/plugins/wp-syntax/css/wp-syntax.css?ver=1.0' type='text/css' media='all' />
+<link rel='stylesheet' id='jetpack-widgets-css'  href='../../../../wp-content/plugins/jetpack/modules/widgets/widgets.css?ver=20121003' type='text/css' media='all' />
+<link rel='stylesheet' id='sharedaddy-css'  href='../../../../wp-content/plugins/jetpack/modules/sharedaddy/sharing.css?ver=3.1.2' type='text/css' media='all' />
+<link rel='stylesheet' id='genericons-css'  href='../../../../wp-content/plugins/jetpack/_inc/genericons/genericons/genericons.css?ver=3.1' type='text/css' media='all' />
+<script type='text/javascript' src='../../../../wp-includes/js/jquery/jquery.js?ver=1.11.2'></script>
+<script type='text/javascript' src='../../../../wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+<script type='text/javascript' src='../../../../wp-content/plugins/google-analyticator/external-tracking.min.js?ver=6.4.7.3'></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="../../../../xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="../../../../wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Killer easy scones' href='../../../../2010/03/killer-easy-scones/index.html' />
+<link rel='next' title='PiCloud followup&#8230; bumpy road' href='../../../../2010/03/picloud-followup-bumpy-road/index.html' />
+<meta name="generator" content="WordPress 4.2.2" />
+<link rel='canonical' href='../../../../author/chmullig/page/5/2010/03/picloud-introduction' />
+<link rel='shortlink' href='http://wp.me/p2wfAe-19' />
+
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="PiCloud introduction" />
+<meta property="og:url" content="http://chmullig.com/2010/03/picloud-introduction/" />
+<meta property="og:description" content="A couple weeks ago my coworker mentioned PiCloud. It claims to be &quot;Cloud Computing. Simplified.&quot; for python programming. Indeed, their trivial examples are too good to be true, basically. I pointed..." />
+<meta property="article:published_time" content="2010-03-09T22:40:01+00:00" />
+<meta property="article:modified_time" content="2010-03-16T20:11:26+00:00" />
+<meta property="article:author" content="http://chmullig.com/author/chmullig/" />
+<meta property="og:site_name" content="chmullig.com" />
+<meta property="og:image" content="http://chmullig.com/wp-content/uploads/2010/03/picloud-repo-300x175.png" />
+<meta name="twitter:site" content="@jetpack" />
+<meta name="twitter:image" content="http://chmullig.com/wp-content/uploads/2010/03/picloud-repo-300x175.png?w=240" />
+<meta name="twitter:card" content="summary" />
+<!-- Google Analytics Tracking by Google Analyticator 6.4.7.3: http://www.videousermanuals.com/google-analyticator/ -->
+<script type="text/javascript">window.google_analytics_uacct = "pub-9101413482443756   ";</script>
+<script type="text/javascript">
+                var analyticsFileTypes = [''];
+                            var analyticsSnippet = 'enabled';
+                var analyticsEventTracking = 'enabled';
+            </script>
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+  
+	_gaq.push(['_setAccount', 'UA-11155757-1']);
+    _gaq.push(['_addDevId', 'i9k95']); // Google Analyticator App ID with Google
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		                ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+</script>
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+	<div id="header">
+		<div id="logo">
+		<h1><a href="../../../../index.html">chmullig.com</a></h1>
+		<h2>Chris Mulligan&#039;s blog on life, computers, burritos, school</h2>
+		</div>
+		<div id="nav">
+					<ul>
+				<li class="page_item page-item-2"><a href="../../../../about/index.html">Me</a></li>
+<li class="page_item page-item-284"><a href="../../../../projects/index.html">Projects</a></li>
+			</ul>
+				</div>
+	</div>
+
+
+	<div id="content">
+	
+				
+		<div class="post">
+			<h1><a href="../../../../author/chmullig/page/5/2010/03/picloud-introduction">PiCloud introduction</a></h1>
+			<small><b>Posted:</b> March 9th, 2010 | <b>Author:</b> <a href="../../../../author/chmullig/index.html" title="Posts by chmullig" rel="author">chmullig</a> | <b>Filed under:</b> <a href="../../../../category/nerdery/index.html" rel="category tag">Nerdery</a>  | <b>Tags:</b> <a href="../../../distributed/index.html" rel="tag">distributed</a>, <a href="../../../picloud/index.html" rel="tag">picloud</a>, <a href="../../../pyro/index.html" rel="tag">pyro</a>, <a href="../../index.html" rel="tag">python</a> | <a href="../../../../author/chmullig/page/5/2010/03/picloud-introduction#comments">1 Comment &#187;</a></small>
+			<p>A couple weeks ago my <a title="ionrock/Eric Larson" href="http://ionrock.org/">coworker</a> <a title="@ionrock: Interesting distributed processing library " href="http://twitter.com/ionrock/status/9695304551">mentioned</a> <a title="PiCloud | Cloud Computing. Simplified." href="http://www.picloud.com/">PiCloud</a>. It claims to be &#8220;Cloud Computing. Simplified.&#8221; for python programming. Indeed, their trivial examples are too good to be true, basically. I pointed out how the way it was packaging up code to send over the wire was a lot like <a title="Pyro - PYthon Remote Objects" href="http://pyro.sourceforge.net/">Pyro</a>&#8216;s <a href="http://pyro.sourceforge.net/manual/7-features.html#mobile">Mobile Code</a> feature. We actually use Pyro mobile code quite a bit at work, within the context of our own distributed system running across machines we maintain.</p>
+<p>After getting beta access I decided to check it out today. I spent about 15 minutes playing around with it, and decided to do a short writeup because there&#8217;s so little info out there. The short version is that technically it&#8217;s quite impressive. Simple, but more complicated than <tt>square(x)</tt> cases are as easy as they say. Information about PiCloud is in pretty short supply, so here&#8217;s my playing around reproduced for all to see.</p>
+<h3>Installing/first using</h3>
+<p>This is pretty easy. I&#8217;m using a virtualenv because I was skeptical, but it&#8217;s neat how easy it is even with that. So I&#8217;m going to setup a virtualenv, install ipython to the virtualenv, then install the cloud egg. At the end I&#8217;ll add my api key to the ~/.picloud/cloudconf.py file so I don&#8217;t need to type it repeatedly. The file is created when you first import cloud, and is very straightforward.</p>
+<pre>chmullig@gore:~$ virtualenv picloud
+New python executable in picloud/bin/python
+Installing setuptools............done.
+chmullig@gore:~$ source picloud/bin/activate
+(picloud)chmullig@gore:~$ easy_install -U ipython
+Searching for ipython
+#snip
+Processing ipython-0.10-py2.6.egg
+creating /home/chmullig/picloud/lib/python2.6/site-packages/ipython-0.10-py2.6.egg
+Extracting ipython-0.10-py2.6.egg to /home/chmullig/picloud/lib/python2.6/site-packages
+Adding ipython 0.10 to easy-install.pth file
+Installing iptest script to /home/chmullig/picloud/bin
+Installing ipythonx script to /home/chmullig/picloud/bin
+Installing ipcluster script to /home/chmullig/picloud/bin
+Installing ipython script to /home/chmullig/picloud/bin
+Installing pycolor script to /home/chmullig/picloud/bin
+Installing ipcontroller script to /home/chmullig/picloud/bin
+Installing ipengine script to /home/chmullig/picloud/bin
+
+Installed /home/chmullig/picloud/lib/python2.6/site-packages/ipython-0.10-py2.6.egg
+Processing dependencies for ipython
+Finished processing dependencies for ipython
+(picloud)chmullig@gore:~$ easy_install http://server/cloud-1.8.2-py2.6.egg
+Downloading http://server/cloud-1.8.2-py2.6.egg
+Processing cloud-1.8.2-py2.6.egg
+creating /home/chmullig/picloud/lib/python2.6/site-packages/cloud-1.8.2-py2.6.egg
+Extracting cloud-1.8.2-py2.6.egg to /home/chmullig/picloud/lib/python2.6/site-packages
+Adding cloud 1.8.2 to easy-install.pth file
+
+Installed /home/chmullig/picloud/lib/python2.6/site-packages/cloud-1.8.2-py2.6.egg
+Processing dependencies for cloud==1.8.2
+Finished processing dependencies for cloud==1.8.2
+(picloud)chmullig@gore:~$ python -c 'import cloud' #to create the ~/.picloud directory
+(picloud)chmullig@gore:~$ vim .picloud/cloudconf.py #to add api_key and api_secretkey
+</pre>
+<h3>Trivial Examples</h3>
+<p>This is their trivial example, just to prove it&#8217;s as easy for me as it was for them.</p>
+<pre>In [1]: def square(x):
+ ...:     return x**2
+ ...:
+In [2]: import cloud
+In [3]: cid = cloud.call(square, 10)
+In [4]: cloud.result(cid)
+Out[4]: 100
+</pre>
+<p>BAM! That&#8217;s just stupidly easy. Let&#8217;s try a module or two.</p>
+<pre>In [5]: import random
+In [6]: def shuffler(x):
+ ...:     xl = list(x)
+ ...:     random.shuffle(xl)
+ ...:     return ''.join(xl)
+ ...:
+In [8]: cid = cloud.call(shuffler, 'Welcome to chmullig.com')
+In [9]: cloud.result(cid)
+Out[9]: ' etcmmhmoeWll.cgcl uioo'
+</pre>
+<h3>Less-Trivial Example &amp; Packages</h3>
+<p>So that&#8217;s neat, but what about something I wrote, or something that&#8217;s off <a href="http://pypi.python.org/pypi">pypi</a> that they don&#8217;t already have installed? Also quite easy. I&#8217;m going to be using  <a title="Levenshtein distance - Wikipedia" href="http://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein edit distance</a> for this, because it&#8217;s simple but non-standard. For our purposes we&#8217;ll begin with a <a href="http://hetland.org/coding/python/levenshtein.py">pure python implementation</a>, borrowed from <a href="http://hetland.org/coding/">Magnus Lie</a>. Then we&#8217;ll switch to a C extension version, originally written by David Necas (Yeti), which I&#8217;ve <a href="http://code.google.com/p/pylevenshtein/">rehosted</a> on Google Code.</p>
+<pre>(picloud)chmullig@gore:~$ wget -O hetlev.py http://hetland.org/coding/python/levenshtein.py
+#snip
+2010-03-09 12:13:04 (79.2 KB/s) - `hetlev.py' saved [707/707]
+(picloud)chmullig@gore:~$ easy_install http://pylevenshtein.googlecode.com/files/python-Levenshtein-0.10.1.tar.bz2
+Downloading http://pylevenshtein.googlecode.com/files/python-Levenshtein-0.10.1.tar.bz2
+Processing python-Levenshtein-0.10.1.tar.bz2
+Running python-Levenshtein-0.10.1/setup.py -q bdist_egg --dist-dir /tmp/easy_install-mqtK2d/python-Levenshtein-0.10.1/egg-dist-tmp-igxMyM
+zip_safe flag not set; analyzing archive contents...
+Adding python-Levenshtein 0.10.1 to easy-install.pth file
+
+Installed /home/chmullig/picloud/lib/python2.6/site-packages/python_Levenshtein-0.10.1-py2.6-linux-x86_64.egg
+Processing dependencies for python-Levenshtein==0.10.1
+Finished processing dependencies for python-Levenshtein==0.10.1
+(picloud)chmullig@gore:~$
+</pre>
+<p>Now both are installed locally and built. Beautiful. Let&#8217;s go ahead and test out the hetlev version.</p>
+<pre>In [18]: def distances(word, comparisonWords):
+ ....:     results = []
+ ....:     for otherWord in comparisonWords:
+ ....:         results.append(hetlev.levenshtein(word, otherWord))
+ ....:     return results
+In [24]: zip(words, distances(word, words))
+Out[24]:
+[('kitten', 0),
+ ('sitten', 1),
+ ('sittin', 2),
+ ('sitting', 3),
+ ('cat', 5),
+ ('kitty', 2),
+ ('smitten', 2)]
+</pre>
+<p>Now let&#8217;s put that up on PiCloud! It&#8217;s, uh, trivial. And fast.</p>
+<pre>In [25]: cid = cloud.call(distances, word, words)
+In [26]: zip(words, cloud.result(cid))
+Out[26]:
+[('kitten', 0),
+ ('sitten', 1),
+ ('sittin', 2),
+ ('sitting', 3),
+ ('cat', 5),
+ ('kitty', 2),
+ ('smitten', 2)]
+</pre>
+<p>Now let&#8217;s switch it to use the <strong>C extension version</strong> of edit distance from the PyLevenshtein package, and try to use it with PiCloud.</p>
+<pre>In [32]: import Levenshtein
+In [33]: def cdistances(word, comparisonWords):
+ results = []
+ for otherword in comparisonWords:
+ results.append(Levenshtein.distance(word, otherword))
+ return results
+ ....:
+In [38]: zip(words, cdistances(word, words))
+Out[38]:
+[('kitten', 0),
+ ('sitten', 1),
+ ('sittin', 2),
+ ('sitting', 3),
+ ('cat', 5),
+ ('kitty', 2),
+ ('smitten', 2)]
+
+In [39]: cid = cloud.call(cdistances, word, words)
+In [40]: cloud.result(cid)
+ERROR: An unexpected error occurred while tokenizing input
+The following traceback may be corrupted or invalid
+The error message is: ('EOF in multi-line statement', (30, 0))
+
+ERROR: An unexpected error occurred while tokenizing input
+The following traceback may be corrupted or invalid
+The error message is: ('EOF in multi-line statement', (37, 0))
+---------------------------------------------------------------------------
+CloudException                            Traceback (most recent call last)
+CloudException: Job 14:
+ Could not depickle job
+Traceback (most recent call last):
+ File "/root/.local/lib/python2.6/site-packages/cloudserver/workers/employee/child.py", line 202, in run
+ File "/usr/local/lib/python2.6/dist-packages/cloud/serialization/cloudpickle.py", line 501, in subimport
+ __import__(name)
+ImportError: ('No module named Levenshtein', &lt;function subimport at 0x2290ed8&gt;, ('Levenshtein',))
+</pre>
+<h3>Installing C-Extension via web</h3>
+<p><a href="../../../../wp-content/uploads/2010/03/picloud-repo.png"><img class="alignright size-medium wp-image-74" title="picloud repo" src="../../../../wp-content/uploads/2010/03/picloud-repo-300x175.png" alt="" width="300" height="175" /></a>Not too surprisingly that didn&#8217;t work &#8211; Levenshtein is a C extension I built on my local machine. PiCloud doesn&#8217;t really make it obvious, but you can add C-Extensions via their <a href="http://www.picloud.com/accounts/packages/">web interface</a>. Amazingly you can point it to an SVN repo and it will let you refresh it. It seems to download and call setup.py install, but it&#8217;s a little unclear. The fact is it just worked, so I didn&#8217;t care. I clicked on &#8220;Add Repository&#8221; and pasted in the URL from google code,  <tt>http://pylevenshtein.googlecode.com/svn/trunk</tt>. It built it and installed it, you can see the output on the right. I then just reran the exact same command and it works.</p>
+<pre style="clear: both;">In [41]: cid = cloud.call(cdistances, word, words)
+
+In [42]: cloud.result(cid)
+Out[42]: [0, 1, 2, 3, 5, 2, 2]
+
+In [43]: zip(words, cloud.result(cid))
+Out[43]:
+[('kitten', 0),
+ ('sitten', 1),
+ ('sittin', 2),
+ ('sitting', 3),
+ ('cat', 5),
+ ('kitty', 2),
+ ('smitten', 2)]
+</pre>
+<h3>Slightly more complicated</h3>
+<p>I&#8217;ve written a slightly more complicated script that fetches the <a href="http://www.qwantz.com/index.php?comic=1665">qwantzle</a> <a href="http://cs.brown.edu/~jadrian/docs/etc/qwantzcorpus">corpus</a> and uses <a title="Jaro-Winkler distance" href="http://en.wikipedia.org/wiki/Jaro-Winkler_distance">jaro</a> distance to find the n closest words in the corpus to a given word. It&#8217;s pretty trivial and dumb, but definitely more complicated than the above examples. Below is closestwords.py</p>
+
+<div class="wp_syntax"><table><tr><td class="code"><pre class="python" style="font-family:monospace;"><span style="color: #ff7700;font-weight:bold;">import</span> Levenshtein
+<span style="color: #ff7700;font-weight:bold;">import</span> <span style="color: #dc143c;">urllib</span>
+&nbsp;
+<span style="color: #ff7700;font-weight:bold;">class</span> Corpusinator<span style="color: black;">&#40;</span><span style="color: #008000;">object</span><span style="color: black;">&#41;</span>:
+        <span style="color: #483d8b;">'''
+        Finds the closest words to the word you specified.
+        '''</span>
+        <span style="color: #ff7700;font-weight:bold;">def</span> <span style="color: #0000cd;">__init__</span><span style="color: black;">&#40;</span><span style="color: #008000;">self</span><span style="color: #66cc66;">,</span> corpus<span style="color: #66cc66;">=</span><span style="color: #483d8b;">'http://cs.brown.edu/~jadrian/docs/etc/qwantzcorpus'</span><span style="color: black;">&#41;</span>:
+                <span style="color: #483d8b;">'''Setup the corpus for later use. By default it uses
+                http://cs.brown.edu/~jadrian/docs/etc/qwantzcorpus, but can by overridden
+                by specifying an alternate URL that has one word per line. A number, a space, then the word.
+                '''</span>
+                raw <span style="color: #66cc66;">=</span> <span style="color: #dc143c;">urllib</span>.<span style="color: black;">urlopen</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">'http://cs.brown.edu/~jadrian/docs/etc/qwantzcorpus'</span><span style="color: black;">&#41;</span>.<span style="color: black;">readlines</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span>
+                <span style="color: #008000;">self</span>.<span style="color: black;">corpus</span> <span style="color: #66cc66;">=</span> <span style="color: #008000;">set</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span>
+                <span style="color: #ff7700;font-weight:bold;">for</span> line <span style="color: #ff7700;font-weight:bold;">in</span> raw:
+                        <span style="color: #ff7700;font-weight:bold;">try</span>:
+                                <span style="color: #008000;">self</span>.<span style="color: black;">corpus</span>.<span style="color: black;">add</span><span style="color: black;">&#40;</span>line.<span style="color: black;">split</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span><span style="color: black;">&#91;</span><span style="color: #ff4500;">1</span><span style="color: black;">&#93;</span><span style="color: black;">&#41;</span>
+                        <span style="color: #ff7700;font-weight:bold;">except</span> <span style="color: #008000;">IndexError</span>:
+                                <span style="color: #ff7700;font-weight:bold;">pass</span>
+&nbsp;
+        <span style="color: #ff7700;font-weight:bold;">def</span> findClosestWords<span style="color: black;">&#40;</span><span style="color: #008000;">self</span><span style="color: #66cc66;">,</span> words<span style="color: #66cc66;">,</span> n<span style="color: #66cc66;">=</span><span style="color: #ff4500;">10</span><span style="color: black;">&#41;</span>:
+                <span style="color: #483d8b;">'''
+                Return the n (default 10) closest words from the corpus.
+                '''</span>
+                results <span style="color: #66cc66;">=</span> <span style="color: black;">&#123;</span><span style="color: black;">&#125;</span>
+                <span style="color: #ff7700;font-weight:bold;">for</span> word <span style="color: #ff7700;font-weight:bold;">in</span> words:
+                        tempresults <span style="color: #66cc66;">=</span> <span style="color: black;">&#91;</span><span style="color: black;">&#93;</span>
+                        <span style="color: #ff7700;font-weight:bold;">for</span> refword <span style="color: #ff7700;font-weight:bold;">in</span> <span style="color: #008000;">self</span>.<span style="color: black;">corpus</span>:
+                                dist <span style="color: #66cc66;">=</span> Levenshtein.<span style="color: black;">jaro</span><span style="color: black;">&#40;</span>word<span style="color: #66cc66;">,</span> refword<span style="color: black;">&#41;</span>
+                                tempresults.<span style="color: black;">append</span><span style="color: black;">&#40;</span><span style="color: black;">&#40;</span>dist<span style="color: #66cc66;">,</span> refword<span style="color: black;">&#41;</span><span style="color: black;">&#41;</span>
+                        tempresults <span style="color: #66cc66;">=</span> <span style="color: #008000;">sorted</span><span style="color: black;">&#40;</span>tempresults<span style="color: #66cc66;">,</span> reverse<span style="color: #66cc66;">=</span><span style="color: #008000;">True</span><span style="color: black;">&#41;</span>
+                        results<span style="color: black;">&#91;</span>word<span style="color: black;">&#93;</span> <span style="color: #66cc66;">=</span> tempresults<span style="color: black;">&#91;</span>:n<span style="color: black;">&#93;</span>
+                <span style="color: #ff7700;font-weight:bold;">return</span> results</pre></td></tr></table></div>
+
+<p>Very simple. Let&#8217;s try &#8216;er out. First locally, then over the cloud.</p>
+<pre>In [1]: import closestwords
+
+In [2]: c = closestwords.Corpusinator()
+
+In [3]: c.findClosestWords(['bagel', 'cheese'], 5)
+Out[3]:
+{'bagel': [(0.8666666666666667, 'barge'),
+           (0.8666666666666667, 'bag'),
+           (0.8666666666666667, 'badge'),
+           (0.8666666666666667, 'angel'),
+           (0.8666666666666667, 'age')],
+ 'cheese': [(1.0, 'cheese'),
+            (0.95238095238095244, 'cheesed'),
+            (0.88888888888888895, 'cheers'),
+            (0.88888888888888895, 'cheeks'),
+            (0.8666666666666667, 'cheeseball')]}
+</pre>
+<p>Unfortunately it just doesn&#8217;t want to work happily with PiCloud &amp; ipython when you&#8217;re running <tt>import closestwords</tt>. The most obvious won&#8217;t work, cloud.call(c.findClosestWords, [&#8216;bagel&#8217;]). Neither will creating a tiny wrapper function and calling that within ipython:</p>
+
+<div class="wp_syntax"><table><tr><td class="code"><pre class="python" style="font-family:monospace;"><span style="color: #ff7700;font-weight:bold;">def</span> caller<span style="color: black;">&#40;</span>words<span style="color: #66cc66;">,</span> n<span style="color: #66cc66;">=</span><span style="color: #ff4500;">10</span><span style="color: black;">&#41;</span>:
+    c <span style="color: #66cc66;">=</span> closestwords.<span style="color: black;">Corpusinator</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span>
+    <span style="color: #ff7700;font-weight:bold;">return</span> c.<span style="color: black;">findClosestWords</span><span style="color: black;">&#40;</span>words<span style="color: #66cc66;">,</span> n<span style="color: black;">&#41;</span>
+cloud.<span style="color: black;">call</span><span style="color: black;">&#40;</span>caller<span style="color: #66cc66;">,</span> <span style="color: black;">&#91;</span><span style="color: #483d8b;">'bagel'</span><span style="color: black;">&#93;</span><span style="color: black;">&#41;</span></pre></td></tr></table></div>
+
+<p>I created a stupidly simple wrapper python file, wrap.py:</p>
+
+<div class="wp_syntax"><table><tr><td class="code"><pre class="python" style="font-family:monospace;"><span style="color: #ff7700;font-weight:bold;">import</span> closestwords
+<span style="color: #ff7700;font-weight:bold;">import</span> cloud
+cid <span style="color: #66cc66;">=</span> cloud.<span style="color: black;">call</span><span style="color: black;">&#40;</span>closestwords.<span style="color: black;">caller</span><span style="color: #66cc66;">,</span> <span style="color: black;">&#91;</span><span style="color: #483d8b;">'bagel'</span><span style="color: #66cc66;">,</span><span style="color: black;">&#93;</span><span style="color: black;">&#41;</span>
+<span style="color: #ff7700;font-weight:bold;">print</span> cloud.<span style="color: black;">result</span><span style="color: black;">&#40;</span>cid<span style="color: black;">&#41;</span></pre></td></tr></table></div>
+
+<p>That gives an import error. Even putting that caller wrapper above at the bottom of the closestwords.py and calling it in the __main__ section (as I do below with c.findClosestWords) didn&#8217;t work.</p>
+<p>However if I stick it directly in closestwords.py, initialize the instance, then run it from there, everything is fine. I&#8217;m not sure what this means, if it&#8217;s supposed to happen, or what. But it seems like it could be a pain in the butt just to get  it calling the right function in the right context.</p>
+
+<div class="wp_syntax"><table><tr><td class="code"><pre class="python" style="font-family:monospace;"><span style="color: #ff7700;font-weight:bold;">if</span> __name__ <span style="color: #66cc66;">==</span> <span style="color: #483d8b;">'__main__'</span>:
+        <span style="color: #ff7700;font-weight:bold;">import</span> cloud
+        c <span style="color: #66cc66;">=</span> Corpusinator<span style="color: black;">&#40;</span><span style="color: black;">&#41;</span>
+        cid <span style="color: #66cc66;">=</span> cloud.<span style="color: black;">call</span><span style="color: black;">&#40;</span>c.<span style="color: black;">findClosestWords</span><span style="color: #66cc66;">,</span> <span style="color: black;">&#91;</span><span style="color: #483d8b;">'bagel'</span><span style="color: #66cc66;">,</span><span style="color: black;">&#93;</span><span style="color: black;">&#41;</span>
+        <span style="color: #ff7700;font-weight:bold;">print</span> cloud.<span style="color: black;">result</span><span style="color: black;">&#40;</span>cid<span style="color: black;">&#41;</span></pre></td></tr></table></div>
+
+<h3>What passes for a conclusion</h3>
+<p>I had a good time playing with PiCloud. I&#8217;m going to look at adapting real code to use it. If I get carried away AND feel like blogging I&#8217;ll be sure to post &#8216;er up. They have pretty good first tier support for the map part of map/reduce, which would be useful. Two links I found useful when working with PiCloud:</p>
+<ul>
+<li><a href="http://docs.picloud.com/index.html">PiCloud Documentation</a></li>
+<li><a href="http://www.picloud.com/pyapi/packages/weblist/python/">The list of installed packages</a></li>
+<li><a href="http://support.picloud.com/forums">PiCloud Forums</a></li>
+<li>The <a href="http://docs.picloud.com/basic_examples.html">Web Scraper </a>example in their docs</li>
+</ul>
+<hr />
+<h3>Update 3/11</h3>
+<p>Aaron Staley of PiCloud wrote me a nice email about this post. He says my problem with the closestwords example was due to a server side bug they&#8217;ve fixed. In playing around, it does seem a bit better. A few ways I tried to call it failed, but many of them worked. I had trouble passing in closestwords.caller, either in ipython or the wrapper script. However re-defining caller in ipython worked, as did creating an instance and passing in the instance&#8217;s findClosestWords function. A+ for communication, guys.</p>
+<pre>In [3]: cid = cloud.call(closestwords.caller, ['bagel'])
+
+In [4]: cloud.result(cid)
+ERROR: An unexpected error occurred while tokenizing input
+The following traceback may be corrupted or invalid
+The error message is: ('EOF in multi-line statement', (30, 0))
+
+ERROR: An unexpected error occurred while tokenizing input
+The following traceback may be corrupted or invalid
+The error message is: ('EOF in multi-line statement', (37, 0))
+---------------------------------------------------------------------------CloudException: Job 36: Could not depickle job
+Traceback (most recent call last):
+ File "/root/.local/lib/python2.6/site-packages/cloudserver/workers/employee/child.py", line 202, in run
+AttributeError: 'module' object has no attribute 'caller'
+
+In [8]: c = closestwords.Corpusinator()
+In [9]: cid = cloud.call(c.findClosestWords, ['bagel', 'cheese'], 5)
+In [10]: cloud.result(cid)
+Out[10]:
+{'bagel': [(0.8666666666666667, 'barge'),
+ (0.8666666666666667, 'bag'),
+ (0.8666666666666667, 'badge'),
+ (0.8666666666666667, 'angel'),
+ (0.8666666666666667, 'age')],
+ 'cheese': [(1.0, 'cheese'),
+ (0.95238095238095244, 'cheesed'),
+ (0.88888888888888895, 'cheers'),
+ (0.88888888888888895, 'cheeks'),
+ (0.8666666666666667, 'cheeseball')]}
+
+In [11]: def caller(words, n=10):
+ ....:     c = closestwords.Corpusinator()
+ ....:     return c.findClosestWords(words, n)
+ ....:
+In [12]: cid = cloud.call(caller, ['bagel'])
+In [13]: reload(closestword)
+KeyboardInterrupt
+In [13]: cloud.result(cid)
+Out[13]:
+{'bagel': [(0.8666666666666667, 'barge'),
+ (0.8666666666666667, 'bag'),
+ (0.8666666666666667, 'badge'),
+ (0.8666666666666667, 'angel'),
+ (0.8666666666666667, 'age'),
+ (0.8222222222222223, 'barrel'),
+ (0.8222222222222223, 'barely'),
+ (0.81111111111111123, 'gamble'),
+ (0.79047619047619044, 'vaguely'),
+ (0.79047619047619044, 'largely')]}
+</pre>
+<h3>Update 3/12</h3>
+<p>I did some more experimentation with PiCloud, <a title="PiCloud - Following the bumpy road" href="../../../../2010/03/picloud-followup-bumpy-road/index.html">posted separately</a>.</p>
+<div class="addthis_toolbox addthis_default_style " addthis:url='http://chmullig.com/2010/03/picloud-introduction/' addthis:title='PiCloud introduction '  ><a class="addthis_button_facebook_like" fb:like:layout="button_count"></a><a class="addthis_button_tweet"></a><a class="addthis_button_pinterest_pinit"></a><a class="addthis_counter addthis_pill_style"></a></div>			<a href="../../../../author/chmullig/page/5/2010/03/picloud-introduction#comments">1 Comment &#187;</a>			 <hr/>
+		</div>
+		<a name="respond"/>
+		
+<!-- You can start editing here. -->
+<div id="comments">
+
+
+	<h3>One Comment on &#8220;PiCloud introduction&#8221;</h3>
+
+	<ol class="commentlist">
+
+	
+		<li class="alt" id="comment-166">
+			<div style="float:left;padding-right:5px;"></div>
+			<span>1</span>
+			<cite><a href='http://blog.dowski.com/2010/03/11/link-picloud-overview/' rel='external nofollow' class='url'>the occasional occurrence &raquo; Blog Archive &raquo; Link: PiCloud Overview</a>&nbsp;said at 9:50 am on March 11th, 2010:</cite>
+			<p>[&#8230;] a great overview of using PiCloud that goes beyond &#8220;hello world&#8221; type [&#8230;]</p>
+					</li>
+
+	
+	
+	</ol>
+
+ 
+
+
+<hr/>
+
+<h4 class="center">Leave a Reply</h4>
+
+
+<form action="http://chmullig.com/wp-comments-post.php" method="post" id="commentform">
+
+<ul class="formlist">
+
+
+<li><input type="text" name="author" id="author" value="Name " size="22" tabindex="1"  onblur="if(this.value.length == 0) this.value='Name ';" onclick="if(this.value == 'Name ') this.value='';" /></li>
+
+<li><input type="text" name="email" id="email" value="Mail (will not be published) " size="22" tabindex="2"  onblur="if(this.value.length == 0) this.value='Mail (will not be published) ';" onclick="if(this.value == 'Mail (will not be published) ') this.value='';" /></li>
+
+<li><input type="text" name="url" id="url" value="Website" size="22" tabindex="3" onblur="if(this.value.length == 0) this.value='Website';" onclick="if(this.value == 'Website') this.value='';" /></li>
+
+
+<!--<p><small><strong>XHTML:</strong> You can use these tags: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;s&gt; &lt;strike&gt; &lt;strong&gt; </code></small></p>-->
+
+<li><textarea name="comment" id="comment" cols="70%" rows="10" tabindex="4" value="Enter comment here."></textarea></li>
+
+<li class="submitbutton"><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" /></li>
+<input type="hidden" name="comment_post_ID" value="71" />
+
+<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="b3ab69b97b" /></p><p class="comment-subscription-form"><input type="checkbox" name="subscribe_comments" id="subscribe_comments" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;" /> <label class="subscribe-label" id="subscribe-label" for="subscribe_comments">Notify me of follow-up comments by email.</label></p><p class="comment-subscription-form"><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;" /> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog">Notify me of new posts by email.</label></p><p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="142"/></p>
+</ul>
+
+</form>
+
+
+
+</div>
+		
+		
+		<div class="navigation">
+			<div class="alignleft"></div>
+			<div class="alignright"></div>
+		</div>
+
+	
+	</div>
+	
+	<div id="sidebar">
+	<div class="block text-3 widget_text"><h3>Twitter</h3>			<div class="textwidget"><script src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'profile',
+  rpp: 7,
+  interval: 6000,
+  width: 'auto',
+  height: 300,
+  theme: {
+    shell: {
+      background: '#5698CC',
+      color: '#396799'
+    },
+    tweets: {
+      background: '#C8D7E1',
+      color: '#396799',
+      links: '#344593',
+    }
+  },
+  features: {
+    scrollbar: false,
+    loop: false,
+    live: true,
+    hashtags: true,
+    timestamp: true,
+    avatars: false,
+    behavior: 'all'
+  }
+}).render().setUser('chmullig').start();
+</script></div>
+		</div><div class="block links-3 widget_links"><h3>Blogroll</h3>
+	<ul class='xoxo blogroll'>
+<li><a href="http://dowski.com" rel="friend met co-worker colleague" title="Christian, a coworker">dowski</a></li>
+<li><a href="http://www.everyguide.org/" rel="friend met co-worker colleague" title="Chris Perry&#8217;s very amusing blog">The Complete Guide to Everything</a></li>
+<li><a href="http://jamwt.com" rel="friend met colleague" title="Jamie, a coworker">jamwt</a></li>
+<li><a href="http://ionrock.org/blog" rel="friend met co-worker colleague" title="Eric Larson">ionrock</a></li>
+<li><a href="http://michael.susens-schurter.com/blog/" rel="friend met" title="Michael Schurter, a former coworker">Michael Schurter</a></li>
+<li><a href="http://www.lifeaftercollege.org/" rel="acquaintance met co-worker" title="Life After College, by Jenny Blake  There&#8217;s no manual for the real world. Find tips and resources for life, work, money, happiness, personal growth, productivity, etc">Life After College</a></li>
+<li><a href="http://tehallanc.wordpress.com/" rel="friend co-worker colleague" title="Allan, another coworker">allanc</a></li>
+<li><a href="http://adventuresinoptimization.blogspot.com/" rel="acquaintance met co-worker colleague" title="Ryan&#8217;s blog about Operations Research, etc">Adventures in Optimization</a></li>
+<li><a href="http://seatatthetable.wordpress.com/" rel="friend" title="Lauren&#8217;s delicious food blog">A Seat at the Table</a></li>
+
+	</ul>
+</div>
+<div class="block links-3 widget_links"><h3>Me, elsewhere</h3>
+	<ul class='xoxo blogroll'>
+<li><a href="http://www.linkedin.com/in/chrismulligan" rel="me" title="My profile on LinkedIn">LinkedIn</a></li>
+<li><a href="http://bitbucket.org/chmullig" rel="me" title="chmullig@bitbucket.org">BitBucket</a></li>
+<li><a href="https://github.com/chmullig" rel="me" title="My github account.">Github</a></li>
+<li><a href="http://twitter.com/chmullig" rel="me">Twitter</a></li>
+<li><a href="http://facebook.com/chmullig" rel="me" title="Me on Facebook">Facebook</a></li>
+<li><a href="http://live.xbox.com/member/Ars%20clm100" rel="me" title="I&#8217;m &#8220;Ars clm100&#8243; on xbox live">xbox live</a></li>
+<li><a href="http://us.playstation.com/playstation/psn/visit/profiles/chmullig" rel="me" title="I&#8217;m &#8220;chmullig&#8221; on the Playstation Network">PSN</a></li>
+<li><a href="http://stackoverflow.com/users/349931/chmullig" rel="me" title="Programming Q&amp;A site">stackoveflow</a></li>
+
+	</ul>
+</div>
+<div class="block blog_subscription-2 jetpack_subscription_widget"><h3><label for="subscribe-field">Subscribe to Blog via Email</label></h3>
+		<form action="../../../../author/chmullig/page/5/2010/03/picloud-introduction#" method="post" accept-charset="utf-8" id="subscribe-blog-blog_subscription-2">
+			<p id="subscribe-text">Enter your email address to subscribe to this blog and receive notifications of new posts by email.</p>
+			<p id="subscribe-email"><input type="text" name="email" value="Email Address" id="subscribe-field" onclick="if ( this.value == 'Email Address' ) { this.value = ''; }" onblur="if ( this.value == '' ) { this.value = 'Email Address'; }" /></p>
+
+			<p id="subscribe-submit">
+				<input type="hidden" name="action" value="subscribe" />
+				<input type="hidden" name="source" value="http://chmullig.com/2010/03/picloud-introduction/" />
+				<input type="hidden" name="sub-type" value="widget" />
+				<input type="hidden" name="redirect_fragment" value="blog_subscription-2" />
+								<input type="submit" value="Subscribe" name="jetpack_subscriptions_widget" />
+			</p>
+		</form>
+
+		
+</div><div class="block tag_cloud-3 widget_tag_cloud"><h3>Tags</h3><div class="tagcloud"><a href='../../../apple/index.html' class='tag-link-27' title='2 topics' style='font-size: 10.964705882353pt;'>apple</a>
+<a href='../../../armchair-pundit/index.html' class='tag-link-28' title='1 topic' style='font-size: 8pt;'>armchair pundit</a>
+<a href='../../../ascii/index.html' class='tag-link-9' title='1 topic' style='font-size: 8pt;'>ascii</a>
+<a href='../../../bluelounge/index.html' class='tag-link-43' title='1 topic' style='font-size: 8pt;'>bluelounge</a>
+<a href='../../../bnc/index.html' class='tag-link-11' title='1 topic' style='font-size: 8pt;'>BNC</a>
+<a href='../../../burrito/index.html' class='tag-link-32' title='9 topics' style='font-size: 19.529411764706pt;'>burrito</a>
+<a href='../../../burrito-wednesday/index.html' class='tag-link-35' title='8 topics' style='font-size: 18.705882352941pt;'>burrito wednesday</a>
+<a href='../../../burritoweds/index.html' class='tag-link-34' title='1 topic' style='font-size: 8pt;'>burritoweds</a>
+<a href='../../../burrito-wedsneday/index.html' class='tag-link-31' title='1 topic' style='font-size: 8pt;'>burrito wedsneday</a>
+<a href='../../../chipotle/index.html' class='tag-link-33' title='1 topic' style='font-size: 8pt;'>chipotle</a>
+<a href='../../../columbia/index.html' class='tag-link-96' title='6 topics' style='font-size: 17.058823529412pt;'>Columbia</a>
+<a href='../../../cooking/index.html' class='tag-link-14' title='1 topic' style='font-size: 8pt;'>cooking</a>
+<a href='../../../data/index.html' class='tag-link-18' title='4 topics' style='font-size: 14.588235294118pt;'>data</a>
+<a href='../../../data-science/index.html' class='tag-link-107' title='2 topics' style='font-size: 10.964705882353pt;'>data science</a>
+<a href='../../../desk/index.html' class='tag-link-38' title='1 topic' style='font-size: 8pt;'>desk</a>
+<a href='../../../distributed/index.html' class='tag-link-15' title='1 topic' style='font-size: 8pt;'>distributed</a>
+<a href='../../../facebook/index.html' class='tag-link-26' title='2 topics' style='font-size: 10.964705882353pt;'>facebook</a>
+<a href='../../../fishboy/index.html' class='tag-link-13' title='1 topic' style='font-size: 8pt;'>fishboy</a>
+<a href='../../../graphing/index.html' class='tag-link-69' title='2 topics' style='font-size: 10.964705882353pt;'>graphing</a>
+<a href='../../../high-school/index.html' class='tag-link-12' title='1 topic' style='font-size: 8pt;'>high school</a>
+<a href='../../../history/index.html' class='tag-link-66' title='2 topics' style='font-size: 10.964705882353pt;'>history</a>
+<a href='../../../irc/index.html' class='tag-link-21' title='1 topic' style='font-size: 8pt;'>irc</a>
+<a href='../../../kaggle/index.html' class='tag-link-108' title='2 topics' style='font-size: 10.964705882353pt;'>kaggle</a>
+<a href='../../../library-paste/index.html' class='tag-link-25' title='1 topic' style='font-size: 8pt;'>library paste</a>
+<a href='../../../office/index.html' class='tag-link-40' title='1 topic' style='font-size: 8pt;'>office</a>
+<a href='../../../paste/index.html' class='tag-link-24' title='1 topic' style='font-size: 8pt;'>paste</a>
+<a href='../../../personal/index.html' class='tag-link-23' title='1 topic' style='font-size: 8pt;'>personal</a>
+<a href='../../../picloud/index.html' class='tag-link-17' title='2 topics' style='font-size: 10.964705882353pt;'>picloud</a>
+<a href='../../../pmxbot/index.html' class='tag-link-20' title='3 topics' style='font-size: 12.941176470588pt;'>pmxbot</a>
+<a href='../../../programming/index.html' class='tag-link-49' title='6 topics' style='font-size: 17.058823529412pt;'>programming</a>
+<a href='../../../pyro/index.html' class='tag-link-16' title='1 topic' style='font-size: 8pt;'>pyro</a>
+<a href='../../index.html' class='tag-link-6' title='13 topics' style='font-size: 22pt;'>python</a>
+<a href='../../../r/index.html' class='tag-link-48' title='5 topics' style='font-size: 15.905882352941pt;'>r</a>
+<a href='../../../review/index.html' class='tag-link-41' title='1 topic' style='font-size: 8pt;'>review</a>
+<a href='../../../running/index.html' class='tag-link-22' title='1 topic' style='font-size: 8pt;'>running</a>
+<a href='../../../space/index.html' class='tag-link-37' title='1 topic' style='font-size: 8pt;'>space</a>
+<a href='../../../stackoverflow/index.html' class='tag-link-54' title='2 topics' style='font-size: 10.964705882353pt;'>stackoverflow</a>
+<a href='../../../statistics/index.html' class='tag-link-73' title='3 topics' style='font-size: 12.941176470588pt;'>statistics</a>
+<a href='../../../studiodesk/index.html' class='tag-link-42' title='1 topic' style='font-size: 8pt;'>studiodesk</a>
+<a href='../../../studio-desk/index.html' class='tag-link-44' title='1 topic' style='font-size: 8pt;'>studio desk</a>
+<a href='../../../sysadmin/index.html' class='tag-link-7' title='1 topic' style='font-size: 8pt;'>sysadmin</a>
+<a href='../../../trac/index.html' class='tag-link-10' title='1 topic' style='font-size: 8pt;'>trac</a>
+<a href='../../../twitter/index.html' class='tag-link-30' title='1 topic' style='font-size: 8pt;'>twitter</a>
+<a href='../../../unicode/index.html' class='tag-link-8' title='1 topic' style='font-size: 8pt;'>unicode</a>
+<a href='../../../work/index.html' class='tag-link-39' title='2 topics' style='font-size: 10.964705882353pt;'>work</a></div>
+</div><div class="block archives-3 widget_archive"><h3>Archives</h3>		<ul>
+	<li><a href='../../../../2015/04/index.html'>April 2015</a></li>
+	<li><a href='../../../../2015/02/index.html'>February 2015</a></li>
+	<li><a href='../../../../2013/05/index.html'>May 2013</a></li>
+	<li><a href='../../../../2012/12/index.html'>December 2012</a></li>
+	<li><a href='../../../../2012/11/index.html'>November 2012</a></li>
+	<li><a href='../../../../2012/06/index.html'>June 2012</a></li>
+	<li><a href='../../../../2012/04/index.html'>April 2012</a></li>
+	<li><a href='../../../../2012/03/index.html'>March 2012</a></li>
+	<li><a href='../../../../2012/01/index.html'>January 2012</a></li>
+	<li><a href='../../../../2011/10/index.html'>October 2011</a></li>
+	<li><a href='../../../../2011/09/index.html'>September 2011</a></li>
+	<li><a href='../../../../2011/06/index.html'>June 2011</a></li>
+	<li><a href='../../../../2011/05/index.html'>May 2011</a></li>
+	<li><a href='../../../../2011/04/index.html'>April 2011</a></li>
+	<li><a href='../../../../2011/03/index.html'>March 2011</a></li>
+	<li><a href='../../../../2011/02/index.html'>February 2011</a></li>
+	<li><a href='../../../../2011/01/index.html'>January 2011</a></li>
+	<li><a href='../../../../2010/11/index.html'>November 2010</a></li>
+	<li><a href='../../../../2010/09/index.html'>September 2010</a></li>
+	<li><a href='../../../../2010/07/index.html'>July 2010</a></li>
+	<li><a href='../../../../2010/06/index.html'>June 2010</a></li>
+	<li><a href='../../../../2010/05/index.html'>May 2010</a></li>
+	<li><a href='../../../../2010/04/index.html'>April 2010</a></li>
+	<li><a href='../../../../2010/03/index.html'>March 2010</a></li>
+	<li><a href='../../../../2010/01/index.html'>January 2010</a></li>
+	<li><a href='../../../../2009/12/index.html'>December 2009</a></li>
+	<li><a href='../../../../2009/10/index.html'>October 2009</a></li>
+	<li><a href='../../../../2006/05/index.html'>May 2006</a></li>
+	<li><a href='../../../../2006/04/index.html'>April 2006</a></li>
+		</ul>
+</div><div class="block meta-3 widget_meta"><h3>Meta</h3>			<ul>
+						<li><a href="../../../../wp-login.php">Log in</a></li>
+			<li><a href="../../../../feed/index.html">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="../../../../comments/feed/index.html">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+<li><a href="https://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>			</ul>
+</div><div class="block advman-3 Advman_Widget"><h3>Google Ads</h3><script type="text/javascript"><!--
+google_ad_client = "pub-9101413482443756";
+/* Basic header */
+google_ad_slot = "3471816671";
+google_ad_width = 300;
+google_ad_height = 250;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></div>	</div>
+
+	<div id="footer">	
+	<p>&copy; Copyright 2015 | <a href="../../../../index.html">chmullig.com</a> | All Rights Reserved</p>
+	<p>		<!-- Advertising Manager v3.4.28 (0.305 seconds.) -->
+	<div style="display:none">
+	</div>
+<script type="text/javascript">
+var addthis_options = "facebook,twitter,hackernews,reddit,google_plusone";
+var addthis_config = {"data_track_clickback":false,"data_ga_property":"UA-11155757-1","data_ga_social":true,"data_track_addressbar":false,"data_track_textcopy":false,"ui_language":"en","ui_atversion":"300"};
+var addthis_product = 'wpp-3.5.9';
+</script><script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=chmullig"></script><script type='text/javascript' src='../../../../wp-content/plugins/akismet/_inc/form.js?ver=3.0.2'></script>
+<script type='text/javascript' src='http://s0.wp.com/wp-content/js/devicepx-jetpack.js?ver=201524'></script>
+<script type='text/javascript' src='http://s.gravatar.com/js/gprofiles.js?ver=2015Junaa'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='../../../../wp-content/plugins/jetpack/modules/wpgroho.js?ver=4.2.2'></script>
+
+	<script src="http://stats.wp.com/e-201524.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	st_go({v:'ext',j:'1:3.1.2',blog:'37239074',post:'71',tz:'-4'});
+	var load_cmc = function(){linktracker_init(37239074,71,2);};
+	if ( typeof addLoadEvent != 'undefined' ) addLoadEvent(load_cmc);
+	else load_cmc();
+	</script><!--wp_footer--></p>
+	</div>
+
+</div>
+
+<!-- Can put web stats code here -->
+
+</body>
+
+</html>
+<!-- Dynamic page generated in 0.302 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2015-06-13 00:21:16 -->
+
+<!-- super cache -->

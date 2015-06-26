@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>chmullig.com &#187; Columbia</title>
+	<atom:link href="http://chmullig.com/tag/columbia/feed/" rel="self" type="application/rss+xml" />
+	<link>http://chmullig.com</link>
+	<description>Chris Mulligan&#039;s blog on life, computers, burritos, school</description>
+	<lastBuildDate>Tue, 21 Apr 2015 15:41:14 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<generator>http://wordpress.org/?v=4.2.2</generator>
+	<item>
+		<title>OSX NFS serving to Arch VirtualBox guest</title>
+		<link>http://chmullig.com/2015/02/osx-nfs-serving-to-arch-virtualbox-guest/</link>
+		<comments>http://chmullig.com/2015/02/osx-nfs-serving-to-arch-virtualbox-guest/#comments</comments>
+		<pubDate>Wed, 11 Feb 2015 16:38:19 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[Columbia]]></category>
+		<category><![CDATA[nfs]]></category>
+		<category><![CDATA[osx]]></category>
+		<category><![CDATA[virtualbox]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=548</guid>
+		<description><![CDATA[For Operating Systems we&#8217;re using Arch Linux in a VirtualBox guest. One of the issues is dealing with storing code, etc, in a robust way so that it&#8217;s easy to work with, and allows you to freely take and restore snapshots without losing work. I first tried using VirtualBox Shared Folders, but they were a real pain in the [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>For <a href="www.cs.columbia.edu/~jae/4118/index.html">Operating Systems</a> we&#8217;re using <a href="https://www.archlinux.org/">Arch Linux</a> in a <a href="https://www.virtualbox.org/manual/UserManual.html">VirtualBox</a> guest. One of the issues is dealing with storing code, etc, in a robust way so that it&#8217;s easy to work with, and allows you to freely take and restore snapshots without losing work. I first tried using <a href="https://www.virtualbox.org/manual/ch04.html#sharedfolders">VirtualBox Shared Folders</a>, but they were a real pain in the ass, and apparently don&#8217;t work well with permissios and symlinks.</p>
+<p>Instead I setup NFS, hosting a directory on my OSX laptop and mounting it inside the virtual machine. I sent some instructions out to students based on my recollection of how to do it, but I haven&#8217;t directly tested them. Still, I figured they might be helpful if you came across this page by google searching for something!</p>
+<p>&nbsp;</p>
+<p class="p1"><span class="s1">I actually ended up using NFS to share files between my mac and virtual machine. I mount a folder in my home directory and put all my work in there, so if I need to restore a snapshot I never need to worry about losing my work. It took a little bit of work, but wasn&#8217;t too hard. I mostly sort of followed these directions: <a href="http://blog.hostilefork.com/sharing-nfs-into-virtualbox/"><span class="s2">http://blog.hostilefork.com/sharing-nfs-into-virtualbox/</span></a> along with <a href="https://wiki.archlinux.org/index.php/NFS"><span class="s2">https://wiki.archlinux.org/index.php/NFS</span></a>.</span></p>
+<h3 class="p1"><span class="s1">On OSX:</span></h3>
+<p class="p1"><span class="s1">1) edit /etc/exports to add a line like:</span></p>
+<pre class="p1"><span class="s1">/Users/clm2186/Documents/Columbia/Current/COMS4118/ -alldirs 127.0.0.1</span></pre>
+<p class="p1"><span class="s1">The above serves my OS directory and all subdirectories only to localhost. Be super careful about the 127.0.0.1, there are other options with using netmasks and stuff, but you can potentially expose your files to almost anyone if you&#8217;re not cautious.</span></p>
+<p class="p1"><span class="s1">2?) I think I had to edit</span></p>
+<pre class="p1"><span class="s1">/System/Library/LaunchDaemons/com.apple.nfsd.plist</span></pre>
+<p class="p1"><span class="s1"> to add a line at the end in ProgramArguments for -N. However now I can&#8217;t figure out why I did it, or if I really needed to.</span></p>
+<pre class="p1"><span class="s1">               &lt;string&gt;-N&lt;/string&gt;</span></pre>
+<p class="p1"><span class="s1">3) Start up nfsd: sudo nfsd enable</span></p>
+<p class="p1"><span class="s1">4) Look in Console.app for all the errors, try to fix them. sudo nfsd restart after tweaking /etc/exports.</span></p>
+<p class="p1"><span class="s1">5) You can try mounting the share by going into finder -&gt; Go -&gt; Connect to Server and using the url: </span></p>
+<p class="p3"><span class="s3"><a href="nfs://127.0.0.1/Users/clm2186/Documents/Columbia/Current/COMS4118/">nfs://127.0.0.1/Users/clm2186/Documents/Columbia/Current/COMS4118/</a></span></p>
+<p class="p1"><span class="s1">9) run id to get the uid (mine was 501) and gid (20)</span></p>
+<h3 class="p1"><span class="s1">Here&#8217;s my recollection of the VM side steps:</span></h3>
+<p class="p1"><span class="s1">10) Take a snapshot of your VM</span></p>
+<p class="p1"><span class="s1">11) Install NFS:</span></p>
+<pre class="p1"><span class="s1"> sudo pacman -S nfs-utils</span></pre>
+<p class="p1"><span class="s1">12) Create another admin user, or make sure you know the root password. I think sudo passwd should change it if you need to.</span></p>
+<p class="p1"><span class="s1">12) reboot VM</span></p>
+<p class="p1"><span class="s1">13) sign into root user (or another admin user that can sudo)</span></p>
+<p class="p1"><span class="s1">14) change the userid of your main user to match the OSX partition (Per the end of <a href="http://blog.hostilefork.com/sharing-nfs-into-virtualbox/"><span class="s2">http://blog.hostilefork.com/sharing-nfs-into-virtualbox/</span></a>)</span></p>
+<pre class="p1"><span class="s1"> usermod -u [ID] [username]. </span></pre>
+<p class="p1"><span class="s1">15) I also changed the groupid, but I doubt it matters much.</span></p>
+<p class="p1"><span class="s1">16) Sign into your user account</span></p>
+<p class="p1"><span class="s1">17) We need to make a directory for mounting the nfs share:</span></p>
+<pre class="p1"><span class="s1"> mkdir ~/osnfs </span></pre>
+<p class="p1"><span class="s1">18) edit /etc/hosts to add a DNS lookup for the host OSX side:</span></p>
+<pre class="p1"><span class="s1"> 10.0.2.2      osxhost</span></pre>
+<p class="p1"><span class="s1">18a) You can figure it out by looking up your gateway inside arch with `ip route show` and looking at the via line</span></p>
+<p class="p1"><span class="s1">18) Now edit /etc/fstab to add the mapping from nfs to ~/osnfs:</span></p>
+<pre class="p1"><span class="s1"> host:/Users/clm2186/Documents/Columbia/Current/COMS4118 /home/clm2186/osnfs nfs rsize=16384,wsize=16384,timeo=14,nolock,_netdev 0 0</span></pre>
+<p class="p1"><span class="s1"> #note, if you have a space in the NFS path use \040, which is the ASCII value of space in octal&#8230;</span></p>
+<p class="p1"><span class="s1">19) then finally you&#8217;re ready to mount it!!!</span></p>
+<pre class="p1"><span class="s1"> sudo mount ~/osnfs</span></pre>
+<p class="p1"><span class="s1">20) Once you get it working, probably take a snapshot. </span></p>
+<p class="p1"><span class="s1">The only known issue I have is that I seem to need to manually mount it with `sudo mount ~/osnfs` every time I reboot. </span></p>
+<p class="p1"><span class="s1">Ok, I just realized I said this wasn&#8217;t that bad, and it&#8217;s like 20 crazy steps. However, it really wasn&#8217;t too bad, and could be done in probably only 30 minutes if you do it cleanly.   It wasn&#8217;t nearly as bad as what doing this sort of thing can become: <a href="http://xkcd.com/349/"><span class="s2">http://xkcd.com/349/</span></a></span></p>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2015/02/osx-nfs-serving-to-arch-virtualbox-guest/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>Intro Data Science/Kaggle update</title>
+		<link>http://chmullig.com/2012/12/intro-data-sciencekaggle-update/</link>
+		<comments>http://chmullig.com/2012/12/intro-data-sciencekaggle-update/#comments</comments>
+		<pubDate>Sun, 16 Dec 2012 14:02:26 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[School]]></category>
+		<category><![CDATA[Columbia]]></category>
+		<category><![CDATA[data]]></category>
+		<category><![CDATA[data science]]></category>
+		<category><![CDATA[kagg]]></category>
+		<category><![CDATA[kaggle]]></category>
+		<category><![CDATA[python]]></category>
+		<category><![CDATA[r]]></category>
+		<category><![CDATA[statistics]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=506</guid>
+		<description><![CDATA[The semester is over, so here&#8217;s a little update about the Intro to Data Science class (previous post). Kaggle Final Project The final project was a Kaggle competition to predict standardized test essay grades. Although I still had lots of ideas, when I wrapped up a week early I was in first on the public [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>The semester is over, so here&#8217;s a little update about the Intro to Data Science class (<a title="Intro to Data Science – Kaggle Leaderboard" href="http://chmullig.com/2012/11/intro-to-data-science-kaggle-leaderboard/">previous post</a>).</p>
+<h3>Kaggle Final Project</h3>
+<p>The<a href="http://inclass.kaggle.com/c/columbia-university-introduction-to-data-science-fall-2012"> final project </a>was a Kaggle competition to predict standardized test essay grades. Although I still had lots of ideas, when I wrapped up a week early I was in first on the public leaderboard, and maintained that to the end. After it was over the private results gave first to Maura, who implemented some awesome ensembling. For commentary take a look at <a href="http://columbiadatascience.com/2012/12/11/kaggle-competition-final-results/">Rachel&#8217;s blog post</a>. There&#8217;s a bit of discussion in the forum, including my write up of <a href="https://github.com/chmullig/datascience-aes">my code</a>.</p>
+<h3>Visualization</h3>
+<p>During the competition I maintained a <a title="Image here, see previous post for info" href="http://chmullig.com/wp-content/uploads/2012/11/datascience_leaderboard.png">visualization</a> of the <a href="http://inclass.kaggle.com/c/columbia-university-introduction-to-data-science-fall-2012/leaderboard">leaderboard</a>, which shows everyone&#8217;s best scores at that moment. Will Cukierski at Kaggle appreciated it, and apparently the collective impetus of Rachel and I encouraged them to make a <a href="http://www.kaggle.com/c/leapfrogging-leaderboards">competition out of visualizing the leaderboard</a>! See <a href="http://columbiadatascience.com/2012/12/14/kaggle-visualization-competition-in-our-honor/">Rachel&#8217;s blog post</a> about it for some more info (and a nice write up about my mistakes).</p>
+<p>Now back to studying for finals&#8230;</p>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2012/12/intro-data-sciencekaggle-update/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Intro to Data Science &#8211; Kaggle Leaderboard</title>
+		<link>http://chmullig.com/2012/11/intro-to-data-science-kaggle-leaderboard/</link>
+		<comments>http://chmullig.com/2012/11/intro-to-data-science-kaggle-leaderboard/#comments</comments>
+		<pubDate>Thu, 08 Nov 2012 00:36:06 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[School]]></category>
+		<category><![CDATA[Columbia]]></category>
+		<category><![CDATA[data science]]></category>
+		<category><![CDATA[graphing]]></category>
+		<category><![CDATA[kaggle]]></category>
+		<category><![CDATA[r]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=494</guid>
+		<description><![CDATA[This semester I&#8217;m auditing Rachel Schutt&#8217;s Intro to Data Science class. I originally registered for it, but at the end of the add/drop period decided I wasn&#8217;t confident in my academic background, and wasn&#8217;t sure about the workload that would be required. In retrospect it was a mistake to drop it. However I have been [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>This semester I&#8217;m auditing Rachel Schutt&#8217;s <a href="http://columbiadatascience.com">Intro to Data Science class</a>. I originally registered for it, but at the end of the add/drop period decided I wasn&#8217;t confident in my academic background, and wasn&#8217;t sure about the workload that would be required. In retrospect it was a mistake to drop it. However I have been attending class as I can (about half the time).</p>
+<p>The final project, accounting for most of the grade, is a <a href="http://inclass.kaggle.com/c/columbia-university-introduction-to-data-science-fall-2012">Kaggle competition</a>. It&#8217;s based on an earlier competition, and the goal is to develop a model to grade standardized test essays (approximately middle school level). As an auditor Rachel asked me not to submit, but my cross-validation suggests my model (linear regressions with some neat NLP derived features) is still besting the public leaderboard (Quadratic Weighted Kappa Error Measure of .75), but who knows.</p>
+<p>I thought I could easily adjust my <a title="MITRE Challenge Graph" href="http://chmullig.com/2011/02/mitre-challenge-graph/">MITRE competition leaderboard graph</a> to Kaggle&#8217;s CSV, and it turned out to be pretty easy. The biggest issue ended up being that MITRE scored 0 to 100, and this scores 0 to 1. That had some unintended consequences. launchd + python + R should upload this every hour or so (when my laptop is running).</p>
+<p>I&#8217;m frankly surprised Kaggle hasn&#8217;t done something like this before. Maybe if I have a bored evening I&#8217;ll try to do it in <a href="http://d3js.org/">D3</a>, which should look much nicer.</p>
+<p><a href="http://chmullig.com/wp-content/uploads/2012/11/datascience_leaderboard.png"><img class="alignnone size-full wp-image-496" title="Data Science Inclass Kaggle Leaderboard" alt="" src="http://chmullig.com/wp-content/uploads/2012/11/datascience_leaderboard.png" width="100%" /></a></p>
+<p>&nbsp;</p>
+<p>Update, 12/16: I&#8217;ve <a title="Intro Data Science/Kaggle update" href="http://chmullig.com/2012/12/intro-data-sciencekaggle-update/">posted a followup</a> after the end of the semester.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2012/11/intro-to-data-science-kaggle-leaderboard/feed/</wfw:commentRss>
+		<slash:comments>3</slash:comments>
+		</item>
+		<item>
+		<title>This is Your Brain on Facebook</title>
+		<link>http://chmullig.com/2012/01/this-is-your-brain-on-facebook/</link>
+		<comments>http://chmullig.com/2012/01/this-is-your-brain-on-facebook/#comments</comments>
+		<pubDate>Wed, 18 Jan 2012 22:22:22 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[Nerdery]]></category>
+		<category><![CDATA[Philosophising]]></category>
+		<category><![CDATA[School]]></category>
+		<category><![CDATA[cognition]]></category>
+		<category><![CDATA[Columbia]]></category>
+		<category><![CDATA[facebook]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=429</guid>
+		<description><![CDATA[I wrote this as an Op-Ed for the last progression of University Writing. Posted here to share. A recent study found that 87% of US undergraduates are on Facebook for an average of 93 minutes daily. At 11 hours a week that’s nearly as long as many of us spend in class. If 12 hours [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p><em>I wrote this as an Op-Ed for the last progression of University Writing. Posted here to share.</em></p>
+<p>A recent study found that 87% of US undergraduates are on Facebook for an average of 93 minutes daily. At 11 hours a week that’s nearly as long as many of us spend in class. If 12 hours of classroom time is supposed to not just teach us facts but also train us to become more complex thinkers why do we pretend that 11 hours of Facebook won’t have an affect, too? Facebook asks us to constantly sift through posts, skim, evaluate, and make microscopic comments. By using Facebook we are training our minds to condense all issues into easily “like”-able one-liners, rather than complex essays.</p>
+<p>During finals last month many of us turned to Facebook to relieve stress. Many students, including myself, found that Facebook became not a limited relief valve but a means of procrastination. By the night before an exam we thought our only recourse was to block Facebook. Then, finally, our true academic selves would shine in blissful focus and productivity.</p>
+<p>If only it was that easy. The distraction and inability to focus that led us to block Facebook wasn’t because we were using Facebook that night. It was the result of our brain adapting to excel at the Facebook friendly tasks we demanded of it, at the expense of less frequent tasks, such as deep reading. After so many hours on Facebook over so many months the Facebook way of shallow thinking was dominant. The focused contemplative mindset became a difficult to achieve anomaly. The night before a paper was due was simply too late to change anything. Even though we were offline we carried Facebook’s in our cognition.</p>
+<p>Any new intellectual technology, including Facebook, encourages certain ways of thinking and discourages others. The invention of writing allowed humanity to easily store and retrieve information, a laborious process in oral cultures, and in turn led to an explosion of knowledge. However Socrates, in Plato’s <em>Phaedrus</em>, warns of the cognitive downside to writing by retelling the legend of king Thalmus, who, upon receiving the gift of writing from the god Theuth immediately questions the tradeoff it requires. Readers, Socrates says, will “be thought very knowledgeable when they are for the most part quite ignorant” because there was no oral instruction, and therefore, in his opinion, no deep learning. Writing fundamentally changed how we think. Today Facebook is changing it again. It encourages us to think in terms of connections, which may be advantageous in an increasingly interdisciplinary world, but it discourages deep reading, analysis, and debate. We must acknowledge these changes, and then adapt to them.</p>
+<p>Facebook has many advantages, such as staying in touch with friends &amp; family. However research, and common sense, suggest that large amounts of unfocused Facebook browsing damages our ability to concentrate, to understand complex ideas, and to develop our own ideas. Must we choose to either concede our thought patterns to Mark Zuckerberg, or abandon Facebook entirely? Neither is a great choice.</p>
+<p>Instead of simply embracing or abandoning Facebook take the opportunity presented by the new semester to assess your use over the long run. What benefits does it provide you? How can you maximize those benefits, while reducing the costs? By becoming a conscientious user today, by finals at the end of the semester your brain will be better trained to focus and think richer thoughts.</p>
+<p>Being deliberate about Facebook isn’t easy, but hopefully a few of these techniques, which helped me, will help you. Schedule a concentrated block of Facebook time rather than browsing whenever the urge strikes; this shifts Facebook into a hobby rather than a shameful timewasting habit. When you’re off Facebook, be off Facebook; avoid the siren call of a quick status post, “Studying sooooo hard at Butler!” Adjust your Facebook settings to reduce notification emails; it’s much harder to resist temptation when it thrusts itself into your inbox. Don’t use Facebook as a study break; it forces you into the skim-evaluate-quip mindset rather than read-analyze-write. Plus, just like potato chips, it’s awfully hard to limit it to “just 2 minutes.” Experiment with different ways to control your use, and see what works for you.</p>
+<p>Facebook will one day be passé, but whatever replaces it will affect our cognition, just like speech, writing, email, and Facebook itself already have. By first understanding the medium, and then deliberately engaging with it, we can attempt to capture the benefits and avoid the harmful effects.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2012/01/this-is-your-brain-on-facebook/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		</item>
+		<item>
+		<title>All Night Bike Ride</title>
+		<link>http://chmullig.com/2011/09/all-night-bike-ride/</link>
+		<comments>http://chmullig.com/2011/09/all-night-bike-ride/#comments</comments>
+		<pubDate>Tue, 27 Sep 2011 17:00:11 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[School]]></category>
+		<category><![CDATA[Biking]]></category>
+		<category><![CDATA[Columbia]]></category>
+		<category><![CDATA[history]]></category>
+		<category><![CDATA[NYC]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=391</guid>
+		<description><![CDATA[Last Thursday Night/Friday morning I participated in an all night NYC bike ride for one of my classes. For more official background, the WSJ wrote it up. It was an optional activity as part of the History of the City of New York class I&#8217;m taking with Kenneth Jackson at Columbia University. He, the class, and [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Last Thursday Night/Friday morning I participated in an all night NYC bike ride for one of my classes. For more official background, the WSJ <a href="http://online.wsj.com/article/SB10001424052970204422404576593292287228736.html?KEYWORDS=kenneth+jackson" target="_blank">wrote it up</a>. It was an optional activity as part of the <em>History of the City of New York</em> class I&#8217;m taking with Kenneth Jackson at Columbia University. He, the class, and the bike ride are all institutions at the university, and I lucked into one of the ~400 spots in the class.</p>
+<p><iframe src="http://maps.google.com/maps/ms?msa=0&amp;msid=202222244258611869279.0004adee48fe9b18cf43f&amp;ie=UTF8&amp;t=m&amp;vpsrc=0&amp;ll=40.750118,-73.989487&amp;spn=0.124843,0.219727&amp;z=12&amp;output=embed" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" width="640" height="480"></iframe><br />
+I&#8217;ve attempted to <a href="http://maps.google.com/maps/ms?msa=0&amp;msid=202222244258611869279.0004adee48fe9b18cf43f&amp;ie=UTF8&amp;t=m&amp;vpsrc=0&amp;ll=40.750118,-73.989487&amp;spn=0.124843,0.219727&amp;z=12&amp;source=embed">create a map of the route</a> we took here, but it&#8217;s based on my recollection and certainly inaccurate on the details of exactly which streets we took. If anyone knows corrections, let me  know. If I was thinking properly I would have taken my Garmin GPS!</p>
+<p>It was really fun <img src="http://chmullig.com/wp-includes/images/smilies/simple-smile.png" alt=":)" class="wp-smiley" style="height: 1em; max-height: 1em;" />  I chugged a can of Illy espresso at 10:30, which helped a lot. Only getting ~3 hours of sleep the night before really didn&#8217;t help. Stupid University Writing draft.</p>
+<p>The whole class starting out at once on bikes was intense. Many of us were on rented and borrowed bikes and irregular bikers, so many weren&#8217;t very comfortable/confident. It&#8217;s really hard to bike slowly in general, especially in a crowd where you can&#8217;t turn much. The result was lots of weaving, dodging, and near misses. Plenty of minor bumps, but only a few people really fell down, and nobody needed serious assistance.</p>
+<p>We pretty much just went and kept going, rarely did anyone, even the first people, stop for red lights. One of the Columbia Ambulances was bringing up the rear, flashing its lights the whole time. That came in really helpful in giving us some legitimacy, especially in midtown.</p>
+<p>Around 1:30ish (I think&#8230;) we stopped at Washington Square Park (location of NYU, our wanna be rivals downtown). I went off in search of some food, and ended up having tacos from a cart, and then beer with several grad students, including the TA for my discussion section. A part of the group (1/3rd?) turned back at this point, hopping on the subway or taking cabs back uptown.</p>
+<p>From there we went south, around Battery Park City and Battery Park. We were within a few blocks of the WTC site, and could see the incredibly over illuminated new Tower 1 going up. Another bunch (1/4 or the original group?) turned back around here, where the last subway stop for the 1 train (which Columbia is on) is.</p>
+<p>Broad St &amp; Wall St were pretty locked down (due to the OccupyWallStreet protests nearby), but we walked up and in front of the NYSE and Federal Hall.</p>
+<p>From there we went along to the Brooklyn bridge, went through brooklyn, and I ended up taking the Subway most of the way back (biking from 96th St -&gt; 116th St because the transfer would have taken a long time).</p>
+<p>The experience was really cool. Especially the contrast between Central Park, time square, and the side streets. You&#8217;d go just 3 blocks and it would have a very different feel at 3AM. It was fun causing a little mayhem for taxis, especially since it was just minor. We regularly got honked at, and over a dozen volunteers would stand in front of the cross traffic, preventing them from even trying to go.</p>
+<p>There was some school pride, which was fun (and not hugely common at CU). Seemingly nobody remembers the words to our fight song (because it&#8217;s stupid), although everyone knows &#8220;Roar, Lion, Roar.&#8221; A few people chanted it out, and the rest of us mumbled along.</p>
+<table style="padding-left: 30px;" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td valign="middle"><em>Roar, Lion, Roar</em><em>And wake the echoes of the Hudson Valley!</em><em>Fight on to victory evermore,</em><em>While the sons of Knickerbocker rally round</em><em>Columbia! Columbia!</em></p>
+<p><em>Shouting her name forever!</em></p>
+<p><em>Roar, Lion, Roar</em></p>
+<p><em>For Alma Mater on the Hudson Shore!</em><span class="Apple-style-span" style="font-family: Georgia, 'Times New Roman', 'Bitstream Charter', Times, serif; font-size: 13px; line-height: 19px;"> </span></td>
+</tr>
+</tbody>
+</table>
+<p>From the Brooklyn Bridge on was a bit rough. We crossed around 4AM and were walking, rather than riding, a fair amount at that point. It also turns out it&#8217;s really hard to find a bathroom at ~5 in the morning, even in downtown Brooklyn.</p>
+<p>&nbsp;</p>
+
+<a href='http://chmullig.com/2011/09/all-night-bike-ride/img_0313/'><img width="640" height="480" src="http://chmullig.com/wp-content/uploads/2011/09/IMG_0313-640x480.jpg" class="attachment-medium" alt="IMG_0313" /></a>
+<a href='http://chmullig.com/2011/09/all-night-bike-ride/img_0314/'><img width="480" height="640" src="http://chmullig.com/wp-content/uploads/2011/09/IMG_0314-480x640.jpg" class="attachment-medium" alt="IMG_0314" /></a>
+<a href='http://chmullig.com/2011/09/all-night-bike-ride/img_0315/'><img width="640" height="480" src="http://chmullig.com/wp-content/uploads/2011/09/IMG_0315-640x480.jpg" class="attachment-medium" alt="IMG_0315" /></a>
+<a href='http://chmullig.com/2011/09/all-night-bike-ride/img_0319/'><img width="640" height="480" src="http://chmullig.com/wp-content/uploads/2011/09/IMG_0319-640x480.jpg" class="attachment-medium" alt="IMG_0319" /></a>
+<a href='http://chmullig.com/2011/09/all-night-bike-ride/img_0324/'><img width="640" height="480" src="http://chmullig.com/wp-content/uploads/2011/09/IMG_0324-640x480.jpg" class="attachment-medium" alt="IMG_0324" /></a>
+<a href='http://chmullig.com/2011/09/all-night-bike-ride/img_0330/'><img width="640" height="480" src="http://chmullig.com/wp-content/uploads/2011/09/IMG_0330-640x480.jpg" class="attachment-medium" alt="IMG_0330" /></a>
+<a href='http://chmullig.com/2011/09/all-night-bike-ride/img_0331/'><img width="640" height="480" src="http://chmullig.com/wp-content/uploads/2011/09/IMG_0331-640x480.jpg" class="attachment-medium" alt="IMG_0331" /></a>
+<a href='http://chmullig.com/2011/09/all-night-bike-ride/img_0332/'><img width="480" height="640" src="http://chmullig.com/wp-content/uploads/2011/09/IMG_0332-480x640.jpg" class="attachment-medium" alt="IMG_0332" /></a>
+<a href='http://chmullig.com/2011/09/all-night-bike-ride/img_0333/'><img width="640" height="480" src="http://chmullig.com/wp-content/uploads/2011/09/IMG_0333-640x480.jpg" class="attachment-medium" alt="IMG_0333" /></a>
+<a href='http://chmullig.com/2011/09/all-night-bike-ride/img_0334/'><img width="640" height="480" src="http://chmullig.com/wp-content/uploads/2011/09/IMG_0334-640x480.jpg" class="attachment-medium" alt="IMG_0334" /></a>
+<a href='http://chmullig.com/2011/09/all-night-bike-ride/img_0336/'><img width="480" height="640" src="http://chmullig.com/wp-content/uploads/2011/09/IMG_0336-480x640.jpg" class="attachment-medium" alt="IMG_0336" /></a>
+<a href='http://chmullig.com/2011/09/all-night-bike-ride/img_0342/'><img width="640" height="480" src="http://chmullig.com/wp-content/uploads/2011/09/IMG_0342-640x480.jpg" class="attachment-medium" alt="IMG_0342" /></a>
+<a href='http://chmullig.com/2011/09/all-night-bike-ride/img_0345/'><img width="640" height="480" src="http://chmullig.com/wp-content/uploads/2011/09/IMG_0345-640x480.jpg" class="attachment-medium" alt="IMG_0345" /></a>
+<a href='http://chmullig.com/2011/09/all-night-bike-ride/img_0348/'><img width="640" height="480" src="http://chmullig.com/wp-content/uploads/2011/09/IMG_0348-640x480.jpg" class="attachment-medium" alt="IMG_0348" /></a>
+<a href='http://chmullig.com/2011/09/all-night-bike-ride/img_0349/'><img width="640" height="480" src="http://chmullig.com/wp-content/uploads/2011/09/IMG_0349-640x480.jpg" class="attachment-medium" alt="IMG_0349" /></a>
+
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2011/09/all-night-bike-ride/feed/</wfw:commentRss>
+		<slash:comments>1</slash:comments>
+		</item>
+		<item>
+		<title>Keep Calm and Study On</title>
+		<link>http://chmullig.com/2011/06/keep-calm-and-study-on/</link>
+		<comments>http://chmullig.com/2011/06/keep-calm-and-study-on/#comments</comments>
+		<pubDate>Sat, 18 Jun 2011 00:34:58 +0000</pubDate>
+		<dc:creator><![CDATA[chmullig]]></dc:creator>
+				<category><![CDATA[School]]></category>
+		<category><![CDATA[Columbia]]></category>
+		<category><![CDATA[GS]]></category>
+		<category><![CDATA[school]]></category>
+		<category><![CDATA[study]]></category>
+
+		<guid isPermaLink="false">http://chmullig.com/?p=369</guid>
+		<description><![CDATA[Playing around today, I came upon an obvious/clever idea. A bit of hacking in Inkscape led to this. Note the crown, font and colors (don&#8217;t sue me, Trustees!)&#8230; For those interested I&#8217;ve uploaded PDF (if you want to print or have a larger copy or something) and SVG (if you want to modify) files. It&#8217;s [&#8230;]]]></description>
+				<content:encoded><![CDATA[<p>Playing around today, I came upon an obvious/clever idea. A bit of hacking in <a href="http://inkscape.org/">Inkscape</a> led to this. Note the crown, font and colors (don&#8217;t sue me, Trustees!)&#8230;</p>
+<div id="attachment_373" style="width: 471px" class="wp-caption aligncenter"><a href="http://chmullig.com/wp-content/uploads/2011/06/keep-calm-and-study-on-poster.pdf"><img class="size-full wp-image-373 " title="Keep Calm and Study On" src="http://chmullig.com/wp-content/uploads/2011/06/keep-calm-and-study-on-poster_768x1147.png" alt="" width="461" height="688" /></a><p class="wp-caption-text">Keep Calm and Study On</p></div>
+<p>For those interested I&#8217;ve uploaded <a href="http://chmullig.com/wp-content/uploads/2011/06/keep-calm-and-study-on-poster.pdf">PDF</a> (if you want to print or have a larger copy or something) and <a href="http://chmullig.com/wp-content/uploads/2011/06/keep-calm-study-on-nobg.svg">SVG</a> (if you want to modify) files. It&#8217;s in the original size/aspect ratio for the Keep Calm and Carry On posters, 19¾ x 29½. Anyone is welcome to use it &#8211; if you&#8217;re feeling generous you&#8217;re welcome to cite me.</p>
+]]></content:encoded>
+			<wfw:commentRss>http://chmullig.com/2011/06/keep-calm-and-study-on/feed/</wfw:commentRss>
+		<slash:comments>4</slash:comments>
+		</item>
+	</channel>
+</rss>
+
+<!-- Dynamic page generated in 0.263 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2015-06-13 00:20:34 -->

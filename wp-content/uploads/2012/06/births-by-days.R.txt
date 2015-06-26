@@ -1,0 +1,39 @@
+#load directly from chmullig.com
+bdata <- read.csv("http://chmullig.com/wp-content/uploads/2012/06/births.csv")
+
+#filter
+bdata<-bdata[(bdata$births > 1000),]
+bdata$smoothbirths <- bdata$births
+bdata$smoothbirths[bdata$month==2 & bdata$day==29] <- bdata$births[bdata$month==2 & bdata$day==29]*4
+
+bdata$order <- rank(bdata$month + bdata$day/100)
+birthloess = loess(births ~ order, span=1, iter=6, bdata)
+bdata$predict <- predict(birthloess, bdata$order)
+bdata$flag <- ifelse(bdata$births - bdata$predict > sd(bdata$smoothbirths)*2.3, 3,
+    ifelse(bdata$births - bdata$predict < sd(bdata$smoothbirths)*-2.3, 1, 0))
+
+#special days we might care about
+bdata$flag[bdata$month==2 & bdata$day==14] <- 3
+bdata$flag[bdata$month==10 & bdata$day==31] <- 1
+
+monthstarts <- by(bdata$order, list(bdata$month), min)
+
+plot(births ~ order, data=bdata, xaxt="n", xlab="Day", ylab="Births", main="Births by Day of Year", type="l", lwd=0)
+axis(1, at=monthstarts, labels=c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"),
+    tck=1, lwd=0.5, lty=2, col="grey", cex.axis=0.99)
+title(sub="Source: National Vital Statistics Natality Data, as provided by Google BigQuery. Graph by Chris Mulligan @ chmullig.com", cex.sub=0.75, adj=1)
+
+#add the mean line
+abline(a=sum(bdata$births)/365.25, b=0, col="red", lwd=0.5)
+
+#add the smoothed line
+lines(bdata$order, bdata$predict, col="blue", lwd=0.5)
+
+legend("bottomright", c("Births", "Smoothed", "Mean"), col=c("black", "blue", "red"), lty=1, lwd=2, bty="n")
+
+#label some outliers
+with(bdata, text(order[flag==1], births[flag==1], paste(month[flag==1], "/", day[flag==1]), pos=1, cex=1))
+with(bdata, text(order[flag==3], births[flag==3], paste(month[flag==3], "/", day[flag==3]), pos=3, cex=1))
+
+#write the actual line
+lines(births ~ order, data=bdata, xaxt="n", xlab="Day", ylab="Births", type="l", lwd=1.5)
