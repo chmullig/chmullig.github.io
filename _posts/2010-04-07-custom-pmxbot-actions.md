@@ -1,0 +1,232 @@
+---
+title: Custom pmxbot actions
+author: chmullig
+layout: post
+permalink: /2010/04/custom-pmxbot-actions/
+categories:
+  - Nerdery
+tags:
+  - irc
+  - pmxbot
+  - python
+---
+My employer just open sourced a fork of the IRC bot we&#8217;ve been using internally for years, [pmxbot][1]. [jamwt][2] and some others are responsible for all the good parts of it, but I&#8217;ve been responsible for most of the feature bloat for the past few years. The open source version strips out internal code that or didn&#8217;t need to be shared, and overall makes it much more flexible for others to use.
+
+It&#8217;s really a pretty great system, and I&#8217;m going to share some of the actions that we didn&#8217;t release, but that you might get some value or inspiration from. Of note, a few of these will reference internal libraries, so you&#8217;ll need to switch &#8217;em to use urllib2 or similar.
+
+The basic way you extend pmxbot is with two decorators. The first is @command, and the second is @contains. @commands are commands you explicitly call with &#8220;!command&#8221; at the beginning of a line. @contains is a very simple pattern match &#8211; if the phrase you register is in the line (literally &#8220;name in lc_msg&#8221;).
+
+When you use the decorators on a function you&#8217;re adding it to pmxbot&#8217;s handler_registry. Every line of chat it sees will then be checked to see if an appropriate action exists in the registry, and if so the function is called. It goes through the registry in a certain order &#8211; first commands, then aliases, then contains. Within each group it also sorts by descending length order &#8211; so if you have two contains &#8211; &#8220;rama lama ding dong&#8221; and &#8220;ram&#8221; &#8211; if a line had &#8220;rama lama ding dong&#8221; it would execute that one. pmxbot will execute exactly 0 or 1 actions for any line.
+
+The decorators are fairly simple &#8211; @command(&#8220;google&#8221;, aliases=(&#8216;g&#8217;,), doc=&#8221;Look a phrase up on google, new method&#8221;). First is the name of the command &#8220;google&#8221;, which you trigger by entering &#8220;!google.&#8221; Second is an optional iterator of aliases, in this case only one, &#8220;!g.&#8221; You could have several in here, such as aliases=(&#8216;shiv&#8217;, &#8216;stab&#8217;, &#8216;shank&#8217;,). Last is an optional help/documentation string that will be displayed when someone does &#8220;!help google&#8221;. The contains decorator is the same, but uses @contains and doesn&#8217;t support aliases.
+
+A command is called when it&#8217;s picked out of the handler registry to handle the action. Any handler will be called with the arguments &#8211; client, event, channel, nick and rest. You can ignore client and event for 99% of cases, they&#8217;re passed through from the underlying irc library. Channel is a string containing the channel the command was made in. Nick is the nickname of the person who made the call. Rest is the rest of the message, after the command prefix is removed if it&#8217;s a command. For example if we saw the following line in #pmxbot: &#8220;<chmullig> !g wikipedia irc bots&#8221; the google function would be called with channel == &#8220;#pmxbot&#8221;, nick == &#8220;chmullig&#8221; and rest == &#8220;wikipedia irc bots&#8221;.
+
+## A basic command
+
+Putting it all together, let&#8217;s look at a basic command &#8211; !google.
+
+<div class="wp_syntax">
+  <table>
+    <tr>
+      <td class="code">
+        <pre class="python" style="font-family:monospace;"><span style="color: #66cc66;">@</span>command<span style="color: black;">&#40;</span><span style="color: #483d8b;">"google"</span><span style="color: #66cc66;">,</span> aliases<span style="color: #66cc66;">=</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">'g'</span><span style="color: #66cc66;">,</span><span style="color: black;">&#41;</span><span style="color: #66cc66;">,</span> doc<span style="color: #66cc66;">=</span><span style="color: #483d8b;">"Look a phrase up on google"</span><span style="color: black;">&#41;</span>
+<span style="color: #ff7700;font-weight:bold;">def</span> google<span style="color: black;">&#40;</span>client<span style="color: #66cc66;">,</span> event<span style="color: #66cc66;">,</span> channel<span style="color: #66cc66;">,</span> nick<span style="color: #66cc66;">,</span> rest<span style="color: black;">&#41;</span>:
+	BASE_URL <span style="color: #66cc66;">=</span> <span style="color: #483d8b;">'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&amp;'</span>
+	url <span style="color: #66cc66;">=</span> BASE_URL + <span style="color: #dc143c;">urllib</span>.<span style="color: black;">urlencode</span><span style="color: black;">&#40;</span><span style="color: black;">&#123;</span><span style="color: #483d8b;">'q'</span> : rest.<span style="color: black;">strip</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span><span style="color: black;">&#125;</span><span style="color: black;">&#41;</span>
+	raw_res <span style="color: #66cc66;">=</span> <span style="color: #dc143c;">urllib</span>.<span style="color: black;">urlopen</span><span style="color: black;">&#40;</span>url<span style="color: black;">&#41;</span>.<span style="color: black;">read</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span>
+	results <span style="color: #66cc66;">=</span> json.<span style="color: black;">loads</span><span style="color: black;">&#40;</span>raw_res<span style="color: black;">&#41;</span>
+	hit1 <span style="color: #66cc66;">=</span> results<span style="color: black;">&#91;</span><span style="color: #483d8b;">'responseData'</span><span style="color: black;">&#93;</span><span style="color: black;">&#91;</span><span style="color: #483d8b;">'results'</span><span style="color: black;">&#93;</span><span style="color: black;">&#91;</span><span style="color: #ff4500;"></span><span style="color: black;">&#93;</span>
+	<span style="color: #ff7700;font-weight:bold;">return</span> <span style="color: #483d8b;">' - '</span>.<span style="color: black;">join</span><span style="color: black;">&#40;</span><span style="color: black;">&#40;</span><span style="color: #dc143c;">urllib</span>.<span style="color: black;">unquote</span><span style="color: black;">&#40;</span>hit1<span style="color: black;">&#91;</span><span style="color: #483d8b;">'url'</span><span style="color: black;">&#93;</span><span style="color: black;">&#41;</span><span style="color: #66cc66;">,</span> hit1<span style="color: black;">&#91;</span><span style="color: #483d8b;">'titleNoFormatting'</span><span style="color: black;">&#93;</span><span style="color: black;">&#41;</span><span style="color: black;">&#41;</span></pre>
+      </td>
+    </tr>
+  </table>
+</div>
+
+It registers the function google, under the command google, with an alias g. Note that the google function doesn&#8217;t have to match the name in the decorator, it can be anything. Within this function we can do anything you could want to do in python &#8211; we use urllib to call google&#8217;s ajax apis, and use simplejson to parse it and return the URL and title of the first hit. Anything returned or yielded from the function is passed back to the channel it was called from. If you want to have pmxbot perform an action, just return text that begins with &#8220;/me.&#8221;
+
+Now let&#8217;s do a short contains example &#8211; simple enough.
+
+<div class="wp_syntax">
+  <table>
+    <tr>
+      <td class="code">
+        <pre class="python" style="font-family:monospace;"><span style="color: #66cc66;">@</span>contains<span style="color: black;">&#40;</span><span style="color: #483d8b;">"sqlonrails"</span><span style="color: black;">&#41;</span>
+<span style="color: #ff7700;font-weight:bold;">def</span> yay_sor<span style="color: black;">&#40;</span>client<span style="color: #66cc66;">,</span> event<span style="color: #66cc66;">,</span> channel<span style="color: #66cc66;">,</span> nick<span style="color: #66cc66;">,</span> rest<span style="color: black;">&#41;</span>:
+	karmaChange<span style="color: black;">&#40;</span>botbase.<span style="color: black;">logger</span>.<span style="color: black;">db</span><span style="color: #66cc66;">,</span> <span style="color: #483d8b;">'sql on rails'</span><span style="color: #66cc66;">,</span> <span style="color: #ff4500;">1</span><span style="color: black;">&#41;</span>
+	<span style="color: #ff7700;font-weight:bold;">return</span> <span style="color: #483d8b;">"Only 76,417 lines..."</span></pre>
+      </td>
+    </tr>
+  </table>
+</div>
+
+This one has no doc (you can&#8217;t get help on contains ATM) and it&#8217;s pretty simple. That karmaChange line increases the karma of &#8220;sql on rails,&#8221; but we&#8217;re not talking about karma.
+
+#### Yahoo
+
+You&#8217;ll need the BOSS library for this, and you&#8217;ll need to register an API key and put a config file where the library expects it. However it works fine once you do all that.
+
+<div class="wp_syntax">
+  <table>
+    <tr>
+      <td class="code">
+        <pre class="python" style="font-family:monospace;"><span style="color: #66cc66;">@</span>command<span style="color: black;">&#40;</span><span style="color: #483d8b;">"yahoo"</span><span style="color: #66cc66;">,</span> aliases<span style="color: #66cc66;">=</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">'y'</span><span style="color: #66cc66;">,</span><span style="color: black;">&#41;</span><span style="color: #66cc66;">,</span> doc<span style="color: #66cc66;">=</span><span style="color: #483d8b;">"Look a phrase up on Yahoo!"</span><span style="color: black;">&#41;</span>
+<span style="color: #ff7700;font-weight:bold;">def</span> yahoo<span style="color: black;">&#40;</span>client<span style="color: #66cc66;">,</span> event<span style="color: #66cc66;">,</span> channel<span style="color: #66cc66;">,</span> nick<span style="color: #66cc66;">,</span> rest<span style="color: black;">&#41;</span>:
+	<span style="color: #ff7700;font-weight:bold;">from</span> yos.<span style="color: black;">boss</span> <span style="color: #ff7700;font-weight:bold;">import</span> ysearch
+	searchres <span style="color: #66cc66;">=</span> ysearch.<span style="color: black;">search</span><span style="color: black;">&#40;</span>rest.<span style="color: black;">strip</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span><span style="color: #66cc66;">,</span> count<span style="color: #66cc66;">=</span><span style="color: #ff4500;">1</span><span style="color: black;">&#41;</span>
+	hit1 <span style="color: #66cc66;">=</span> searchres<span style="color: black;">&#91;</span><span style="color: #483d8b;">'ysearchresponse'</span><span style="color: black;">&#93;</span><span style="color: black;">&#91;</span><span style="color: #483d8b;">'resultset_web'</span><span style="color: black;">&#93;</span><span style="color: black;">&#91;</span><span style="color: #ff4500;"></span><span style="color: black;">&#93;</span>
+	<span style="color: #ff7700;font-weight:bold;">return</span> hit1<span style="color: black;">&#91;</span><span style="color: #483d8b;">'url'</span><span style="color: black;">&#93;</span></pre>
+      </td>
+    </tr>
+  </table>
+</div>
+
+#### Trac
+
+This is one of my favorites. We use [Trac][3] internally for ticketing. We have two commands that use the XMLRPC plugin for Trac to make it accessible for pmxbot. The first finds any possible ticket number (eg #12345) and provides a link & ticket summary. Note that we put a hack into the handler registry to make this the first contains command it checks, you could do something similar if you wanted to modify it.
+
+<div class="wp_syntax">
+  <table>
+    <tr>
+      <td class="code">
+        <pre class="python" style="font-family:monospace;"><span style="color: #66cc66;">@</span>contains<span style="color: black;">&#40;</span><span style="color: #483d8b;">'#'</span><span style="color: #66cc66;">,</span> doc<span style="color: #66cc66;">=</span><span style="color: #483d8b;">'Prints the ticket URL when you use #1234'</span><span style="color: black;">&#41;</span>
+<span style="color: #ff7700;font-weight:bold;">def</span> ticket_link<span style="color: black;">&#40;</span>client<span style="color: #66cc66;">,</span> event<span style="color: #66cc66;">,</span> channel<span style="color: #66cc66;">,</span> nick<span style="color: #66cc66;">,</span> rest<span style="color: black;">&#41;</span>:
+	res <span style="color: #66cc66;">=</span> <span style="color: black;">&#91;</span><span style="color: black;">&#93;</span>
+	matches <span style="color: #66cc66;">=</span> <span style="color: #dc143c;">re</span>.<span style="color: black;">finditer</span><span style="color: black;">&#40;</span>r<span style="color: #483d8b;">'#(?P&lt;ticket&gt;<span style="color: #000099; font-weight: bold;">\d</span>{4,5})<span style="color: #000099; font-weight: bold;">\b</span>'</span><span style="color: #66cc66;">,</span> rest<span style="color: black;">&#41;</span>
+	<span style="color: #ff7700;font-weight:bold;">if</span> matches:
+		tracrpc <span style="color: #66cc66;">=</span> <span style="color: #dc143c;">xmlrpclib</span>.<span style="color: black;">Server</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">'https://user:pass@trac/xmlrpc'</span><span style="color: black;">&#41;</span>
+	<span style="color: #ff7700;font-weight:bold;">for</span> match <span style="color: #ff7700;font-weight:bold;">in</span> matches:
+		ticket <span style="color: #66cc66;">=</span> match.<span style="color: black;">groupdict</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span>.<span style="color: black;">get</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">'ticket'</span><span style="color: #66cc66;">,</span> <span style="color: #008000;">None</span><span style="color: black;">&#41;</span>
+		<span style="color: #ff7700;font-weight:bold;">if</span> ticket:
+			res.<span style="color: black;">append</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">'https://trac/ticket/%s'</span> % ticket<span style="color: black;">&#41;</span>
+			<span style="color: #ff7700;font-weight:bold;">try</span>:
+				res.<span style="color: black;">append</span><span style="color: black;">&#40;</span>tracrpc.<span style="color: black;">ticket</span>.<span style="color: black;">get</span><span style="color: black;">&#40;</span><span style="color: #008000;">int</span><span style="color: black;">&#40;</span>ticket<span style="color: black;">&#41;</span><span style="color: black;">&#41;</span><span style="color: black;">&#91;</span><span style="color: #ff4500;">3</span><span style="color: black;">&#93;</span><span style="color: black;">&#91;</span><span style="color: #483d8b;">'summary'</span><span style="color: black;">&#93;</span><span style="color: black;">&#41;</span>
+			<span style="color: #ff7700;font-weight:bold;">except</span>:
+				<span style="color: #ff7700;font-weight:bold;">pass</span>
+	<span style="color: #ff7700;font-weight:bold;">if</span> res:
+		<span style="color: #ff7700;font-weight:bold;">return</span> <span style="color: #483d8b;">' '</span>.<span style="color: black;">join</span><span style="color: black;">&#40;</span>res<span style="color: black;">&#41;</span></pre>
+      </td>
+    </tr>
+  </table>
+</div>
+
+The second uses the RPC to search trac for a ticket or wikipage that might be relevant.
+
+<div class="wp_syntax">
+  <table>
+    <tr>
+      <td class="code">
+        <pre class="python" style="font-family:monospace;"><span style="color: #66cc66;">@</span>command<span style="color: black;">&#40;</span><span style="color: #483d8b;">"tsearch"</span><span style="color: #66cc66;">,</span> aliases<span style="color: #66cc66;">=</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">'tracsearch'</span><span style="color: #66cc66;">,</span><span style="color: black;">&#41;</span><span style="color: #66cc66;">,</span> doc<span style="color: #66cc66;">=</span><span style="color: #483d8b;">"Search trac for something"</span><span style="color: black;">&#41;</span>
+<span style="color: #ff7700;font-weight:bold;">def</span> tsearch<span style="color: black;">&#40;</span>client<span style="color: #66cc66;">,</span> event<span style="color: #66cc66;">,</span> channel<span style="color: #66cc66;">,</span> nick<span style="color: #66cc66;">,</span> rest<span style="color: black;">&#41;</span>:
+	rest <span style="color: #66cc66;">=</span> rest.<span style="color: black;">strip</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span>
+	url <span style="color: #66cc66;">=</span> <span style="color: #483d8b;">'https://trac/search?'</span> + <span style="color: #dc143c;">urllib</span>.<span style="color: black;">urlencode</span><span style="color: black;">&#40;</span><span style="color: black;">&#123;</span><span style="color: #483d8b;">'q'</span> : rest<span style="color: black;">&#125;</span><span style="color: black;">&#41;</span>
+	tracrpc <span style="color: #66cc66;">=</span> <span style="color: #dc143c;">xmlrpclib</span>.<span style="color: black;">Server</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">'https://user:pass@trac/xmlrpc'</span><span style="color: black;">&#41;</span>
+	searchres <span style="color: #66cc66;">=</span> tracrpc.<span style="color: black;">search</span>.<span style="color: black;">performSearch</span><span style="color: black;">&#40;</span>rest<span style="color: black;">&#41;</span>
+	<span style="color: #ff7700;font-weight:bold;">return</span> <span style="color: #483d8b;">'%s |Results: %s'</span> % <span style="color: black;">&#40;</span>url<span style="color: #66cc66;">,</span> <span style="color: #483d8b;">' | '</span>.<span style="color: black;">join</span><span style="color: black;">&#40;</span><span style="color: black;">&#91;</span><span style="color: #483d8b;">'%s %s'</span> % <span style="color: black;">&#40;</span>x<span style="color: black;">&#91;</span><span style="color: #ff4500;"></span><span style="color: black;">&#93;</span><span style="color: #66cc66;">,</span> plaintext<span style="color: black;">&#40;</span>x<span style="color: black;">&#91;</span><span style="color: #ff4500;">1</span><span style="color: black;">&#93;</span><span style="color: black;">&#41;</span><span style="color: black;">&#41;</span> <span style="color: #ff7700;font-weight:bold;">for</span> x <span style="color: #ff7700;font-weight:bold;">in</span> searchres<span style="color: black;">&#91;</span>:<span style="color: #ff4500;">2</span><span style="color: black;">&#93;</span><span style="color: black;">&#93;</span><span style="color: black;">&#41;</span><span style="color: black;">&#41;</span></pre>
+      </td>
+    </tr>
+  </table>
+</div>
+
+#### Notify
+
+This one is a total hack, but we were having issues with coordinating a certain team. We added a !notify command to help folks easily let everyone, online & off, know what they were up to. It simple sent an email to a distribution list.
+
+<div class="wp_syntax">
+  <table>
+    <tr>
+      <td class="code">
+        <pre class="python" style="font-family:monospace;"><span style="color: #66cc66;">@</span>command<span style="color: black;">&#40;</span><span style="color: #483d8b;">"notify"</span><span style="color: #66cc66;">,</span> doc<span style="color: #66cc66;">=</span><span style="color: #483d8b;">"Send an email to list@domain.com, let them know you accidentally wiped a server."</span><span style="color: black;">&#41;</span>
+<span style="color: #ff7700;font-weight:bold;">def</span> notify<span style="color: black;">&#40;</span>client<span style="color: #66cc66;">,</span> event<span style="color: #66cc66;">,</span> channel<span style="color: #66cc66;">,</span> nick<span style="color: #66cc66;">,</span> rest<span style="color: black;">&#41;</span>:
+	server <span style="color: #66cc66;">=</span> <span style="color: #dc143c;">smtplib</span>.<span style="color: black;">SMTP</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">'mail.domain.com'</span><span style="color: black;">&#41;</span>
+	notification <span style="color: #66cc66;">=</span> <span style="color: #483d8b;">'%s: %s'</span> % <span style="color: black;">&#40;</span>nick<span style="color: #66cc66;">,</span> rest.<span style="color: black;">strip</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span><span style="color: black;">&#41;</span>
+	<span style="color: #ff7700;font-weight:bold;">try</span>:
+		sigraw <span style="color: #66cc66;">=</span> rand_bot<span style="color: black;">&#40;</span>client<span style="color: #66cc66;">,</span> event<span style="color: #66cc66;">,</span> <span style="color: #483d8b;">'!notify'</span><span style="color: #66cc66;">,</span> nick<span style="color: #66cc66;">,</span> rest<span style="color: black;">&#41;</span>
+		<span style="color: #ff7700;font-weight:bold;">if</span> <span style="color: #008000;">type</span><span style="color: black;">&#40;</span>sigraw<span style="color: black;">&#41;</span> <span style="color: #66cc66;">==</span> GeneratorType:
+			sigraw <span style="color: #66cc66;">=</span> <span style="color: #483d8b;">'<span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>'</span>.<span style="color: black;">join</span><span style="color: black;">&#40;</span>sigraw<span style="color: black;">&#41;</span>
+		signature <span style="color: #66cc66;">=</span> <span style="color: #483d8b;">'<span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span><span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>--<span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>%s'</span> % sigraw
+	<span style="color: #ff7700;font-weight:bold;">except</span>:
+		signature <span style="color: #66cc66;">=</span> <span style="color: #483d8b;">''</span>
+	msg <span style="color: #66cc66;">=</span> <span style="color: #483d8b;">'From: pmxbot@domain.com <span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>'</span>\
+		<span style="color: #483d8b;">'Reply-To: list@domain.com <span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>'</span>\
+		<span style="color: #483d8b;">'To: list@domain.com <span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>'</span>\
+		<span style="color: #483d8b;">'Subject: !notify: %s <span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span><span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>'</span>\
+		<span style="color: #483d8b;">'%s <span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span><span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>'</span>\
+		<span style="color: #483d8b;">'Hugs & Kisses,<span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>pmxbot'</span>\
+		<span style="color: #483d8b;">'%s<span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span><span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>'</span> % <span style="color: black;">&#40;</span>notification<span style="color: #66cc66;">,</span> notification<span style="color: #66cc66;">,</span> signature<span style="color: black;">&#41;</span>
+	server.<span style="color: black;">sendmail</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">'pmxbot@domain.com'</span><span style="color: #66cc66;">,</span> <span style="color: black;">&#91;</span><span style="color: #483d8b;">'list@domain.com'</span><span style="color: #66cc66;">,</span><span style="color: black;">&#93;</span><span style="color: #66cc66;">,</span> msg<span style="color: black;">&#41;</span>
+	server.<span style="color: black;">quit</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span></pre>
+      </td>
+    </tr>
+  </table>
+</div>
+
+#### Invite
+
+This one is a little weird, but as more people got on IRC we wanted to send them a little email to let them know how to access it, etc. It&#8217;s also useful to harass people who aren&#8217;t online, but should be.
+
+<div class="wp_syntax">
+  <table>
+    <tr>
+      <td class="code">
+        <pre class="python" style="font-family:monospace;"><span style="color: #66cc66;">@</span>command<span style="color: black;">&#40;</span><span style="color: #483d8b;">"invite"</span><span style="color: #66cc66;">,</span> aliases<span style="color: #66cc66;">=</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">'spam'</span><span style="color: #66cc66;">,</span><span style="color: black;">&#41;</span><span style="color: #66cc66;">,</span> doc<span style="color: #66cc66;">=</span><span style="color: #483d8b;">"Send an email to an invitee, asking them to join irc."</span><span style="color: black;">&#41;</span>
+<span style="color: #ff7700;font-weight:bold;">def</span> invite<span style="color: black;">&#40;</span>client<span style="color: #66cc66;">,</span> event<span style="color: #66cc66;">,</span> channel<span style="color: #66cc66;">,</span> nick<span style="color: #66cc66;">,</span> rest<span style="color: black;">&#41;</span>:
+	server <span style="color: #66cc66;">=</span> <span style="color: #dc143c;">smtplib</span>.<span style="color: black;">SMTP</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">'mail.domain.com'</span><span style="color: black;">&#41;</span>
+	<span style="color: #ff7700;font-weight:bold;">if</span> rest:
+		<span style="color: #ff7700;font-weight:bold;">try</span>:
+			inviteText <span style="color: #66cc66;">=</span> rest.<span style="color: black;">split</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">' '</span><span style="color: #66cc66;">,</span> <span style="color: #ff4500;">1</span><span style="color: black;">&#41;</span><span style="color: black;">&#91;</span><span style="color: #ff4500;">1</span><span style="color: black;">&#93;</span>
+		<span style="color: #ff7700;font-weight:bold;">except</span>:
+			inviteText <span style="color: #66cc66;">=</span> <span style="color: #483d8b;">''</span>
+		invitee <span style="color: #66cc66;">=</span> rest.<span style="color: black;">split</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">' '</span><span style="color: #66cc66;">,</span> <span style="color: #ff4500;">1</span><span style="color: black;">&#41;</span><span style="color: black;">&#91;</span><span style="color: #ff4500;"></span><span style="color: black;">&#93;</span> + <span style="color: #483d8b;">'@domain.com'</span>
+		<span style="color: #ff7700;font-weight:bold;">try</span>:
+			sigraw <span style="color: #66cc66;">=</span> rand_bot<span style="color: black;">&#40;</span>client<span style="color: #66cc66;">,</span> event<span style="color: #66cc66;">,</span> <span style="color: #483d8b;">'!notify'</span><span style="color: #66cc66;">,</span> nick<span style="color: #66cc66;">,</span> rest<span style="color: black;">&#41;</span>
+			<span style="color: #ff7700;font-weight:bold;">if</span> <span style="color: #008000;">type</span><span style="color: black;">&#40;</span>sigraw<span style="color: black;">&#41;</span> <span style="color: #66cc66;">==</span> GeneratorType:
+				sigraw <span style="color: #66cc66;">=</span> <span style="color: #483d8b;">'<span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>'</span>.<span style="color: black;">join</span><span style="color: black;">&#40;</span>sigraw<span style="color: black;">&#41;</span>
+			signature <span style="color: #66cc66;">=</span> <span style="color: #483d8b;">'<span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span><span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>--<span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>%s'</span> % sigraw
+		<span style="color: #ff7700;font-weight:bold;">except</span>:
+			signature <span style="color: #66cc66;">=</span> <span style="color: #483d8b;">''</span>
+		msg <span style="color: #66cc66;">=</span> <span style="color: #483d8b;">'From: pmxbot@domain.com <span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>'</span>\
+			<span style="color: #483d8b;">'Reply-To: noreply@domain.com <span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>'</span>\
+			<span style="color: #483d8b;">'To: %s <span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>'</span>\
+			<span style="color: #483d8b;">'Subject: join us in irc! <span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span><span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>'</span>\
+			<span style="color: #483d8b;">'%s <span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>Remember, you can find about irc here: https://intranet/IRC<span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>'</span>\
+			<span style="color: #483d8b;">'You can access IRC via your web browser at https://domain.com/irc <span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span><span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>'</span>\
+			<span style="color: #483d8b;">'Hugs & Kisses,<span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>%s & pmxbot'</span>\
+			<span style="color: #483d8b;">'%s<span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span><span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>'</span> % <span style="color: black;">&#40;</span>invitee<span style="color: #66cc66;">,</span> inviteText<span style="color: #66cc66;">,</span> nick<span style="color: #66cc66;">,</span> signature<span style="color: black;">&#41;</span>
+		server.<span style="color: black;">sendmail</span><span style="color: black;">&#40;</span><span style="color: #483d8b;">'pmxbot@domain.com'</span><span style="color: #66cc66;">,</span> <span style="color: black;">&#91;</span>invitee<span style="color: #66cc66;">,</span><span style="color: black;">&#93;</span><span style="color: #66cc66;">,</span> msg<span style="color: black;">&#41;</span>
+		server.<span style="color: black;">quit</span><span style="color: black;">&#40;</span><span style="color: black;">&#41;</span></pre>
+      </td>
+    </tr>
+  </table>
+</div>
+
+#### Personal Responses
+
+We have a ton of these, this is just one example. They watch for people being referenced, and occasionally (the randomness is key for many of them, to keep from being obnoxious) respond.
+
+<div class="wp_syntax">
+  <table>
+    <tr>
+      <td class="code">
+        <pre class="python" style="font-family:monospace;"><span style="color: #66cc66;">@</span>contains<span style="color: black;">&#40;</span><span style="color: #483d8b;">"elarson"</span><span style="color: black;">&#41;</span>
+<span style="color: #ff7700;font-weight:bold;">def</span> elarsonthemachine<span style="color: black;">&#40;</span>client<span style="color: #66cc66;">,</span> event<span style="color: #66cc66;">,</span> channel<span style="color: #66cc66;">,</span> nick<span style="color: #66cc66;">,</span> rest<span style="color: black;">&#41;</span>:
+	<span style="color: #ff7700;font-weight:bold;">if</span> nick <span style="color: #66cc66;">==</span> <span style="color: #483d8b;">'elarson'</span> <span style="color: #ff7700;font-weight:bold;">and</span> <span style="color: #483d8b;">'http://'</span> <span style="color: #ff7700;font-weight:bold;">not</span> <span style="color: #ff7700;font-weight:bold;">in</span> rest <span style="color: #ff7700;font-weight:bold;">and</span> <span style="color: #483d8b;">'https://'</span> <span style="color: #ff7700;font-weight:bold;">not</span> <span style="color: #ff7700;font-weight:bold;">in</span> rest:
+		<span style="color: #ff7700;font-weight:bold;">return</span> <span style="color: #483d8b;">'elarson - The Machine!!!'</span></pre>
+      </td>
+    </tr>
+  </table>
+</div>
+
+#### Other RPCs
+
+I won&#8217;t show you the code, because removing the specific stuff would make it boring. But we have about a half dozen internal RPCs we can call with it. Some use Pyro, others XMLRPC. That trac search example is pretty representative. 
+
+#### RSS/Atom
+
+We have pmxbot monitoring about a half dozen RSS feeds. The intranet and dev site both have them, we monitor twitter search for a bunch of keywords, as well as google news. It&#8217;s a pretty sweet feature, if you ask me.
+
+In conclusion, pmxbot is awesome. I&#8217;d like to make it even easier for people to add their own features. Maybe include a setting in the YAML conf file that&#8217;s a python file which is imported? What else do you have (all zero of you using pmxbot)?
+
+ [1]: http://bitbucket.org/yougov/pmxbot "bitbucket pmxbot"
+ [2]: http://jamwt.com "Jamie Turner"
+ [3]: http://trac.edgewall.org

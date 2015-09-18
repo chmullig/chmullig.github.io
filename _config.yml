@@ -1,0 +1,86 @@
+# Site settings
+
+url: "http://chmullig.com"
+title: "Chris Mulligan"
+description: "Chris' blog on data science, burritos, and life"
+keywords: "chmullig, Chris Mulligan, columbia, data science"
+favicon: "/img/favicon-96x96.png"
+black-favicon: "/img/favicon-white.png"
+google-tracking-id: "UA-11155757-1"
+
+# Navigation bar links
+# Blog link in the blog and post pages will point to the blog.html#blog
+# In the default page it will point to the preview of the last post
+
+pages_list:
+  About: 'about'
+  Career: 'career'
+  Blog: 'blog'
+  Contact: 'contact'
+
+background-img: "/img/tc.jpg"
+
+# About variables
+
+me-img: "/img/me.jpg"
+
+# Blog variables
+paginate: 15
+
+paginate_path: "blog/page:num"
+
+post-preview-words: 128
+
+fb-share: false
+twitter-share: false
+reddit-share: false
+
+# Career variables
+
+events:
+  - image: "/img/career/future.png"
+    date: "February 2016 - "
+    description: "<i>Get in touch if you have suggestions for what should come next...</i>"
+  - image: "/img/career/columbia.png"
+    date: "September 2015 - December 2015"
+    description: "Masters in <a href=\"http://www.stat.columbia.edu\">Statistics</a> from <a href=\"http://columbia.edu\">Columbia University</a>"
+  - image: "/img/career/nyt.png"
+    date: "June 2015 - August 2015"
+    description: "Data Scientist (Intern) at the New York Times. Working on Chris Wiggins' team to model newspaper sales and automate content based ad targeting"
+  - image: "/img/career/facebook.png"
+    date: "May 2014 - August 2014"
+    description: "Quantitative Researcher (Intern) at <a href=\"http://facebook.com\">Facebook</a> NYC, in <a href=\"https://www.facebook.com/business/news/\">Marketing Science/Ads Research</a>"
+  - image: "/img/career/kickstarter.png"
+    date: "May 2013 - August 2013"
+    description: "Data Intern at <a href=\"http://kickstarter.com\">Kickstarter</a>, where I developed models and improved the data science infrastructure."
+  - image: "/img/career/columbia.png"
+    date: "September 2011 - May 2015"
+    description: "Bachelors in <a href=\"http://www.cs.columbia.edu\">Computer Science</a>, with a concentration in <a href=\"http://econ.columbia.edu\">Economics</a> from <a href=\"http://columbia.edu\">Columbia University</a>'s <a href=\"http://www.gs.columbia.edu\">School of General Studies</a> (<i>magna cum laude</i>, Phi Beta Kappa)"
+  - image: "/img/career/yougov.jpg"
+    date: "May 2008 - August 2011"
+    description: "Director of Analytics at <a href=\"http://today.yougov.com/find-solutions\">YouGov</a>. Focused on understanding and improving YouGov's panel of survey respondents."
+  - image: "/img/career/yougov.jpg"
+    date: "September 2005 - May 2008"
+    description: "Voter Database Administrator at YouGov/Polimetrix. Polimetrix was a startup that was acquired by YouGov in 2007."
+  - image: "/img/career/act.png"
+    date: "August 2004 - August 2005"
+    description: "Database Administrator at America Coming Together, a 527 political organization, where I analyzed and helped manage databases of voters"
+
+# First image of the Career timeline
+career-img: "/img/career/default.jpg"
+
+# Social networks variables (many more available: facebook, flickr, dribbble, pinterest, instagram, tumblr etc.)
+social:
+  - title: "rss"
+    url: "/feed.xml"
+  - title: "github"
+    url: "https://github.com/chmullig"
+  - title: "linkedin"
+    url: "http://no.linkedin.com/in/chrismulligan"
+  - title: "twitter"
+    url: "http://twitter.com/chmullig"
+
+404-img: "/img/labtocat.png"
+
+# Exclusion list from the generated _site
+exclude: ["Rakefile", "LICENSE", "readme.markdown", "vendor"]
