@@ -75,6 +75,8 @@ social:
     url: "/feed.xml"
   - title: "github"
     url: "https://github.com/chmullig"
+  - title: "bitbucket"
+    url: "https://bitbucket.org/chmullig/"
   - title: "linkedin"
     url: "http://no.linkedin.com/in/chrismulligan"
   - title: "twitter"
