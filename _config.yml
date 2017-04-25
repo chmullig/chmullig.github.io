@@ -38,9 +38,9 @@ reddit-share: false
 # Career variables
 
 events:
-  - image: "/img/career/future.png"
-    date: "February 2016 - "
-    description: "<i>Get in touch if you have suggestions for what should come next...</i>"
+  - image: "/img/career/twosigma.png"
+    date: "February 2016 - Present"
+    description: "Quantitative researcher at <a href=\"http://www.twosigma.com\">Two Sigma</a>"
   - image: "/img/career/columbia.png"
     date: "September 2015 - December 2015"
     description: "Masters in <a href=\"http://www.stat.columbia.edu\">Statistics</a> from <a href=\"http://columbia.edu\">Columbia University</a>"
